@@ -1,3 +1,7 @@
-[submodule "vendor/glfw"]
-	path = vendor/glfw
+[submodule "Engine/vendor/glfw"]
+	path = Engine/vendor/glfw
 	url = https://github.com/glfw/glfw.git
+[submodule "Engine/vendor/glad"]
+	path = Engine/vendor/glad
+	url = https://github.com/Dav1dde/glad.git
+	branch = c
