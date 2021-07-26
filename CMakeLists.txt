@@ -10,7 +10,7 @@ add_subdirectory(Engine/Vendor/glfw)
 if(MSVC)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /W4")
 else()
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -Wpedantic -std=c++11")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -Wall -Wextra -Wpedantic -std=c++11")
     if(NOT WIN32)
         set(GLAD_LIBRARIES dl)
     endif()
@@ -22,7 +22,8 @@ include_directories(Engine/Headers/
                     )
 
 file(GLOB VENDORS_SOURCES Engine/Vendor/glad/src/glad.c)
-file(GLOB PROJECT_HEADERS Engine/Headers/*.hpp)
+file(GLOB PROJECT_HEADERS Engine/Headers/*.hpp
+                          Engine/Headers/*.h)
 file(GLOB PROJECT_SOURCES Engine/Sources/*.cpp)
 file(GLOB PROJECT_SHADERS Engine/Shaders/*.comp
                           Engine/Shaders/*.frag
@@ -50,3 +51,8 @@ target_link_libraries(${PROJECT_NAME} glfw
 set_target_properties(${PROJECT_NAME} PROPERTIES
     RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/${PROJECT_NAME})
 
+add_custom_command(
+    TARGET ${PROJECT_NAME} POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy_directory ${CMAKE_SOURCE_DIR}/Engine/Shaders $<TARGET_FILE_DIR:${PROJECT_NAME}>
+    DEPENDS ${PROJECT_SHADERS})
+    
