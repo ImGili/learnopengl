@@ -10,11 +10,16 @@ add_subdirectory(Engine/Vendor/glfw)
 if(MSVC)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /W4")
 else()
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -Wall -Wextra -Wpedantic -std=c++11")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -Wall -Wextra -Wpedantic  -std=c++11")
     if(NOT WIN32)
         set(GLAD_LIBRARIES dl)
     endif()
 endif()
+if(MINGW)
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fexec-charset=GBK")
+    message("minigw")
+endif()
+
 
 include_directories(Engine/Headers/
                     Engine/Vendor/glad/include/

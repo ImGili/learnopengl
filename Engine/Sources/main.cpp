@@ -938,6 +938,7 @@ namespace glx031
 }
 // 3l_2 着色器实验2
 #include "shader.hpp"
+#include<math.h>
 namespace glx032
 {
     void framebuffer_size_callback(GLFWwindow *window, int width, int height);
