@@ -1810,10 +1810,11 @@ namespace glx043
         // note that this is allowed, the call to glVertexAttribPointer registered VBO as the vertex attribute's bound vertex buffer object so afterwards we can safely unbind
         glBindBuffer(GL_ARRAY_BUFFER, 0);
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-
-        unsigned int texture;
-        glGenTextures(1, &texture);
-        glBindTexture(GL_TEXTURE_2D, texture);
+        
+        stbi_set_flip_vertically_on_load(true);
+        unsigned int texture1;
+        glGenTextures(1, &texture1);
+        glBindTexture(GL_TEXTURE_2D, texture1);
         // 为当前绑定的纹理对象设置环绕、过滤方式
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
@@ -1829,11 +1830,35 @@ namespace glx043
         }
         else
         {
-            std::cout << "Failed to load texture" << std::endl;
+            std::cout << "Failed to load texture1" << std::endl;
         }
         stbi_image_free(data);
 
-        Shader myshader("./4/l2/vertex.vert", "./4/l2/fragment.frag");
+        unsigned int texture2;
+        glGenTextures(1, &texture2);
+        glBindTexture(GL_TEXTURE_2D, texture2);
+        // 为当前绑定的纹理对象设置环绕、过滤方式
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+        data = stbi_load("./imgs/awesomeface.png", &width, &height, &nrChannels, 0);
+        if (data)
+        {
+            glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
+            glGenerateMipmap(GL_TEXTURE_2D);
+        }
+        else
+        {
+            std::cout << "Failed to load texture1" << std::endl;
+        }
+        stbi_image_free(data);
+
+        Shader myshader("./4/l3/vertex.vert", "./4/l3/fragment.frag");
+
+        myshader.use();
+        myshader.setInt("texture1", 0);
+        myshader.setInt("texture2", 1);
 
         // render loop
         // -----------
@@ -1847,8 +1872,11 @@ namespace glx043
             // ------
             glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
             glClear(GL_COLOR_BUFFER_BIT);
+            glActiveTexture(GL_TEXTURE0);
+            glBindTexture(GL_TEXTURE_2D, texture1);
+            glActiveTexture(GL_TEXTURE1);
+            glBindTexture(GL_TEXTURE_2D, texture2);
             glBindVertexArray(VAO);
-            glBindTexture(GL_TEXTURE_2D, texture);
             myshader.use();
             glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 
