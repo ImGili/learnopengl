@@ -36,3 +36,9 @@ switch (select)
             break;
         }
 ```
+
+### 5l_1
+> 最新版本的glm不需要将度数转化为弧度了
+```c++
+trans = glm::rotate(trans, 90.0f, glm::vec3(0.0, 0.0, 1.0));
+```

@@ -26,6 +26,7 @@ include_directories(Engine/Headers/
                     Engine/Vendor/glad/include/
                     Engine/Vendor/glfw/include/
                     Engine/Vendor/stb
+                    Engine/Vendor/glm
                     )
 
 file(GLOB VENDORS_SOURCES Engine/Vendor/glad/src/glad.c)
