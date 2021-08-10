@@ -1,14 +1,7 @@
-#ifdef __APPLE__
-#define __CLEAR_TERMINAL system("clear")
-#else
-#define __CLEAR_TERMINAL system("cls")
-#endif
-
-#include <glad/glad.h>
-#include <GLFW/glfw3.h>
-
-#include <iostream>
-
+#include"Engine.h"
+/*
+    第1课 你好窗口
+*/
 // 你好窗口
 namespace glx001
 {
@@ -94,6 +87,9 @@ namespace glx001
     }
 }
 
+/*
+    第2课 你好三角形
+*/
 // 2l_1 你好三角形
 namespace glx021
 {
@@ -824,8 +820,11 @@ namespace glxe022
     }
 }
 
+
+/*
+    第3课 着色器
+*/
 // 3l_1 着色器实验1
-#include "shader.hpp"
 namespace glx031
 {
     void framebuffer_size_callback(GLFWwindow *window, int width, int height);
@@ -942,8 +941,6 @@ namespace glx031
     }
 }
 // 3l_2 着色器实验2
-#include "shader.hpp"
-#include <math.h>
 namespace glx032
 {
     void framebuffer_size_callback(GLFWwindow *window, int width, int height);
@@ -1066,7 +1063,6 @@ namespace glx032
 }
 
 // 3e_1（三角形颠倒）
-#include "shader.hpp"
 namespace glxe031
 {
     void framebuffer_size_callback(GLFWwindow *window, int width, int height);
@@ -1184,7 +1180,6 @@ namespace glxe031
 }
 
 // 3e_2（uniform 变量移动三角形位置）
-#include "shader.hpp"
 namespace glxe032
 {
     void framebuffer_size_callback(GLFWwindow *window, int width, int height);
@@ -1308,7 +1303,6 @@ namespace glxe032
 }
 
 // 3e_3（将顶点位置设置为颜色输出）
-#include "shader.hpp"
 namespace glxe033
 {
     void framebuffer_size_callback(GLFWwindow *window, int width, int height);
@@ -1425,10 +1419,11 @@ namespace glxe033
     }
 }
 
+
+/*
+    第4课 纹理
+*/
 // 4l_1 绘制箱子纹理
-#include "shader.hpp"
-#define STB_IMAGE_IMPLEMENTATION
-#include "stb_image.h"
 namespace glx041
 {
     void framebuffer_size_callback(GLFWwindow *window, int width, int height);
@@ -1583,7 +1578,6 @@ namespace glx041
     }
 }
 // 4l_2 绘制箱子纹理混合颜色
-#include "shader.hpp"
 namespace glx042
 {
     void framebuffer_size_callback(GLFWwindow *window, int width, int height);
@@ -1737,7 +1731,6 @@ namespace glx042
     }
 }
 // 4l_3 两种纹理混合
-#include "shader.hpp"
 namespace glx043
 {
     void framebuffer_size_callback(GLFWwindow *window, int width, int height);
@@ -1919,7 +1912,6 @@ namespace glx043
     }
 }
 // 4e_1 只修改片段着色器，使笑脸颠倒。
-#include "shader.hpp"
 namespace glxe041
 {
     void framebuffer_size_callback(GLFWwindow *window, int width, int height);
@@ -2102,7 +2094,6 @@ namespace glxe041
 }
 
 // 4e_2 将纹理坐标从原本的(0,0)到(1,1)修改为从(0,0)到(2,2)，并修改各种纹理拓展方式，查看效果。
-#include "shader.hpp"
 namespace glxe042
 {
     void framebuffer_size_callback(GLFWwindow *window, int width, int height);
@@ -2316,7 +2307,6 @@ namespace glxe042
 }
 
 // 4e_3 只显示一个像素
-#include "shader.hpp"
 namespace glxe043
 {
     void framebuffer_size_callback(GLFWwindow *window, int width, int height);
@@ -2472,7 +2462,6 @@ namespace glxe043
 }
 
 // 4e_4 用键盘控制mix函数参数
-#include "shader.hpp"
 namespace glxe044
 {
     void framebuffer_size_callback(GLFWwindow *window, int width, int height);
@@ -2663,11 +2652,11 @@ namespace glxe044
     }
 }
 
+
+/*
+    第5课 变换
+*/
 // 5l_1 箱子先缩小再放大实验
-#include "shader.hpp"
-#include <glm/glm.hpp>
-#include <glm/gtc/matrix_transform.hpp>
-#include <glm/gtc/type_ptr.hpp>
 namespace glx051
 {
     void framebuffer_size_callback(GLFWwindow *window, int width, int height);
@@ -2856,10 +2845,6 @@ namespace glx051
 }
 
 // 5l_2 箱子随时间变化不断旋转
-#include "shader.hpp"
-#include <glm/glm.hpp>
-#include <glm/gtc/matrix_transform.hpp>
-#include <glm/gtc/type_ptr.hpp>
 namespace glx052
 {
     void framebuffer_size_callback(GLFWwindow *window, int width, int height);
@@ -3052,10 +3037,6 @@ namespace glx052
 }
 
 // 5e_1 箱子先旋转再位移
-#include "shader.hpp"
-#include <glm/glm.hpp>
-#include <glm/gtc/matrix_transform.hpp>
-#include <glm/gtc/type_ptr.hpp>
 namespace glxe051
 {
     void framebuffer_size_callback(GLFWwindow *window, int width, int height);
@@ -3256,10 +3237,6 @@ namespace glxe051
 }
 
 // 5e_2 两个箱子不停旋转
-#include "shader.hpp"
-#include <glm/glm.hpp>
-#include <glm/gtc/matrix_transform.hpp>
-#include <glm/gtc/type_ptr.hpp>
 namespace glxe052
 {
     void framebuffer_size_callback(GLFWwindow *window, int width, int height);
@@ -3461,8 +3438,11 @@ namespace glxe052
     }
 }
 
+
+/*
+    第6课 坐标系统
+*/
 // 6l_1 初步进入3D世界
-#include "shader.hpp"
 namespace glx061
 {
     void framebuffer_size_callback(GLFWwindow *window, int width, int height);
@@ -3651,7 +3631,6 @@ namespace glx061
     }
 }
 // 6l_2 更多3D
-#include "shader.hpp"
 namespace glx062
 {
     void framebuffer_size_callback(GLFWwindow *window, int width, int height);
@@ -3869,7 +3848,6 @@ namespace glx062
     }
 }
 // 6l_3 更多3D箱子
-#include "shader.hpp"
 namespace glx063
 {
     void framebuffer_size_callback(GLFWwindow *window, int width, int height);
@@ -4104,7 +4082,6 @@ namespace glx063
     }
 }
 // 6e_1 更多3D箱子
-#include "shader.hpp"
 namespace glxe061
 {
     void framebuffer_size_callback(GLFWwindow *window, int width, int height);
@@ -4339,7 +4316,6 @@ namespace glxe061
     }
 }
 // 6e_2 更多3D箱子
-#include "shader.hpp"
 namespace glxe062
 {
     void framebuffer_size_callback(GLFWwindow *window, int width, int height);
@@ -4574,10 +4550,7 @@ namespace glxe062
     }
 }
 
-#include <glad/glad.h>
-#include <GLFW/glfw3.h>
 
-#include <iostream>
 namespace glxtest
 {
     void framebuffer_size_callback(GLFWwindow *window, int width, int height);

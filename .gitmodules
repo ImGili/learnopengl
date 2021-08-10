@@ -11,3 +11,6 @@
 [submodule "Engine/vendor/glm"]
 	path = Engine/vendor/glm
 	url = https://github.com/Groovounet/glm.git
+[submodule "Engine/vendor/imgui"]
+	path = Engine/vendor/imgui
+	url = https://github.com/ocornut/imgui.git
