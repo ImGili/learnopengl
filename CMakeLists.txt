@@ -30,7 +30,11 @@ include_directories(Engine/Headers/
                     Engine/Vendor/imgui
                     )
 
-file(GLOB VENDORS_SOURCES Engine/Vendor/glad/src/glad.c)
+file(GLOB VENDORS_SOURCES Engine/Vendor/glad/src/glad.c
+                          Engine/Vendor/imgui/*.cpp
+                          Engine/Vendor/imgui/backends/imgui_impl_opengl3.cpp
+                          Engine/Vendor/imgui/backends/imgui_impl_glfw.cpp
+                                            )
 file(GLOB PROJECT_HEADERS Engine/Headers/*.hpp
                           Engine/Headers/*.h)
 file(GLOB PROJECT_SOURCES Engine/Sources/*.cpp)
