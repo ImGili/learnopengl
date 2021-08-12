@@ -22,31 +22,36 @@ else()
 endif()
 
 
-include_directories(Engine/Headers/
-                    Engine/Vendor/glad/include/
-                    Engine/Vendor/glfw/include/
-                    Engine/Vendor/stb
-                    Engine/Vendor/glm
-                    Engine/Vendor/imgui
-                    )
+include_directories(                Engine/Headers/
+                                    Engine/Vendor/glad/include/
+                                    Engine/Vendor/glfw/include/
+                                    Engine/Vendor/stb
+                                    Engine/Vendor/glm
+                                    Engine/Vendor/imgui
+                                    )
 
-file(GLOB VENDORS_SOURCES Engine/Vendor/glad/src/glad.c
-                          Engine/Vendor/imgui/*.cpp
-                          Engine/Vendor/imgui/backends/imgui_impl_opengl3.cpp
-                          Engine/Vendor/imgui/backends/imgui_impl_glfw.cpp
-                                            )
-file(GLOB PROJECT_HEADERS Engine/Headers/*.hpp
-                          Engine/Headers/*.h)
-file(GLOB PROJECT_SOURCES Engine/Sources/*.cpp)
-file(GLOB PROJECT_SHADERS Engine/Shaders/*.comp
-                          Engine/Shaders/*.frag
-                          Engine/Shaders/*.geom
-                          Engine/Shaders/*.vert)
-file(GLOB PROJECT_CONFIGS CMakeLists.txt
-                          Readme.md
-                         .gitattributes
-                         .gitignore
-                         .gitmodules)
+file(GLOB VENDORS_SOURCES           Engine/Vendor/glad/src/glad.c
+                                    Engine/Vendor/imgui/*.cpp
+                                    Engine/Vendor/imgui/backends/imgui_impl_opengl3.cpp
+                                    Engine/Vendor/imgui/backends/imgui_impl_glfw.cpp
+                                    )
+file(GLOB PROJECT_HEADERS           Engine/Headers/*.hpp
+                                    Engine/Headers/*.h)
+file(GLOB PROJECT_SOURCES           Engine/Sources/*.cpp)
+file(GLOB PROJECT_SHADERS           Engine/Shaders/*.comp
+                                    Engine/Shaders/*.frag
+                                    Engine/Shaders/*.geom
+                                    Engine/Shaders/*.vert)
+file(GLOB PROJECT_RESOURCES_FONTS   Engine/Resources/fonts/*.ttf
+                                    )
+file(GLOB PROJECT_RESOURCES_IMGS    Engine/Resources/imgs/*
+                                    )
+file(GLOB PROJECT_CONFIGS           CMakeLists.txt
+                                    Readme.md
+                                    .gitattributes
+                                    .gitignore
+                                    .gitmodules
+                                    )
 
 source_group("Headers" FILES ${PROJECT_HEADERS})
 source_group("Shaders" FILES ${PROJECT_SHADERS})
@@ -68,4 +73,8 @@ add_custom_command(
     TARGET ${PROJECT_NAME} POST_BUILD
     COMMAND ${CMAKE_COMMAND} -E copy_directory ${CMAKE_SOURCE_DIR}/Engine/Shaders $<TARGET_FILE_DIR:${PROJECT_NAME}>
     DEPENDS ${PROJECT_SHADERS})
+add_custom_command(
+    TARGET ${PROJECT_NAME} POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy_directory ${CMAKE_SOURCE_DIR}/Engine/Resources $<TARGET_FILE_DIR:${PROJECT_NAME}>
+    DEPENDS ${PROJECT_RESOURCES_FONTS} ${PROJECT_RESOURCES_IMGS})
     
