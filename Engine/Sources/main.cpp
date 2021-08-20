@@ -12920,7 +12920,6 @@ namespace glx0131
         float shininess;
     };
 
-    
     // 点光源
     struct PointLight
     {
@@ -12941,6 +12940,21 @@ namespace glx0131
         glm::vec3 ambient;
         glm::vec3 diffuse;
         glm::vec3 specular;
+    };
+    struct SpotLight
+    {
+        glm::vec3 position;
+        glm::vec3 direction;
+        float cutOff;
+        float outerCutOff;
+
+        glm::vec3 ambient;
+        glm::vec3 diffuse;
+        glm::vec3 specular;
+
+        float constant;
+        float linear;
+        float quadratic;
     };
 
     int main()
@@ -13167,7 +13181,7 @@ namespace glx0131
         float ambientStrength = 0.1;
         float diffuseStrength = 0.5;
         float specularStrength = 1.0;
-        
+
         Material material;
         material.specular = glm::vec3(0.5f, 0.5f, 0.5f); // specular lighting doesn't have full effect on this object's material
         material.shininess = 32.0f;
@@ -13182,13 +13196,21 @@ namespace glx0131
             pointLights[i].quadratic = 0.032f;
             pointLights[i].position = pointLightPositions[i];
             objshader.use();
-            objshader.setVec3("pointLights[i].position", pointLights[i].position);
-            objshader.setVec3("pointLights[i].ambient", pointLights[i].ambient);
-            objshader.setVec3("pointLights[i].diffuse", pointLights[i].diffuse);
-            objshader.setVec3("pointLights[i].specular", pointLights[i].specular);
-            objshader.setFloat("pointLights[i].constant", pointLights[i].constant);
-            objshader.setFloat("pointLights[i].linear", pointLights[i].linear);
-            objshader.setFloat("pointLights[i].quadratic", pointLights[i].quadratic);
+            char s[50];
+            sprintf(s, "pointLights[%d].position", i);
+            objshader.setVec3(s, pointLights[i].position);
+            sprintf(s, "pointLights[%d].ambient", i);
+            objshader.setVec3(s, pointLights[i].ambient);
+            sprintf(s, "pointLights[%d].diffuse", i);
+            objshader.setVec3(s, pointLights[i].diffuse);
+            sprintf(s, "pointLights[%d].specular", i);
+            objshader.setVec3(s, pointLights[i].specular);
+            sprintf(s, "pointLights[%d].constant", i);
+            objshader.setFloat(s, pointLights[i].constant);
+            sprintf(s, "pointLights[%d].linear", i);
+            objshader.setFloat(s, pointLights[i].linear);
+            sprintf(s, "pointLights[%d].quadratic", i);
+            objshader.setFloat(s, pointLights[i].quadratic);
         }
 
         DirLight dirLight;
@@ -13200,6 +13222,29 @@ namespace glx0131
         objshader.setVec3("dirLight.diffuse", dirLight.diffuse);
         objshader.setVec3("dirLight.specular", dirLight.specular);
         objshader.setVec3("dirLight.direction", dirLight.direction);
+
+        // 聚光
+        SpotLight spotLight;
+        spotLight.ambient = glm::vec3(ambientStrength);
+        spotLight.diffuse = glm::vec3(diffuseStrength);
+        spotLight.specular = glm::vec3(specularStrength);
+        spotLight.direction = mycamera.Front;
+        spotLight.position = mycamera.Position;
+        spotLight.constant = 1.0f;
+        spotLight.linear = 0.09f;
+        spotLight.quadratic = 0.032f;
+        spotLight.cutOff = cos(glm::radians(12.5));
+        spotLight.outerCutOff = cos(glm::radians(17.5));
+
+        // 聚光设置uniform变量
+        objshader.setVec3("spotLight.ambient", spotLight.ambient);
+        objshader.setVec3("spotLight.diffuse", spotLight.diffuse);
+        objshader.setVec3("spotLight.specular", spotLight.specular);
+        objshader.setFloat("spotLight.constant", spotLight.constant);
+        objshader.setFloat("spotLight.linear", spotLight.linear);
+        objshader.setFloat("spotLight.quadratic", spotLight.quadratic);
+        objshader.setFloat("spotLight.cutOff", spotLight.cutOff);
+        objshader.setFloat("spotLight.outerCutOff", spotLight.outerCutOff);
 
         while (!glfwWindowShouldClose(window))
         {
@@ -13227,11 +13272,17 @@ namespace glx0131
             objshader.setVec3("viewPos", mycamera.Position);
             model = glm::mat4(1);
             objshader.setMat4("model", model);
-            
 
             // material properties
             objshader.setVec3("material.specular", material.specular); // specular lighting doesn't have full effect on this object's material
             objshader.setFloat("material.shininess", material.shininess);
+
+
+            // 聚光改变量
+            spotLight.position = mycamera.Position;
+            spotLight.direction = mycamera.Front;
+            objshader.setVec3("spotLight.position", spotLight.position);
+            objshader.setVec3("spotLight.direction", spotLight.direction);
             for (int i = 0; i < 10; i++)
             {
                 model = glm::mat4(1);

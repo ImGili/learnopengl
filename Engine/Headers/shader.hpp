@@ -80,30 +80,84 @@ public:
     // utility uniform functions
     // ------------------------------------------------------------------------
     void setBool(const std::string &name, bool value) const
-    {         
-        glUniform1i(glGetUniformLocation(ID, name.c_str()), (int)value); 
+    {   
+        int flag = glGetUniformLocation(ID, name.c_str());
+        if (flag != -1)
+        {
+            glUniform1i(glGetUniformLocation(ID, name.c_str()), (int)value); 
+        }
+        else
+        {
+            checkUniformErrors(name, flag);
+        }
+        
     }
     // ------------------------------------------------------------------------
     void setInt(const std::string &name, int value) const
     { 
-        glUniform1i(glGetUniformLocation(ID, name.c_str()), value); 
+        int flag = glGetUniformLocation(ID, name.c_str());
+        if (flag != -1)
+        {
+            glUniform1i(glGetUniformLocation(ID, name.c_str()), value); 
+        }
+        else
+        {
+            checkUniformErrors(name, flag);
+        }
+        
     }
     // ------------------------------------------------------------------------
     void setFloat(const std::string &name, float value) const
     { 
-        glUniform1f(glGetUniformLocation(ID, name.c_str()), value); 
+        int flag = glGetUniformLocation(ID, name.c_str());
+        if (flag != -1)
+        {
+            glUniform1f(glGetUniformLocation(ID, name.c_str()), value); 
+        }
+        else
+        {
+            checkUniformErrors(name, flag);
+        }
+         
     }
     void setMat4(const std::string &name, glm::mat4& value) const
     { 
-        glUniformMatrix4fv(glGetUniformLocation(ID, name.c_str()), 1, GL_FALSE, glm::value_ptr(value));
+        int flag = glGetUniformLocation(ID, name.c_str());
+        if (flag != -1)
+        {
+            glUniformMatrix4fv(glGetUniformLocation(ID, name.c_str()), 1, GL_FALSE, glm::value_ptr(value)); 
+        }
+        else
+        {
+            checkUniformErrors(name, flag);
+        }
+        
     }
     void setVec3(const std::string &name, glm::vec3& value) const
     { 
-        glUniform3f(glGetUniformLocation(ID, name.c_str()),value.x, value.y, value.z);
+        int flag = glGetUniformLocation(ID, name.c_str());
+        if (flag != -1)
+        {
+            glUniform3f(glGetUniformLocation(ID, name.c_str()),value.x, value.y, value.z); 
+        }
+        else
+        {
+            checkUniformErrors(name, flag);
+        }
+        
     }
     void setVec3(const std::string &name, float x, float y, float z) const
     { 
-        glUniform3f(glGetUniformLocation(ID, name.c_str()), x, y, z);
+        int flag = glGetUniformLocation(ID, name.c_str());
+        if (flag != -1)
+        {
+            glUniform3f(glGetUniformLocation(ID, name.c_str()), x, y, z);
+        }
+        else
+        {
+            checkUniformErrors(name, flag);
+        }
+        
     }
 
 private:
@@ -131,6 +185,15 @@ private:
                 std::cout << "ERROR::PROGRAM_LINKING_ERROR of type: " << type << "\n" << infoLog << "\n -- --------------------------------------------------- -- " << std::endl;
             }
         }
+    }
+
+    void checkUniformErrors(const std::string &name, int flag) const
+    {
+        if (flag == -1)
+        {
+            std::cout << "FROMENT ERROR: CANT FIND UNIFORM VARIABLE " << name << std::endl;
+        }
+        
     }
 };
 #endif

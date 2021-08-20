@@ -7,20 +7,7 @@ struct Material {
     float shininess;
 }; 
 
-struct Light {
-    vec3 position;  
-    vec3 direction;
-    float cutOff;
-    float outerCutOff;
-  
-    vec3 ambient;
-    vec3 diffuse;
-    vec3 specular;
-	
-    float constant;
-    float linear;
-    float quadratic;
-};
+
 
 // 平行光源
 struct DirLight {
@@ -66,6 +53,7 @@ struct SpotLight {
     float linear;
     float quadratic;
 };  
+uniform SpotLight spotLight;
 
 vec3 CalcSpotLight(SpotLight light, vec3 normal, vec3 fragPos, vec3 viewDir);
 
@@ -77,7 +65,6 @@ in vec2 TexCoords;
   
 uniform vec3 viewPos;
 uniform Material material;
-uniform Light light;
 
 void main()
 {
@@ -92,7 +79,7 @@ void main()
         result += CalcPointLight(pointLights[i], norm, FragPos, viewDir);
 
     // 第三阶段：聚光
-    //result += CalcSpotLight(spotLight, norm, FragPos, viewDir); 
+    result += CalcSpotLight(spotLight, norm, FragPos, viewDir); 
     
     
     FragColor = vec4(result, 1.0);
