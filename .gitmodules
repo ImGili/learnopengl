@@ -1,19 +1,19 @@
-[submodule "Engine/vendor/glfw"]
-	path = Engine/vendor/glfw
+[submodule "Engine/Vendor/glfw"]
+	path = Engine/Vendor/glfw
 	url = https://github.com/glfw/glfw.git
-[submodule "Engine/vendor/glad"]
-	path = Engine/vendor/glad
+[submodule "Engine/Vendor/glad"]
+	path = Engine/Vendor/glad
 	url = https://github.com/Dav1dde/glad.git
 	branch = c
-[submodule "Engine/vendor/stb"]
-	path = Engine/vendor/stb
+[submodule "Engine/Vendor/stb"]
+	path = Engine/Vendor/stb
 	url = https://github.com/nothings/stb.git
-[submodule "Engine/vendor/glm"]
-	path = Engine/vendor/glm
+[submodule "Engine/Vendor/glm"]
+	path = Engine/Vendor/glm
 	url = https://github.com/Groovounet/glm.git
-[submodule "Engine/vendor/imgui"]
-	path = Engine/vendor/imgui
+[submodule "Engine/Vendor/imgui"]
+	path = Engine/Vendor/imgui
 	url = https://github.com/ocornut/imgui.git
-[submodule "Engine/vendor/assimp"]
-	path = Engine/vendor/assimp
+[submodule "Engine/Vendor/assimp"]
+	path = Engine/Vendor/assimp
 	url = https://github.com/assimp/assimp.git
