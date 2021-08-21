@@ -1,4 +1,6 @@
-#pragma once
+#ifndef ENGINE_H
+#define ENGINE_H
+
 #ifdef __APPLE__
 #define __CLEAR_TERMINAL system("clear")
 #else
@@ -12,16 +14,17 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 
+
+#include <string>
+#include <fstream>
+#include <sstream>
 #include <iostream>
-
-#include "shader.hpp"
-#include "camera.hpp"
-
+#include <map>
+#include <vector>
 #include <math.h>
 
 #define STB_IMAGE_IMPLEMENTATION
 #include "stb_image.h"
-
 
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
@@ -32,3 +35,10 @@
 #include <assimp/postprocess.h>
 
 
+#include "shader.hpp"
+#include "camera.hpp"
+#include "mesh.h"
+#include "model.h"
+
+
+#endif

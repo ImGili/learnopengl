@@ -74,3 +74,9 @@ export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/Cellar/minizip/1.2.11/lib
 export LIBRARY_PATH=$LIBRARY_PATH:/usr/local/Cellar/minizip/1.2.11/lib
 ```
 
+### model报错提醒
+```c++
+    textures.insert(textures.end(), specularMaps.begin(), specularMaps.end());
+```
+> 这里要把c++标准设置为c++11
+> 总header文件，Engine.h文件最好不要用pragam once
