@@ -20,51 +20,10 @@ namespace glx0141
 
     bool isMouseEnalbe = true;
 
-    Camera mycamera(glm::vec3(0.5f, 2.0f, 12.5f), glm::vec3(0.0f, 1.0f, 0.0f), 269, -5.2f);
+    // Camera mycamera(glm::vec3(0.5f, 2.0f, 12.5f), glm::vec3(0.0f, 1.0f, 0.0f), 269, -5.2f);
 
-    struct Material
-    {
-        glm::vec3 specular;
-        float shininess;
-    };
 
-    // 点光源
-    struct PointLight
-    {
-        glm::vec3 position;
-
-        float constant;
-        float linear;
-        float quadratic;
-
-        glm::vec3 ambient;
-        glm::vec3 diffuse;
-        glm::vec3 specular;
-    };
-    struct DirLight
-    {
-        glm::vec3 direction;
-
-        glm::vec3 ambient;
-        glm::vec3 diffuse;
-        glm::vec3 specular;
-    };
-    struct SpotLight
-    {
-        glm::vec3 position;
-        glm::vec3 direction;
-        float cutOff;
-        float outerCutOff;
-
-        glm::vec3 ambient;
-        glm::vec3 diffuse;
-        glm::vec3 specular;
-
-        float constant;
-        float linear;
-        float quadratic;
-    };
-
+    Camera mycamera;
     int main()
     {
         // glfw: initialize and configure
@@ -120,22 +79,20 @@ namespace glx0141
         ImGui_ImplGlfw_InitForOpenGL(window, true);
         ImGui_ImplOpenGL3_Init("#version 330");
 
-        Shader ourShader("./14/l1/ObjectVertex.vert", "./14/l1/ObjectFragment.frag");
-        
+        glEnable(GL_DEPTH_TEST);
 
-        
+
+        Shader ourShader("./14/l1/ObjectVertex.vert", "./14/l1/ObjectFragment.frag");
+
+        Model ourModel("./models/nanosuit/nanosuit.obj");
+
         // render loop
         // -----------
         float currentFrame = glfwGetTime();
         deltaTime = currentFrame - lastFrame;
         lastFrame = currentFrame;
-        
-        
 
-        
-        
-
-        
+        glm::mat4 view = glm::mat4(1), projection = glm::mat4(1), model = glm::mat4(1);
 
         while (!glfwWindowShouldClose(window))
         {
@@ -148,7 +105,19 @@ namespace glx0141
             // ------
             glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-            
+
+            ourShader.use();
+            view = mycamera.GetViewMatrix();
+            ourShader.setMat4("view", view);
+            projection = glm::perspective(mycamera.Zoom, 800.0f / 600.0f, 0.1f, 1000.0f);
+            ourShader.setMat4("projection", projection);
+
+            // render the loaded model
+            model = glm::mat4(1.0f);
+            model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f)); // translate it down so it's at the center of the scene
+            model = glm::scale(model, glm::vec3(1.0f, 1.0f, 1.0f));     // it's a bit too big for our scene, so scale it down
+            ourShader.setMat4("model", model);
+            ourModel.Draw(ourShader);
 
             // imgui
             // Start the Dear ImGui frame
@@ -162,7 +131,7 @@ namespace glx0141
                 ImGui::TextWrapped("相机坐标 = (%f, %f, %f)", mycamera.Position.x, mycamera.Position.y, mycamera.Position.z);
                 ImGui::TextWrapped("相机yaw角 = %f", mycamera.Yaw);
                 ImGui::TextWrapped("相机pitch角 = %f", mycamera.Pitch);
-                
+
                 ImGui::End();
             }
 
@@ -174,8 +143,6 @@ namespace glx0141
             glfwSwapBuffers(window);
             glfwPollEvents();
         }
-
-       
 
         // glfw: terminate, clearing all previously allocated GLFW resources.
         // ------------------------------------------------------------------

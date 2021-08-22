@@ -12,6 +12,7 @@
 #include "learnopengl/11_light_map.h"
 #include "learnopengl/12_light_caster.h"
 #include "learnopengl/13_mutiple_light.h"
+#include "learnopengl/14_model_load.h"
 /*
     imgui实验
 */
@@ -382,7 +383,8 @@ int main()
                      "122、投光物实验2（衰减平行光）；\n"
                      "123、投光物实验3（聚光）；\n"
                      "124、投光物实验4（聚光平滑/软化边缘）；\n"
-                     "131、多光源实验1；\n";
+                     "131、多光源实验1；\n"
+                     "141、模型加载实验；\n";
         std::cout << "请输入编号（输入0退出程序）：";
         std::cin >> no;
         switch (no)
@@ -532,6 +534,9 @@ int main()
             break;
         case 131:
             glx0131::main();
+            break;
+        case 141:
+            glx0141::main();
             break;
         default:
             break;
