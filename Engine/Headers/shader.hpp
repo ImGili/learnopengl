@@ -120,7 +120,7 @@ public:
         }
          
     }
-    void setMat4(const std::string &name, glm::mat4& value) const
+    void setMat4(const std::string &name, const glm::mat4& value) const
     { 
         int flag = glGetUniformLocation(ID, name.c_str());
         if (flag != -1)
@@ -133,7 +133,7 @@ public:
         }
         
     }
-    void setVec3(const std::string &name, glm::vec3& value) const
+    void setVec3(const std::string &name, const glm::vec3& value) const
     { 
         int flag = glGetUniformLocation(ID, name.c_str());
         if (flag != -1)
