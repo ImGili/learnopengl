@@ -16,6 +16,7 @@
 #include "learnopengl/15_depth_testing.h"
 #include "learnopengl/16_stencil_test.h"
 #include "learnopengl/17_blending.h"
+#include "learnopengl/18_face_culling.h"
 #include "imguidemo.h"
 
 
@@ -80,7 +81,8 @@ int main()
                      "153、深度测试实验2(深度值精度非线性)；\n"
                      "161、模版测试实验1；\n"
                      "171、混合实验1；\n"
-                     "172、混合实验2（半透明）；\n";
+                     "172、混合实验2（半透明）；\n"
+                     "181、面剔除实验；\n";
         std::cout << "请输入编号（输入0退出程序）：";
         std::cin >> no;
         switch (no)
@@ -251,6 +253,9 @@ int main()
             break;
         case 172:
             glx0172::main();
+            break;
+        case 181:
+            glx0181::main();
             break;
         case 999:
             glx999::main();
