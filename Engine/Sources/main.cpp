@@ -17,6 +17,7 @@
 #include "learnopengl/16_stencil_test.h"
 #include "learnopengl/17_blending.h"
 #include "learnopengl/18_face_culling.h"
+#include "learnopengl/19_framebuffers.h"
 #include "imguidemo.h"
 
 
@@ -82,7 +83,10 @@ int main()
                      "161、模版测试实验1；\n"
                      "171、混合实验1；\n"
                      "172、混合实验2（半透明）；\n"
-                     "181、面剔除实验；\n";
+                     "181、面剔除实验；\n"
+                     "191、帧缓冲实验1；\n"
+                     "192、帧缓冲实验2（后处理之反相）；\n"
+                     "193、帧缓冲实验3（后处理之灰度）；\n";
         std::cout << "请输入编号（输入0退出程序）：";
         std::cin >> no;
         switch (no)
@@ -256,6 +260,15 @@ int main()
             break;
         case 181:
             glx0181::main();
+            break;
+        case 191:
+            glx0191::main();
+            break;
+        case 192:
+            glx0192::main();
+            break;
+        case 193:
+            glx0193::main();
             break;
         case 999:
             glx999::main();
