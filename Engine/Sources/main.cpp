@@ -18,6 +18,7 @@
 #include "learnopengl/17_blending.h"
 #include "learnopengl/18_face_culling.h"
 #include "learnopengl/19_framebuffers.h"
+#include "learnopengl/20_cubemaps.h"
 #include "imguidemo.h"
 
 
@@ -87,7 +88,8 @@ int main()
                      "191、帧缓冲实验1；\n"
                      "192、帧缓冲实验2（后处理之反相）；\n"
                      "193、帧缓冲实验3（后处理之灰度）；\n"
-                     "194、帧缓冲实验4（后处理之核方法）；\n";
+                     "194、帧缓冲实验4（后处理之核方法）；\n"
+                     "2001、立方体贴图实验1；\n";
         std::cout << "请输入编号（输入0退出程序）：";
         std::cin >> no;
         switch (no)
@@ -273,6 +275,9 @@ int main()
             break;
         case 194:
             glx0194::main();
+            break;
+        case 2001:
+            glx0201::main();
             break;
         case 999:
             glx999::main();
