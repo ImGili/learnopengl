@@ -5,3 +5,6 @@
 	path = Engine/Vendor/glad
 	url = https://github.com/Dav1dde/glad.git
 	branch = c
+[submodule "Engine/Vendor/stb"]
+	path = Engine/Vendor/stb
+	url = https://github.com/nothings/stb.git
