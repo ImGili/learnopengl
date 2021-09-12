@@ -1,6 +1,6 @@
-[submodule "Engine/Vendor/glfw"]
-	path = Engine/Vendor/glfw
-	url = https://github.com/glfw/glfw.git
+[submodule "Engine/Vendor/assimp"]
+	path = Engine/Vendor/assimp
+	url = https://github.com/assimp/assimp.git
 [submodule "Engine/Vendor/glad"]
 	path = Engine/Vendor/glad
 	url = https://github.com/Dav1dde/glad.git
@@ -14,6 +14,6 @@
 [submodule "Engine/Vendor/imgui"]
 	path = Engine/Vendor/imgui
 	url = https://github.com/ocornut/imgui.git
-[submodule "Engine/Vendor/assimp"]
-	path = Engine/Vendor/assimp
-	url = https://github.com/assimp/assimp.git
+[submodule "Engine/Vendor/glfw"]
+	path = Engine/Vendor/glfw
+	url = https://github.com/glfw/glfw.git
