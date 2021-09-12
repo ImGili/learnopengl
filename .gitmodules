@@ -14,3 +14,6 @@
 [submodule "Engine/Vendor/imgui"]
 	path = Engine/Vendor/imgui
 	url = https://github.com/ocornut/imgui.git
+[submodule "Engine/Vendor/assimp"]
+	path = Engine/Vendor/assimp
+	url = https://github.com/assimp/assimp.git
