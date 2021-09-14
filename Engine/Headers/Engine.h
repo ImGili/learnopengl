@@ -3,6 +3,10 @@
 
 #ifdef __APPLE__
 #define __CLEAR_TERMINAL system("clear")
+
+#elif __linux__
+#define __CLEAR_TERMINAL system("clear")
+
 #else
 #define __CLEAR_TERMINAL system("cls")
 #endif
@@ -13,6 +17,7 @@
 
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
+
 
 
 #include <string>

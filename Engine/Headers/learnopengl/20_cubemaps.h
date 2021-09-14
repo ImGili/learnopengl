@@ -1189,7 +1189,7 @@ namespace glx0203
         io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard; // Enable Keyboard Controls
         //io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;      // Enable Gamepad Controls
         ImFont *font = io.Fonts->AddFontFromFileTTF("./fonts/楷体_GB2312.ttf", 15.0f, NULL, io.Fonts->GetGlyphRangesChineseFull());
-        io.Fonts->GetGlyphRangesChineseSimplifiedCommon();
+        // io.Fonts->GetGlyphRangesChineseSimplifiedCommon();
         // io.Fonts->GetGlyphRangesChineseFull();
 
         // Setup Dear ImGui style
@@ -1445,7 +1445,7 @@ namespace glx0203
                 static float f = 0.0f;
                 static int counter = 0;
 
-                ImGui::Begin("立方体盒子"); // Create a window called "Hello, world!" and append into it.
+                ImGui::Begin(u8"立方体盒子"); // Create a window called "Hello, world!" and append into it.
 
                 ImGui::End();
             }

@@ -83,3 +83,7 @@ export LIBRARY_PATH=$LIBRARY_PATH:/usr/local/Cellar/minizip/1.2.11/lib
 
 ### 20课立方体贴图-优化
 >把``glDepthFunc(GL_LESS);``写成``glDepthMask(GL_LESS);``
+
+# 不同平台中文乱码问题
+> 在ubuntu平台下，中文乱码是因为编译时，不小心编译成GBK
+> IMGui下出现乱码，就需要在中文字符串前添加``u8``,如``ImGui::Begin(u8"立方体盒子");``
