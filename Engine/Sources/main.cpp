@@ -19,8 +19,10 @@
 #include "learnopengl/18_face_culling.h"
 #include "learnopengl/19_framebuffers.h"
 #include "learnopengl/20_cubemaps.h"
+#include "learnopengl/test.h"
 #include "imguidemo.h"
 
+CameraInstance* CameraInstance::Instance = NULL;
 
 int main()
 {
@@ -91,7 +93,8 @@ int main()
                      "194、帧缓冲实验4（后处理之核方法）；\n"
                      "2001、立方体贴图实验1；\n"
                      "2002、立方体贴图实验2-优化；\n"
-                     "2003、立方体贴图实验2-反射；\n";
+                     "2003、立方体贴图实验2-反射；\n"
+                     "-1、test\n";
         std::cout << "请输入编号（输入0退出程序）：";
         std::cin >> no;
         switch (no)
@@ -289,6 +292,9 @@ int main()
             break;
         case 999:
             glx999::main();
+            break;
+        case -1:
+            glxtest1::main();
             break;
         default:
             break;

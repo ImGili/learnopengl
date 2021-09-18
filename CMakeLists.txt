@@ -16,7 +16,7 @@ if(MSVC)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /W4")
 else()
     if(APPLE)
-        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -Wall -Wextra -Wpedantic  -std=c++11")
+        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -Wall  -std=c++11")
         message("Apple")
     elseif(WIN64)
         message("WIN64")
@@ -50,6 +50,7 @@ file(GLOB VENDORS_SOURCES           Engine/Vendor/glad/src/glad.c
 file(GLOB PROJECT_HEADERS           Engine/Headers/*.hpp
                                     Engine/Headers/*.h)
 file(GLOB PROJECT_SOURCES           Engine/Sources/*.cpp)
+                                    # Engine/Sources/window.cpp)
 file(GLOB PROJECT_SHADERS           Engine/Shaders/*.comp
                                     Engine/Shaders/*.frag
                                     Engine/Shaders/*.geom

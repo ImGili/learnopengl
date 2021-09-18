@@ -1,3 +1,7 @@
+/*
+ * @Author: ImGili
+ * @Description: 
+ */
 #ifndef ENGINE_H
 #define ENGINE_H
 
@@ -42,6 +46,7 @@
 
 #include "shader.hpp"
 #include "camera.hpp"
+#include "window.h"
 #include "mesh.h"
 #include "model.h"
 
