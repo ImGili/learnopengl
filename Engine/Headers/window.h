@@ -52,6 +52,13 @@ public:
         glfwSwapBuffers(_window);
         glfwPollEvents();
     }
+
+    inline void UpdateDeltaTime()
+    {
+        deltaTime = glfwGetTime() - lastFrame;
+        lastFrame = glfwGetTime();
+    }
+    
     ~Window(){}
 
 private:
