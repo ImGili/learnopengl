@@ -398,11 +398,8 @@ namespace glxtest1
     }
 }
 
-
-
 namespace glxtest2
 {
-    
 
     int main()
     {
@@ -419,6 +416,7 @@ namespace glxtest2
         Plane plane;
         SkyBox skybox;
 
+        mGUI::Init();
         // render loop
         // -----------
         while (!window->WindowShouldClose())
@@ -432,25 +430,31 @@ namespace glxtest2
             // ------
             window->Clear();
 
+            mGUI::NewFrame();
+            mGUI::DrawText("test");
+
+            mGUI::RenderGUI();
+
             skybox.Draw();
 
             // cubes
             cube.Draw();
-            
+
             // floor
             plane.Draw();
 
             // glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
             // -------------------------------------------------------------------------------
+            ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
             window->SwapBufferAndPollEvents();
         }
 
         // optional: de-allocate all resources once they've outlived their purpose:
         // ------------------------------------------------------------------------
+        mGUI::DestroyGUI();
         Window::DestoryWindow();
         CameraInstance::DestoryCamera();
         return 0;
     }
 
-    
 }

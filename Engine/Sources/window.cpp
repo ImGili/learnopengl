@@ -1,6 +1,6 @@
 #include "window.h"
 
-Window* Window::Instance = NULL;
+Window *Window::Instance = NULL;
 
 Window *Window::getWindow()
 {

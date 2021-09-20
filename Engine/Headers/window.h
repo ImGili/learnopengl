@@ -43,6 +43,11 @@ public:
         Instance = NULL;
     }
 
+    GLFWwindow* getGLFWwindow()
+    {
+        return _window;
+    }
+
     void Clear()
     {
         glClearColor(0.1f, 0.1f, 0.1f, 1.0f);

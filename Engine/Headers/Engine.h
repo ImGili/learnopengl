@@ -50,5 +50,6 @@
 #include "mesh.h"
 #include "model.h"
 #include "drawable.hpp"
+#include "gui.h"
 
 #endif
