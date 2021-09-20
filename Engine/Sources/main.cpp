@@ -304,5 +304,6 @@ int main()
             break;
         }
     }
+
     __CLEAR_TERMINAL;
 }

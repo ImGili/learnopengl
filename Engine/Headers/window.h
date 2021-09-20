@@ -32,6 +32,17 @@ private:
     
 
 public:
+    ~Window()
+    {
+        glfwTerminate();
+    }
+
+    static void DestoryWindow()
+    {
+        delete Instance;
+        Instance = NULL;
+    }
+    
     // settings
     const unsigned int SCR_WIDTH = 800;
     const unsigned int SCR_HEIGHT = 600;
@@ -59,7 +70,6 @@ public:
         lastFrame = glfwGetTime();
     }
     
-    ~Window(){}
 
 private:
     static void framebuffer_size_callback(GLFWwindow *window, int width, int height);

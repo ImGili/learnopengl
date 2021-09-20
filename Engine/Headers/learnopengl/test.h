@@ -402,13 +402,12 @@ namespace glxtest1
 
 namespace glxtest2
 {
-    unsigned int loadTexture(const char *path);
-    unsigned int loadCubemap(vector<std::string> faces);
-    Window *window = Window::getWindow();
-    CameraInstance *camera = CameraInstance::GetCamera();
+    
 
     int main()
     {
+        Window *window = Window::getWindow();
+        CameraInstance *camera = CameraInstance::GetCamera();
         // configure global opengl state
         // -----------------------------
         glEnable(GL_DEPTH_TEST);
@@ -446,7 +445,7 @@ namespace glxtest2
 
         // optional: de-allocate all resources once they've outlived their purpose:
         // ------------------------------------------------------------------------
-        glfwTerminate();
+        Window::DestoryWindow();
         return 0;
     }
 

@@ -24,10 +24,10 @@ public:
         glm::mat4 model = glm::mat4(1.0f);
         glm::mat4 view = camera->GetViewMatrix();
         glm::mat4 projection = camera->getPerspective();
-        shader.use();
-        shader.setMat4("model", model);
-        shader.setMat4("view", view);
-        shader.setMat4("projection", projection);
+        shader->use();
+        shader->setMat4("model", model);
+        shader->setMat4("view", view);
+        shader->setMat4("projection", projection);
         glUseProgram(0);
     }
 
@@ -35,11 +35,12 @@ public:
     {
         glDeleteVertexArrays(1, &VAO);
         glDeleteBuffers(1, &VBO);
+        delete shader;
     }
 
 protected:
     unsigned int VAO, VBO, TextureID;
-    Shader shader;
+    Shader* shader;
     void updateVAOAndVBO(void* v, VertexLayout vt, int vsize)
     {
         switch (vt)
@@ -149,17 +150,16 @@ public:
             -0.5f, 0.5f, 0.5f, 0.0f, 0.0f,
             -0.5f, 0.5f, -0.5f, 0.0f, 1.0f};
         updateVAOAndVBO(&cubeVertices, VertexTexcoord, sizeof(cubeVertices));
-        Shader s("./EngineShaders/VertexTexcoord/ObjectVertex.vert", "./EngineShaders/VertexTexcoord/ObjectFragment.frag");
+        shader = new Shader("./EngineShaders/VertexTexcoord/ObjectVertex.vert", "./EngineShaders/VertexTexcoord/ObjectFragment.frag");
         TextureID = loadTexture("imgs/woodPicture.jpeg");
-        shader = s;
-        shader.use();
-        shader.setInt("texture1", 0);
+        shader->use();
+        shader->setInt("texture1", 0);
         glUseProgram(0);
     }
     inline void Draw() override
     {
         Update();
-        shader.use();
+        shader->use();
         glBindVertexArray(VAO);
         glActiveTexture(GL_TEXTURE0);
         glBindTexture(GL_TEXTURE_2D, TextureID);
@@ -183,18 +183,17 @@ public:
             -5.0f, -0.5f, -5.0f, 0.0f, 2.0f,
             5.0f, -0.5f, -5.0f, 2.0f, 2.0f};
         updateVAOAndVBO(&planeVertices, VertexTexcoord, sizeof(planeVertices));
-        Shader s("./EngineShaders/VertexTexcoord/ObjectVertex.vert", "./EngineShaders/VertexTexcoord/ObjectFragment.frag");
+        shader = new Shader("./EngineShaders/VertexTexcoord/ObjectVertex.vert", "./EngineShaders/VertexTexcoord/ObjectFragment.frag");
         TextureID = loadTexture("imgs/metal.png");
-        shader = s;
-        shader.use();
-        shader.setInt("texture1", 0);
+        shader->use();
+        shader->setInt("texture1", 0);
         glUseProgram(0);
     }
 
     inline void Draw() override
     {
         Update();
-        shader.use();
+        shader->use();
         glBindVertexArray(VAO);
         glActiveTexture(GL_TEXTURE0);
         glBindTexture(GL_TEXTURE_2D, TextureID);

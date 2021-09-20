@@ -87,3 +87,9 @@ export LIBRARY_PATH=$LIBRARY_PATH:/usr/local/Cellar/minizip/1.2.11/lib
 # 不同平台中文乱码问题
 > 在ubuntu平台下，中文乱码是因为编译时，不小心编译成GBK
 > IMGui下出现乱码，就需要在中文字符串前添加``u8``,如``ImGui::Begin(u8"立方体盒子");``
+
+
+# Window类必须销毁
+因为在执行完glfwTerminate之后，GLFWwindow指针会自动析构，而window类中，所指向的window此时就变成了空地址，所以需要重新析构window单例，再下次执行时，再次构造window类。
+> window类的析构函数，不需要调用delete window，因为glfwTerminate自动执行了window的析构函数。
+> 但是需要将单例析构。
