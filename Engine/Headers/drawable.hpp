@@ -9,7 +9,8 @@ enum VertexLayout
     Vertexlayout,
     VertexNormallayout,
     VertexTexcoordlayout,
-    VertexNormalTexcoordlayout
+    VertexNormalTexcoordlayout,
+    D2VertexTexcoordlayout
 };
 class Drawable
 {
@@ -67,6 +68,19 @@ protected:
             glBufferData(GL_ARRAY_BUFFER, vsize, v, GL_STATIC_DRAW);
             glEnableVertexAttribArray(0);
             glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void *)0);
+            glBindVertexArray(0);
+            break;
+        case D2VertexTexcoordlayout:
+            // cube VAO
+            glGenVertexArrays(1, &VAO);
+            glGenBuffers(1, &VBO);
+            glBindVertexArray(VAO);
+            glBindBuffer(GL_ARRAY_BUFFER, VBO);
+            glBufferData(GL_ARRAY_BUFFER, vsize, v, GL_STATIC_DRAW);
+            glEnableVertexAttribArray(0);
+            glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(float), (void *)0);
+            glEnableVertexAttribArray(1);
+            glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(float), (void *)(2 * sizeof(float)));
             glBindVertexArray(0);
             break;
 
@@ -329,4 +343,75 @@ private:
 
         return textureID;
     }
+};
+
+class FrameBufferObject : public Drawable
+{
+public:
+    FrameBufferObject()
+    {
+        Window *window = Window::getWindow();
+        // 帧缓冲创建
+
+        glGenFramebuffers(1, &framebufferID);
+        glBindFramebuffer(GL_FRAMEBUFFER, framebufferID);
+        // 帧缓冲纹理创建
+        glGenTextures(1, &texColorBufferID);
+        glBindTexture(GL_TEXTURE_2D, texColorBufferID);
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, window->SCR_WIDTH, window->SCR_HEIGHT, 0, GL_RGB, GL_UNSIGNED_BYTE, NULL);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+        glBindTexture(GL_TEXTURE_2D, 0);
+
+        // 将它附加到当前绑定的帧缓冲对象
+        glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, texColorBufferID, 0);
+
+        // 创建渲染缓冲对象
+        glGenRenderbuffers(1, &rboID);
+        glBindRenderbuffer(GL_RENDERBUFFER, rboID);
+        glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH24_STENCIL8, 800, 600);
+        glBindRenderbuffer(GL_RENDERBUFFER, 0);
+
+        glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_RENDERBUFFER, rboID);
+
+        if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
+            std::cout << "ERROR::FRAMEBUFFER:: Framebuffer is not complete!" << std::endl;
+        glBindFramebuffer(GL_FRAMEBUFFER, 0);
+
+        float quadVertices[] = {// vertex attributes for a quad that fills the entire screen in Normalized Device Coordinates.
+                                // positions   // texCoords
+                                -1.0f, 1.0f, 0.0f, 1.0f,
+                                -1.0f, -1.0f, 0.0f, 0.0f,
+                                1.0f, -1.0f, 1.0f, 0.0f,
+
+                                -1.0f, 1.0f, 0.0f, 1.0f,
+                                1.0f, -1.0f, 1.0f, 0.0f,
+                                1.0f, 1.0f, 1.0f, 1.0f};
+        updateVAOAndVBO(&quadVertices, D2VertexTexcoordlayout, sizeof(quadVertices));
+        shader = new Shader("./19/l1/ObjectVertex.vert", "./19/l1/ObjectFragment.frag");
+    }
+
+    void Draw() override
+    {
+        Window::Clear();
+        shader->use();
+        glBindVertexArray(VAO);
+        glDisable(GL_DEPTH_TEST);
+        glBindTexture(GL_TEXTURE_2D, texColorBufferID);
+        glDrawArrays(GL_TRIANGLES, 0, 6);
+        glEnable(GL_DEPTH_TEST);
+        glDepthFunc(GL_LESS);
+    }
+
+    void SetFrameBuffer()
+    {
+        glBindFramebuffer(GL_FRAMEBUFFER, framebufferID);
+    }
+    void SetMainFrameBuffer()
+    {
+        glBindFramebuffer(GL_FRAMEBUFFER, 0); // 返回默认
+    }
+
+private:
+    unsigned int framebufferID, rboID, texColorBufferID;
 };

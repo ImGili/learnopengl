@@ -415,6 +415,7 @@ namespace glxtest2
         CubeWithTexture cube;
         Plane plane;
         SkyBox skybox;
+        FrameBufferObject fbo;
 
         mGUI::Init();
         // render loop
@@ -428,6 +429,7 @@ namespace glxtest2
 
             // render
             // ------
+            fbo.SetFrameBuffer();
             window->Clear();
 
             mGUI::NewFrame();
@@ -442,6 +444,9 @@ namespace glxtest2
 
             // floor
             plane.Draw();
+
+            fbo.SetMainFrameBuffer();
+            fbo.Draw();
 
             // glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
             // -------------------------------------------------------------------------------

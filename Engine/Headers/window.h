@@ -48,7 +48,7 @@ public:
         return _window;
     }
 
-    void Clear()
+    static void Clear()
     {
         glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); 
