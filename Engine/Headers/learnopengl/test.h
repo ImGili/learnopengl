@@ -445,7 +445,7 @@ namespace glxtest2
 
             // glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
             // -------------------------------------------------------------------------------
-            ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+            mGUI::DrawRenderData();
             window->SwapBufferAndPollEvents();
         }
 

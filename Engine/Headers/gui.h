@@ -52,7 +52,7 @@ namespace mGUI
         ImGui::End();
     }
 
-    void getRenderData()
+    void DrawRenderData()
     {
         ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
     }
