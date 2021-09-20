@@ -417,6 +417,7 @@ namespace glxtest2
         // -------------------------
         CubeWithTexture cube;
         Plane plane;
+        SkyBox skybox;
 
         // render loop
         // -----------
@@ -430,6 +431,8 @@ namespace glxtest2
             // render
             // ------
             window->Clear();
+
+            skybox.Draw();
 
             // cubes
             cube.Draw();
