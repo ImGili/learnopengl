@@ -446,6 +446,7 @@ namespace glxtest2
         // optional: de-allocate all resources once they've outlived their purpose:
         // ------------------------------------------------------------------------
         Window::DestoryWindow();
+        CameraInstance::DestoryCamera();
         return 0;
     }
 

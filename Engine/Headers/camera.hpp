@@ -165,7 +165,15 @@ private:
     CameraInstance(){_camera = new Camera();}
     CameraInstance& operator=(const CameraInstance&);
 public:
-    ~CameraInstance(){}
+    ~CameraInstance(){
+        delete _camera;
+    }
+
+    static void DestoryCamera()
+    {
+        delete Instance;
+        Instance = NULL;
+    }
     static CameraInstance* GetCamera()
     {
         if(Instance == NULL)
