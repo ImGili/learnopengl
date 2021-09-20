@@ -35,6 +35,7 @@ public:
     {
         glDeleteVertexArrays(1, &VAO);
         glDeleteBuffers(1, &VBO);
+        glDeleteTextures(1, &TextureID);
         delete shader;
     }
 
@@ -268,7 +269,7 @@ public:
             "imgs/skybox/bottom.jpg",
             "imgs/skybox/front.jpg",
             "imgs/skybox/back.jpg"};
-        cubemapTextureID = loadCubemap(faces);
+        TextureID = loadCubemap(faces);
         shader = new Shader("./20/l2/ObjectVertex.vert", "./20/l2/ObjectFragment.frag");
     }
 
@@ -290,7 +291,7 @@ public:
         glDepthFunc(GL_LEQUAL);
         shader->use();
         glBindVertexArray(VAO);
-        glBindTexture(GL_TEXTURE_CUBE_MAP, cubemapTextureID);
+        glBindTexture(GL_TEXTURE_CUBE_MAP, TextureID);
         glActiveTexture(GL_TEXTURE0);
         glDrawArrays(GL_TRIANGLES, 0, 36);
         glBindVertexArray(0);
@@ -298,7 +299,6 @@ public:
     }
 
 private:
-    unsigned int cubemapTextureID;
     unsigned int loadCubemap(vector<std::string> faces)
     {
         unsigned int textureID;
