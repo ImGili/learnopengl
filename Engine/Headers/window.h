@@ -42,7 +42,12 @@ public:
         delete Instance;
         Instance = NULL;
     }
-    
+
+    void Clear()
+    {
+        glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); 
+    }    
     // settings
     const unsigned int SCR_WIDTH = 800;
     const unsigned int SCR_HEIGHT = 600;
