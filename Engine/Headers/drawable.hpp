@@ -6,10 +6,10 @@
 #include "Engine.h"
 enum VertexLayout
 {
-    Vertex,
-    VertexNormal,
-    VertexTexcoord,
-    VertexNormalTexcoord
+    Vertexlayout,
+    VertexNormallayout,
+    VertexTexcoordlayout,
+    VertexNormalTexcoordlayout
 };
 class Drawable
 {
@@ -46,7 +46,7 @@ protected:
     {
         switch (vt)
         {
-        case VertexTexcoord:
+        case VertexTexcoordlayout:
             // cube VAO
             glGenVertexArrays(1, &VAO);
             glGenBuffers(1, &VBO);
@@ -59,7 +59,7 @@ protected:
             glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void *)(3 * sizeof(float)));
             glBindVertexArray(0);
             break;
-        case Vertex:
+        case Vertexlayout:
             glGenVertexArrays(1, &VAO);
             glGenBuffers(1, &VBO);
             glBindVertexArray(VAO);
@@ -160,7 +160,7 @@ public:
             0.5f, 0.5f, 0.5f, 1.0f, 0.0f,
             -0.5f, 0.5f, 0.5f, 0.0f, 0.0f,
             -0.5f, 0.5f, -0.5f, 0.0f, 1.0f};
-        updateVAOAndVBO(&cubeVertices, VertexTexcoord, sizeof(cubeVertices));
+        updateVAOAndVBO(&cubeVertices, VertexTexcoordlayout, sizeof(cubeVertices));
         shader = new Shader("./EngineShaders/VertexTexcoord/ObjectVertex.vert", "./EngineShaders/VertexTexcoord/ObjectFragment.frag");
         TextureID = loadTexture("imgs/woodPicture.jpeg");
         shader->use();
@@ -193,7 +193,7 @@ public:
             5.0f, -0.5f, 5.0f, 2.0f, 0.0f,
             -5.0f, -0.5f, -5.0f, 0.0f, 2.0f,
             5.0f, -0.5f, -5.0f, 2.0f, 2.0f};
-        updateVAOAndVBO(&planeVertices, VertexTexcoord, sizeof(planeVertices));
+        updateVAOAndVBO(&planeVertices, VertexTexcoordlayout, sizeof(planeVertices));
         shader = new Shader("./EngineShaders/VertexTexcoord/ObjectVertex.vert", "./EngineShaders/VertexTexcoord/ObjectFragment.frag");
         TextureID = loadTexture("imgs/metal.png");
         shader->use();
@@ -261,7 +261,7 @@ public:
             1.0f, -1.0f, -1.0f,
             -1.0f, -1.0f, 1.0f,
             1.0f, -1.0f, 1.0f};
-        updateVAOAndVBO(&skyboxVertices, Vertex, sizeof(skyboxVertices));
+        updateVAOAndVBO(&skyboxVertices, Vertexlayout, sizeof(skyboxVertices));
         vector<std::string> faces{
             "imgs/skybox/right.jpg",
             "imgs/skybox/left.jpg",
