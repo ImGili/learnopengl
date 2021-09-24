@@ -16,6 +16,7 @@ class Drawable
 {
 public:
     virtual void Draw() = 0;
+    virtual void Init(const char* vertexPath, const char* fragmentPath) = 0;
 
     Drawable() {}
 
@@ -32,12 +33,13 @@ public:
         glUseProgram(0);
     }
 
-    ~Drawable()
+    virtual ~Drawable()
     {
         glDeleteVertexArrays(1, &VAO);
         glDeleteBuffers(1, &VBO);
         glDeleteTextures(1, &TextureID);
         delete shader;
+        std::cout << "~Drawable" << std::endl;
     }
 
 protected:
@@ -131,6 +133,16 @@ class CubeWithTexture : public Drawable
 public:
     CubeWithTexture()
     {
+        Init("./EngineShaders/VertexTexcoord/ObjectVertex.vert", "./EngineShaders/VertexTexcoord/ObjectFragment.frag");
+    }
+
+    CubeWithTexture(const char* vertexPath, const char* fragmentPath)
+    {
+        Init(vertexPath, fragmentPath);
+    }
+
+    void Init(const char* vertexPath, const char* fragmentPath) override
+    {
         float cubeVertices[] = {
             // positions          // texture Coords
             -0.5f, -0.5f, -0.5f, 0.0f, 0.0f,
@@ -175,7 +187,7 @@ public:
             -0.5f, 0.5f, 0.5f, 0.0f, 0.0f,
             -0.5f, 0.5f, -0.5f, 0.0f, 1.0f};
         updateVAOAndVBO(&cubeVertices, VertexTexcoordlayout, sizeof(cubeVertices));
-        shader = new Shader("./EngineShaders/VertexTexcoord/ObjectVertex.vert", "./EngineShaders/VertexTexcoord/ObjectFragment.frag");
+        shader = new Shader(vertexPath, fragmentPath);
         TextureID = loadTexture("imgs/woodPicture.jpeg");
         shader->use();
         shader->setInt("texture1", 0);
@@ -191,12 +203,24 @@ public:
         glDrawArrays(GL_TRIANGLES, 0, 36);
         glUseProgram(0);
     }
+    ~CubeWithTexture()
+    {
+        std::cout << "~CubeWithTexture" << std::endl;
+    }
 };
 
 class Plane : public Drawable
 {
 public:
     Plane()
+    {
+        Init("./EngineShaders/VertexTexcoord/ObjectVertex.vert", "./EngineShaders/VertexTexcoord/ObjectFragment.frag");
+    }
+    Plane(const char* vertexPath, const char* fragmentPath)
+    {
+        Init(vertexPath, fragmentPath);
+    }
+    void Init(const char* vertexPath, const char* fragmentPath) override
     {
         float planeVertices[] = {
             // positions          // texture Coords (note we set these higher than 1 (together with GL_REPEAT as texture wrapping mode). this will cause the floor texture to repeat)
@@ -208,7 +232,7 @@ public:
             -5.0f, -0.5f, -5.0f, 0.0f, 2.0f,
             5.0f, -0.5f, -5.0f, 2.0f, 2.0f};
         updateVAOAndVBO(&planeVertices, VertexTexcoordlayout, sizeof(planeVertices));
-        shader = new Shader("./EngineShaders/VertexTexcoord/ObjectVertex.vert", "./EngineShaders/VertexTexcoord/ObjectFragment.frag");
+        shader = new Shader(vertexPath, fragmentPath);
         TextureID = loadTexture("imgs/metal.png");
         shader->use();
         shader->setInt("texture1", 0);
@@ -231,6 +255,15 @@ class SkyBox : public Drawable
 {
 public:
     SkyBox()
+    {
+        Init("./20/l2/ObjectVertex.vert", "./20/l2/ObjectFragment.frag");
+    }
+    SkyBox(const char* vertexPath, const char* fragmentPath)
+    {
+        Init(vertexPath, fragmentPath);
+    }
+
+    void Init(const char* vertexPath, const char* fragmentPath) override
     {
         float skyboxVertices[] = {
             // positions
@@ -284,7 +317,7 @@ public:
             "imgs/skybox/front.jpg",
             "imgs/skybox/back.jpg"};
         TextureID = loadCubemap(faces);
-        shader = new Shader("./20/l2/ObjectVertex.vert", "./20/l2/ObjectFragment.frag");
+        shader = new Shader(vertexPath, fragmentPath);
     }
 
     void Update() override
@@ -350,6 +383,15 @@ class FrameBufferObject : public Drawable
 public:
     FrameBufferObject()
     {
+        Init("./19/l1/ObjectVertex.vert", "./19/l1/ObjectFragment.frag");
+    }
+    FrameBufferObject(const char* vertexPath, const char* fragmentPath)
+    {
+        Init(vertexPath, fragmentPath);
+    }
+    
+    void Init(const char* vertexPath, const char* fragmentPath) override
+    {
         Window *window = Window::getWindow();
         // 帧缓冲创建
 
@@ -388,9 +430,8 @@ public:
                                 1.0f, -1.0f, 1.0f, 0.0f,
                                 1.0f, 1.0f, 1.0f, 1.0f};
         updateVAOAndVBO(&quadVertices, D2VertexTexcoordlayout, sizeof(quadVertices));
-        shader = new Shader("./19/l1/ObjectVertex.vert", "./19/l1/ObjectFragment.frag");
+        shader = new Shader(vertexPath, fragmentPath);
     }
-
     void Draw() override
     {
         Window::Clear();
@@ -414,4 +455,36 @@ public:
 
 private:
     unsigned int framebufferID, rboID, texColorBufferID;
+};
+
+#include<vector>
+class mScene
+{
+public:
+    mScene(){}
+    ~mScene(){
+        // for(std::vector<Drawable*>::iterator it = ds.begin(); it!=ds.end(); it++)
+        // {
+        //     if (*it!=NULL)
+        //     {
+        //         delete *it;
+        //         *it = NULL;
+        //     }
+        // }
+    }
+
+    void Add(Drawable* d)
+    {
+        ds.push_back(d);
+    }
+
+    void Draw()
+    {
+        for(int i=0; i<ds.size(); i++)
+        {
+            ds[i]->Draw();
+        }
+    }
+private:
+    std::vector<Drawable*> ds;
 };

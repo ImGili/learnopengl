@@ -398,6 +398,7 @@ namespace glxtest1
     }
 }
 
+#include<vector>
 namespace glxtest2
 {
 
@@ -412,7 +413,11 @@ namespace glxtest2
 
         // build and compile shaders
         // -------------------------
-        CubeWithTexture cube;
+        // mScene mscene;
+        Drawable* cube = new CubeWithTexture;
+        delete cube;
+        // mscene.Add(new CubeWithTexture());
+
         Plane plane;
         SkyBox skybox;
         FrameBufferObject fbo;
@@ -438,9 +443,9 @@ namespace glxtest2
             mGUI::RenderGUI();
 
             skybox.Draw();
-
+            // mscene.Draw();
             // cubes
-            cube.Draw();
+            // cube->Draw();
 
             // floor
             plane.Draw();
@@ -456,6 +461,7 @@ namespace glxtest2
 
         // optional: de-allocate all resources once they've outlived their purpose:
         // ------------------------------------------------------------------------
+        
         mGUI::DestroyGUI();
         Window::DestoryWindow();
         CameraInstance::DestoryCamera();

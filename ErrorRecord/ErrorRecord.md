@@ -96,3 +96,7 @@ export LIBRARY_PATH=$LIBRARY_PATH:/usr/local/Cellar/minizip/1.2.11/lib
 
 # imgui问题
 imgui ImGui_ImplOpenGL3_RenderDrawData必须在sawp之前。否则不会绘制gui。
+
+# 为什么父类的析构函数必须是虚方法
+**重要**
+> 父类的析构函数必须是虚方法，否则在使用父亲类指针指向子类时，无法触发动态绑定，只能使用父类的析构函数。
