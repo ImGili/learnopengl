@@ -2,6 +2,8 @@
  * @Author: ImGili
  * @Description: 
  */
+
+
 #pragma once
 #include "Engine.h"
 enum VertexLayout
@@ -463,14 +465,10 @@ class mScene
 public:
     mScene(){}
     ~mScene(){
-        // for(std::vector<Drawable*>::iterator it = ds.begin(); it!=ds.end(); it++)
-        // {
-        //     if (*it!=NULL)
-        //     {
-        //         delete *it;
-        //         *it = NULL;
-        //     }
-        // }
+        /*
+         TODO:
+            销毁vector中的指针
+        */
     }
 
     void Add(Drawable* d)
