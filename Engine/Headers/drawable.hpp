@@ -479,6 +479,11 @@ private:
     unsigned int framebufferID, rboID, texColorBufferID;
 };
 
+class mModel
+{
+// TODO: 模型类
+};
+
 #include<vector>
 class mScene
 {
