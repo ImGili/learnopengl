@@ -406,17 +406,13 @@ namespace glxtest2
     {
         Window *window = Window::getWindow();
         CameraInstance *camera = CameraInstance::GetCamera();
-        // configure global opengl state
-        // -----------------------------
+        
         glEnable(GL_DEPTH_TEST);
-        glDepthFunc(GL_LESS); // always pass the depth test (same effect as glDisable(GL_DEPTH_TEST))
+        glDepthFunc(GL_LESS); 
 
-        // build and compile shaders
-        // -------------------------
-        // mScene mscene;
+        
         Drawable *cube = new CubeWithTexture;
-        // delete cube;
-        // mscene.Add(new CubeWithTexture());
+        
 
         Plane plane;
         SkyBox skybox;
@@ -439,7 +435,6 @@ namespace glxtest2
             window->Clear();
 
             mGUI::NewFrame();
-            // mGUI::DrawText("test");
             {
                 ImGui::Begin("myGUI");
                 ImGui::InputFloat3("Objet position",(float*)&(obj->Position));
@@ -459,15 +454,11 @@ namespace glxtest2
 
             fbo.SetMainFrameBuffer();
             fbo.Draw();
-
-            // glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
-            // -------------------------------------------------------------------------------
+           
             mGUI::DrawRenderData();
             window->SwapBufferAndPollEvents();
         }
 
-        // optional: de-allocate all resources once they've outlived their purpose:
-        // ------------------------------------------------------------------------
 
         mGUI::DestroyGUI();
         Window::DestoryWindow();
