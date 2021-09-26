@@ -14,10 +14,37 @@ enum VertexLayout
     VertexNormalTexcoordlayout,
     D2VertexTexcoordlayout
 };
+
+class Object
+{
+public:
+    Object(){}
+    ~Object(){}
+    Object(glm::vec3 position)
+        :Position(position)
+    {}
+
+    // TODO:规划Object属性
+    glm::vec3 Position = glm::vec3(0, 0 ,0);
+};
 class Drawable
 {
 public:
     virtual void Draw() = 0;
+    void DrawObject(Object* obj)
+    {
+        shader->use();
+        glm::mat4 model = glm::mat4(1);
+        model = glm::translate(model, obj->Position);
+        shader->setMat4("model", model);
+        glUseProgram(0);
+        Draw();
+        shader->use();
+        model = glm::mat4(1);
+        shader->setMat4("model", model);
+        glUseProgram(0);
+        
+    }
     virtual void Init(const char* vertexPath, const char* fragmentPath) = 0;
 
     Drawable() {}
@@ -25,11 +52,11 @@ public:
     virtual void Update()
     {
         CameraInstance *camera = CameraInstance::GetCamera();
-        glm::mat4 model = glm::mat4(1.0f);
+        // glm::mat4 model = glm::mat4(1.0f);
         glm::mat4 view = camera->GetViewMatrix();
         glm::mat4 projection = camera->getPerspective();
         shader->use();
-        shader->setMat4("model", model);
+        // shader->setMat4("model", model);
         shader->setMat4("view", view);
         shader->setMat4("projection", projection);
         glUseProgram(0);
@@ -192,6 +219,8 @@ public:
         shader = new Shader(vertexPath, fragmentPath);
         TextureID = loadTexture("imgs/woodPicture.jpeg");
         shader->use();
+        glm::mat4 model = glm::mat4(1.0f);
+        shader->setMat4("model", model);
         shader->setInt("texture1", 0);
         glUseProgram(0);
     }
@@ -237,6 +266,8 @@ public:
         shader = new Shader(vertexPath, fragmentPath);
         TextureID = loadTexture("imgs/metal.png");
         shader->use();
+        glm::mat4 model = glm::mat4(1.0f);
+        shader->setMat4("model", model);
         shader->setInt("texture1", 0);
         glUseProgram(0);
     }

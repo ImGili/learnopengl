@@ -274,7 +274,7 @@ namespace glxtest1
             glDepthMask(GL_TRUE);
 
             glEnable(GL_DEPTH_TEST);
-            glDepthMask(GL_LESS);
+            glDepthFunc(GL_LESS);
             view = camera->GetViewMatrix();
             shader.use();
             shader.setMat4("view", view);
@@ -398,7 +398,7 @@ namespace glxtest1
     }
 }
 
-#include<vector>
+#include <vector>
 namespace glxtest2
 {
 
@@ -414,13 +414,14 @@ namespace glxtest2
         // build and compile shaders
         // -------------------------
         // mScene mscene;
-        Drawable* cube = new CubeWithTexture;
-        delete cube;
+        Drawable *cube = new CubeWithTexture;
+        // delete cube;
         // mscene.Add(new CubeWithTexture());
 
         Plane plane;
         SkyBox skybox;
         FrameBufferObject fbo;
+        Object *obj = new Object(glm::vec3(1, 1, 1));
 
         mGUI::Init();
         // render loop
@@ -438,7 +439,12 @@ namespace glxtest2
             window->Clear();
 
             mGUI::NewFrame();
-            mGUI::DrawText("test");
+            // mGUI::DrawText("test");
+            {
+                ImGui::Begin("myGUI");
+                ImGui::InputFloat3("Objet position",(float*)&(obj->Position));
+                ImGui::End();
+            }
 
             mGUI::RenderGUI();
 
@@ -446,6 +452,7 @@ namespace glxtest2
             // mscene.Draw();
             // cubes
             // cube->Draw();
+            cube->DrawObject(obj);
 
             // floor
             plane.Draw();
@@ -461,7 +468,7 @@ namespace glxtest2
 
         // optional: de-allocate all resources once they've outlived their purpose:
         // ------------------------------------------------------------------------
-        
+
         mGUI::DestroyGUI();
         Window::DestoryWindow();
         CameraInstance::DestoryCamera();

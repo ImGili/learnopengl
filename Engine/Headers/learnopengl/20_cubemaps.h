@@ -357,7 +357,7 @@ namespace glx0201
             glDepthMask(GL_TRUE);
 
             glEnable(GL_DEPTH_TEST);
-            glDepthMask(GL_LESS);
+            glDepthFunc(GL_LESS);
             shader.use();
             view = camera.GetViewMatrix();
             projection = glm::perspective(camera.Zoom, (float)SCR_WIDTH / (float)SCR_HEIGHT, 0.1f, 100.0f);
