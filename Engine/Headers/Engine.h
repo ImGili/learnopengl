@@ -49,6 +49,7 @@
 #include "window.h"
 #include "mesh.h"
 #include "model.h"
+#include "scene.hpp"
 #include "drawable.hpp"
 #include "gui.h"
 

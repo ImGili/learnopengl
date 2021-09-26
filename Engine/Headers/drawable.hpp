@@ -15,18 +15,7 @@ enum VertexLayout
     D2VertexTexcoordlayout
 };
 
-class Object
-{
-public:
-    Object(){}
-    ~Object(){}
-    Object(glm::vec3 position)
-        :Position(position)
-    {}
 
-    // TODO:规划Object属性
-    glm::vec3 Position = glm::vec3(0, 0 ,0);
-};
 class Drawable
 {
 public:
