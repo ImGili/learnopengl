@@ -3,7 +3,6 @@
  * @Description: 
  */
 
-
 #pragma once
 #include "Engine.h"
 enum VertexLayout
@@ -15,12 +14,11 @@ enum VertexLayout
     D2VertexTexcoordlayout
 };
 
-
 class Drawable
 {
 public:
     virtual void Draw() = 0;
-    void DrawObject(Object* obj)
+    void DrawObject(Object *obj)
     {
         shader->use();
         glm::mat4 model = glm::mat4(1);
@@ -32,9 +30,8 @@ public:
         model = glm::mat4(1);
         shader->setMat4("model", model);
         glUseProgram(0);
-        
     }
-    virtual void Init(const char* vertexPath, const char* fragmentPath) = 0;
+    virtual void Init(const char *vertexPath, const char *fragmentPath) = 0;
 
     Drawable() {}
 
@@ -154,12 +151,12 @@ public:
         Init("./EngineShaders/VertexTexcoord/ObjectVertex.vert", "./EngineShaders/VertexTexcoord/ObjectFragment.frag");
     }
 
-    CubeWithTexture(const char* vertexPath, const char* fragmentPath)
+    CubeWithTexture(const char *vertexPath, const char *fragmentPath)
     {
         Init(vertexPath, fragmentPath);
     }
 
-    void Init(const char* vertexPath, const char* fragmentPath) override
+    void Init(const char *vertexPath, const char *fragmentPath) override
     {
         float cubeVertices[] = {
             // positions          // texture Coords
@@ -236,11 +233,11 @@ public:
     {
         Init("./EngineShaders/VertexTexcoord/ObjectVertex.vert", "./EngineShaders/VertexTexcoord/ObjectFragment.frag");
     }
-    Plane(const char* vertexPath, const char* fragmentPath)
+    Plane(const char *vertexPath, const char *fragmentPath)
     {
         Init(vertexPath, fragmentPath);
     }
-    void Init(const char* vertexPath, const char* fragmentPath) override
+    void Init(const char *vertexPath, const char *fragmentPath) override
     {
         float planeVertices[] = {
             // positions          // texture Coords (note we set these higher than 1 (together with GL_REPEAT as texture wrapping mode). this will cause the floor texture to repeat)
@@ -280,12 +277,12 @@ public:
     {
         Init("./20/l2/ObjectVertex.vert", "./20/l2/ObjectFragment.frag");
     }
-    SkyBox(const char* vertexPath, const char* fragmentPath)
+    SkyBox(const char *vertexPath, const char *fragmentPath)
     {
         Init(vertexPath, fragmentPath);
     }
 
-    void Init(const char* vertexPath, const char* fragmentPath) override
+    void Init(const char *vertexPath, const char *fragmentPath) override
     {
         float skyboxVertices[] = {
             // positions
@@ -407,12 +404,12 @@ public:
     {
         Init("./19/l1/ObjectVertex.vert", "./19/l1/ObjectFragment.frag");
     }
-    FrameBufferObject(const char* vertexPath, const char* fragmentPath)
+    FrameBufferObject(const char *vertexPath, const char *fragmentPath)
     {
         Init(vertexPath, fragmentPath);
     }
-    
-    void Init(const char* vertexPath, const char* fragmentPath) override
+
+    void Init(const char *vertexPath, const char *fragmentPath) override
     {
         Window *window = Window::getWindow();
         // 帧缓冲创建
@@ -479,35 +476,35 @@ private:
     unsigned int framebufferID, rboID, texColorBufferID;
 };
 
-class mModel
-{
-// TODO: 模型类
-};
-
-#include<vector>
-class mScene
+class mModel : public Drawable
 {
 public:
-    mScene(){}
-    ~mScene(){
-        /*
-         TODO:
-            销毁vector中的指针
-        */
+    mModel()
+    {
+        Init("./14/l1/ObjectVertex.vert", "./14/l1/ObjectFragment.frag");
+        _model = new Model("./models/nanosuit/nanosuit.obj");
+    }
+    ~mModel()
+    {
+    }
+    void Init(const char *vertexPath, const char *fragmentPath) override
+    {
+        shader = new Shader(vertexPath, fragmentPath);
+        shader->use();
+        glm::mat4 model = glm::mat4(1.0f);
+        model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f)); // translate it down so it's at the center of the scene
+        model = glm::scale(model, glm::vec3(1.0f, 1.0f, 1.0f));
+        shader->setMat4("model", model);
+        glUseProgram(0);
     }
 
-    void Add(Drawable* d)
+    void Draw() override
     {
-        ds.push_back(d);
+        Update();
+        shader->use();
+        _model->Draw(*shader);
     }
 
-    void Draw()
-    {
-        for(int i=0; i<ds.size(); i++)
-        {
-            ds[i]->Draw();
-        }
-    }
 private:
-    std::vector<Drawable*> ds;
+    Model *_model;
 };

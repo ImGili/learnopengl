@@ -45,12 +45,7 @@ namespace mGUI
         ImGui::Render();
     }
 
-    void DrawText(const char* c)
-    {
-        ImGui::Begin("test");
-        ImGui::Text(c);
-        ImGui::End();
-    }
+    
 
     void DrawRenderData()
     {
