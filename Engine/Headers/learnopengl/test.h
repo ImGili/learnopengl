@@ -460,6 +460,7 @@ namespace glxtest2
             window->SwapBufferAndPollEvents();
         }
 
+        delete obj, cube, mmodel;
         mGUI::DestroyGUI();
         Window::DestoryWindow();
         CameraInstance::DestoryCamera();

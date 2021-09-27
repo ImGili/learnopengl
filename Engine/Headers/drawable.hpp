@@ -88,7 +88,6 @@ public:
         glDeleteBuffers(1, &VBO);
         glDeleteTextures(1, &TextureID);
         delete shader;
-        std::cout << "~Drawable" << std::endl;
     }
 
 protected:
@@ -250,7 +249,6 @@ public:
     
     ~CubeWithTexture()
     {
-        std::cout << "~CubeWithTexture" << std::endl;
     }
 };
 
