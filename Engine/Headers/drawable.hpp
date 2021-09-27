@@ -19,7 +19,9 @@ enum DrawLayout
     None = 0,
     TextureDrawlayout = BIT(0),
     SkyboxDrawlayout = BIT(1),
-    CamerPositionInside = BIT(2)
+    CamerPositionInside = BIT(2),
+    NeedSkyBoxTexture = BIT(3)
+
 };
 
 class Drawable
@@ -89,8 +91,8 @@ public:
     }
 
 protected:
-    unsigned int VAO, VBO, TextureID, vn;
-    DrawLayout drawlayout;
+    unsigned int VAO, VBO, TextureID, vn, SkyboxTextureID;
+    unsigned int drawlayout;
     Shader *shader;
     void updateVAOAndVBO(void *v, VertexLayout vt, int vsize)
     {
@@ -371,6 +373,11 @@ public:
         glUseProgram(0);
     }
 
+    unsigned int GetSkyBoxTextureID()
+    {
+        return TextureID;
+    }
+
 
 private:
     unsigned int loadCubemap(vector<std::string> faces)
@@ -491,11 +498,15 @@ public:
         Init("./14/l1/ObjectVertex.vert", "./14/l1/ObjectFragment.frag");
         _model = new Model("./models/nanosuit/nanosuit.obj");
     }
-    mModel(const char *vertexPath, const char *fragmentPath, const char *modelPath, DrawLayout _drawlayout=DrawLayout::None)
+    mModel(const char *vertexPath, const char *fragmentPath, const char *modelPath = "./models/nanosuit/nanosuit.obj", unsigned int _drawlayout=DrawLayout::None, SkyBox* skybox=nullptr)
     {
         Init(vertexPath, fragmentPath);
         drawlayout = _drawlayout;
         _model = new Model(modelPath);
+        if (drawlayout&(DrawLayout::NeedSkyBoxTexture)&& skybox!=nullptr)
+        {
+            SkyboxTextureID = skybox->GetSkyBoxTextureID();
+        }
     }
     ~mModel()
     {
@@ -516,7 +527,13 @@ public:
     {
         Update();
         shader->use();
+        if (drawlayout&(DrawLayout::NeedSkyBoxTexture))
+        {
+            glBindTexture(GL_TEXTURE_CUBE_MAP, SkyboxTextureID);
+        }
+        
         _model->Draw(*shader);
+        glBindTexture(GL_TEXTURE_CUBE_MAP, 0);
     }
 
 private:

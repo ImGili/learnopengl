@@ -1677,3 +1677,72 @@ namespace glx0203
         return textureID;
     }
 }
+
+namespace glx0204
+{
+    int main()
+    {
+        Window *window = Window::getWindow();
+        CameraInstance *camera = CameraInstance::GetCamera();
+
+        glEnable(GL_DEPTH_TEST);
+        glDepthFunc(GL_LESS);
+
+
+        Plane plane;
+        SkyBox skybox;
+
+        Drawable *cube = new CubeWithTexture;
+        Drawable *mmodel = new mModel("./20/l3/ObjectVertex.vert", "./20/l3/ObjectFragment.frag", "./models/nanosuit/nanosuit.obj", (DrawLayout::CamerPositionInside|DrawLayout::NeedSkyBoxTexture), &skybox);
+        
+        FrameBufferObject fbo;
+
+        Object *obj = new Object(glm::vec3(1, 1, 1));
+
+        mGUI::Init();
+        // render loop
+        // -----------
+        while (!window->WindowShouldClose())
+        {
+            window->UpdateDeltaTime();
+            // input
+            // -----
+            window->processInput();
+
+            // render
+            // ------
+            fbo.SetFrameBuffer();
+            window->Clear();
+
+            mGUI::NewFrame();
+            {
+                ImGui::Begin("myGUI");
+                ImGui::InputFloat3("Objet position", (float *)&(obj->Position));
+                ImGui::End();
+            }
+
+            mGUI::RenderGUI();
+
+            skybox.Draw();
+            mmodel->Draw();
+            // cubes
+            // cube->Draw();
+            cube->DrawObject(obj);
+            
+
+            // floor
+            plane.Draw();
+
+            fbo.SetMainFrameBuffer();
+            fbo.Draw();
+
+            mGUI::DrawRenderData();
+            window->SwapBufferAndPollEvents();
+        }
+
+        mGUI::DestroyGUI();
+        Window::DestoryWindow();
+        CameraInstance::DestoryCamera();
+        return 0;
+    }
+}
