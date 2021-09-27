@@ -53,6 +53,7 @@ public:
         shader->use();
         glm::mat4 model = glm::mat4(1);
         model = glm::translate(model, obj->Position);
+        model = glm::scale(model, obj->Scale);
         shader->setMat4("model", model);
         glUseProgram(0);
         Draw();

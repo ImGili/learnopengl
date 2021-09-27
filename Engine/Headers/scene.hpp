@@ -24,6 +24,7 @@ public:
 
     // TODO:规划Object属性
     glm::vec3 Position = glm::vec3(0, 0 ,0);
+    glm::vec3 Scale = glm::vec3(1, 1, 1);
 };
 
 

@@ -1718,15 +1718,16 @@ namespace glx0204
             {
                 ImGui::Begin("myGUI");
                 ImGui::InputFloat3("Objet position", (float *)&(obj->Position));
+                ImGui::InputFloat3("Objet scale", (float *)&(obj->Scale));
                 ImGui::End();
             }
 
             mGUI::RenderGUI();
 
             skybox.Draw();
-            mmodel->Draw();
             // cubes
             // cube->Draw();
+            mmodel->DrawObject(obj);
             cube->DrawObject(obj);
             
 
