@@ -1693,7 +1693,77 @@ namespace glx0204
         SkyBox skybox;
 
         Drawable *cube = new CubeWithTexture;
-        Drawable *mmodel = new mModel("./20/l3/ObjectVertex.vert", "./20/l3/ObjectFragment.frag", "./models/nanosuit/nanosuit.obj", (DrawLayout::CamerPositionInside|DrawLayout::NeedSkyBoxTexture), &skybox);
+        Drawable *mmodel = new mModel("./20/l4/ObjectVertex.vert", "./20/l4/ObjectFragment.frag", "./models/nanosuit/nanosuit.obj", (DrawLayout::CamerPositionInside|DrawLayout::NeedSkyBoxTexture), &skybox);
+        
+        FrameBufferObject fbo;
+
+        Object *obj = new Object(glm::vec3(1, 1, 1));
+
+        mGUI::Init();
+        // render loop
+        // -----------
+        while (!window->WindowShouldClose())
+        {
+            window->UpdateDeltaTime();
+            // input
+            // -----
+            window->processInput();
+
+            // render
+            // ------
+            fbo.SetFrameBuffer();
+            window->Clear();
+
+            mGUI::NewFrame();
+            {
+                ImGui::Begin("myGUI");
+                ImGui::InputFloat3("Objet position", (float *)&(obj->Position));
+                ImGui::InputFloat3("Objet scale", (float *)&(obj->Scale));
+                ImGui::End();
+            }
+
+            mGUI::RenderGUI();
+
+            skybox.Draw();
+            // cubes
+            // cube->Draw();
+            mmodel->DrawObject(obj);
+            cube->DrawObject(obj);
+            
+
+            // floor
+            plane.Draw();
+
+            fbo.SetMainFrameBuffer();
+            fbo.Draw();
+
+            mGUI::DrawRenderData();
+            window->SwapBufferAndPollEvents();
+        }
+
+        mGUI::DestroyGUI();
+        Window::DestoryWindow();
+        CameraInstance::DestoryCamera();
+        return 0;
+    }
+}
+
+namespace glx0205
+{
+    int main()
+    {
+        Window *window = Window::getWindow();
+        CameraInstance *camera = CameraInstance::GetCamera();
+
+        glEnable(GL_DEPTH_TEST);
+        glDepthFunc(GL_LESS);
+
+
+        Plane plane;
+        SkyBox skybox;
+
+        Drawable *cube = new CubeWithTexture;
+        Drawable *mmodel = new mModel("./20/l5/ObjectVertex.vert", "./20/l5/ObjectFragment.frag", "./models/nanosuit/nanosuit.obj", (DrawLayout::CamerPositionInside|DrawLayout::NeedSkyBoxTexture), &skybox);
         
         FrameBufferObject fbo;
 
