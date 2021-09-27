@@ -14,10 +14,38 @@ enum VertexLayout
     D2VertexTexcoordlayout
 };
 
+enum DrawLayout
+{
+    None = 0,
+    TextureDrawlayout = BIT(0),
+    SkyboxDrawlayout = BIT(1),
+    CamerPositionInside = BIT(2)
+};
+
 class Drawable
 {
 public:
-    virtual void Draw() = 0;
+    virtual void Draw() 
+    {
+        Update();
+        shader->use();
+        glBindVertexArray(VAO);
+        glActiveTexture(GL_TEXTURE0);
+        if(drawlayout&(DrawLayout::TextureDrawlayout))
+        {
+            glBindTexture(GL_TEXTURE_2D, TextureID);
+        }
+        if (drawlayout&(DrawLayout::SkyboxDrawlayout))
+        {
+            glBindTexture(GL_TEXTURE_CUBE_MAP, TextureID);
+            glDepthFunc(GL_LEQUAL);
+        }
+        
+        glDrawArrays(GL_TRIANGLES, 0, vn);
+        glDepthFunc(GL_LESS);
+        glUseProgram(0);
+    }
+    
     void DrawObject(Object *obj)
     {
         shader->use();
@@ -38,11 +66,14 @@ public:
     virtual void Update()
     {
         CameraInstance *camera = CameraInstance::GetCamera();
-        // glm::mat4 model = glm::mat4(1.0f);
         glm::mat4 view = camera->GetViewMatrix();
         glm::mat4 projection = camera->getPerspective();
         shader->use();
-        // shader->setMat4("model", model);
+        if (drawlayout&(DrawLayout::CamerPositionInside))
+        {
+            shader->setVec3("cameraPos", camera->GetPosition());
+        }
+        
         shader->setMat4("view", view);
         shader->setMat4("projection", projection);
         glUseProgram(0);
@@ -58,7 +89,8 @@ public:
     }
 
 protected:
-    unsigned int VAO, VBO, TextureID;
+    unsigned int VAO, VBO, TextureID, vn;
+    DrawLayout drawlayout;
     Shader *shader;
     void updateVAOAndVBO(void *v, VertexLayout vt, int vsize)
     {
@@ -209,17 +241,10 @@ public:
         shader->setMat4("model", model);
         shader->setInt("texture1", 0);
         glUseProgram(0);
+        drawlayout = DrawLayout::TextureDrawlayout;
+        vn = 36;
     }
-    inline void Draw() override
-    {
-        Update();
-        shader->use();
-        glBindVertexArray(VAO);
-        glActiveTexture(GL_TEXTURE0);
-        glBindTexture(GL_TEXTURE_2D, TextureID);
-        glDrawArrays(GL_TRIANGLES, 0, 36);
-        glUseProgram(0);
-    }
+    
     ~CubeWithTexture()
     {
         std::cout << "~CubeWithTexture" << std::endl;
@@ -256,18 +281,11 @@ public:
         shader->setMat4("model", model);
         shader->setInt("texture1", 0);
         glUseProgram(0);
+        vn = 6;
+        drawlayout = DrawLayout::TextureDrawlayout;
     }
 
-    inline void Draw() override
-    {
-        Update();
-        shader->use();
-        glBindVertexArray(VAO);
-        glActiveTexture(GL_TEXTURE0);
-        glBindTexture(GL_TEXTURE_2D, TextureID);
-        glDrawArrays(GL_TRIANGLES, 0, 6);
-        glUseProgram(0);
-    }
+    
 };
 
 class SkyBox : public Drawable
@@ -337,6 +355,8 @@ public:
             "imgs/skybox/back.jpg"};
         TextureID = loadCubemap(faces);
         shader = new Shader(vertexPath, fragmentPath);
+        drawlayout = DrawLayout::SkyboxDrawlayout;
+        vn = 36;
     }
 
     void Update() override
@@ -351,18 +371,6 @@ public:
         glUseProgram(0);
     }
 
-    void Draw() override
-    {
-        Update();
-        glDepthFunc(GL_LEQUAL);
-        shader->use();
-        glBindVertexArray(VAO);
-        glBindTexture(GL_TEXTURE_CUBE_MAP, TextureID);
-        glActiveTexture(GL_TEXTURE0);
-        glDrawArrays(GL_TRIANGLES, 0, 36);
-        glBindVertexArray(0);
-        glDepthFunc(GL_LESS);
-    }
 
 private:
     unsigned int loadCubemap(vector<std::string> faces)
@@ -475,7 +483,6 @@ public:
 private:
     unsigned int framebufferID, rboID, texColorBufferID;
 };
-
 class mModel : public Drawable
 {
 public:
@@ -484,8 +491,15 @@ public:
         Init("./14/l1/ObjectVertex.vert", "./14/l1/ObjectFragment.frag");
         _model = new Model("./models/nanosuit/nanosuit.obj");
     }
+    mModel(const char *vertexPath, const char *fragmentPath, const char *modelPath, DrawLayout _drawlayout=DrawLayout::None)
+    {
+        Init(vertexPath, fragmentPath);
+        drawlayout = _drawlayout;
+        _model = new Model(modelPath);
+    }
     ~mModel()
     {
+        delete _model;
     }
     void Init(const char *vertexPath, const char *fragmentPath) override
     {

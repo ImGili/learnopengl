@@ -43,7 +43,7 @@
 #include <assimp/scene.h>
 #include <assimp/postprocess.h>
 
-
+#include "core.h"
 #include "shader.hpp"
 #include "camera.hpp"
 #include "window.h"

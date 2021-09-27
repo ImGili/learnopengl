@@ -188,6 +188,10 @@ public:
     {
         return _camera->GetViewMatrix();
     }
+    glm::vec3 GetPosition()
+    {
+        return _camera->Position;
+    }
 
     // processes input received from any keyboard-like input system. Accepts input parameter in the form of camera defined ENUM (to abstract it from windowing systems)
     virtual void ProcessKeyboard(Camera_Movement direction, float deltaTime)
