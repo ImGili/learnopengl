@@ -131,24 +131,7 @@ public:
         glDeleteTextures(1, &TextureID);
         delete shader;
     }
-
-protected:
-    // 可读可写数据
-    // opengl 缓冲id
-    unsigned int TextureID, SkyboxTextureID;
-
-    // 组合成员
-    Shader *shader;
-
-    // 绘制布局
-    unsigned int drawlayout = DrawLayout::None;
-
-    // 自身只读数据
-    VertexLayout vt;
-    unsigned int vn;
-    unsigned int VAO, VBO;
-
-    void InitVertex(void *v, VertexLayout vertexlayout, int vsize)
+    void SetVertex(void *v, VertexLayout vertexlayout, int vsize)
     {
         vt = vertexlayout;
         glGenVertexArrays(1, &VAO);
@@ -184,6 +167,24 @@ protected:
             break;
         }
     }
+
+protected:
+    // 可读可写数据
+    // opengl 缓冲id
+    unsigned int TextureID, SkyboxTextureID;
+
+    // 组合成员
+    Shader *shader;
+
+    // 绘制布局
+    unsigned int drawlayout = DrawLayout::None;
+
+    // 自身只读数据
+    VertexLayout vt;
+    unsigned int vn;
+    unsigned int VAO, VBO;
+
+    
 
     unsigned int loadTexture(char const *path)
     {
@@ -308,7 +309,7 @@ public:
             0.5f, 0.5f, 0.5f, 1.0f, 0.0f,
             -0.5f, 0.5f, 0.5f, 0.0f, 0.0f,
             -0.5f, 0.5f, -0.5f, 0.0f, 1.0f};
-        InitVertex(&cubeVertices, VertexTexcoordlayout, sizeof(cubeVertices));
+        SetVertex(&cubeVertices, VertexTexcoordlayout, sizeof(cubeVertices));
         SetShader("./EngineShaders/VertexTexcoord/ObjectVertex.vert", "./EngineShaders/VertexTexcoord/ObjectFragment.frag");
         SetTextureId("imgs/woodPicture.jpeg");
         shader->use();
@@ -342,7 +343,7 @@ public:
             5.0f, -0.5f, 5.0f, 2.0f, 0.0f,
             -5.0f, -0.5f, -5.0f, 0.0f, 2.0f,
             5.0f, -0.5f, -5.0f, 2.0f, 2.0f};
-        InitVertex(&planeVertices, VertexTexcoordlayout, sizeof(planeVertices));
+        SetVertex(&planeVertices, VertexTexcoordlayout, sizeof(planeVertices));
         SetShader("./EngineShaders/VertexTexcoord/ObjectVertex.vert", "./EngineShaders/VertexTexcoord/ObjectFragment.frag");
         SetTextureId("imgs/metal.png");
         shader->use();
@@ -406,7 +407,7 @@ public:
             1.0f, -1.0f, -1.0f,
             -1.0f, -1.0f, 1.0f,
             1.0f, -1.0f, 1.0f};
-        InitVertex(&skyboxVertices, Vertexlayout, sizeof(skyboxVertices));
+        SetVertex(&skyboxVertices, Vertexlayout, sizeof(skyboxVertices));
         vector<std::string> faces{
             "imgs/skybox/right.jpg",
             "imgs/skybox/left.jpg",
@@ -481,7 +482,7 @@ public:
                                 -1.0f, 1.0f, 0.0f, 1.0f,
                                 1.0f, -1.0f, 1.0f, 0.0f,
                                 1.0f, 1.0f, 1.0f, 1.0f};
-        InitVertex(&quadVertices, D2VertexTexcoordlayout, sizeof(quadVertices));
+        SetVertex(&quadVertices, D2VertexTexcoordlayout, sizeof(quadVertices));
         SetShader("./19/l1/ObjectVertex.vert", "./19/l1/ObjectFragment.frag");
     }
     void Draw() override
