@@ -65,7 +65,10 @@ public:
 
     Drawable() {
     }
-
+    Drawable* SetDrawlayout(unsigned int dl)
+    {
+        drawlayout = dl;
+    }
     // 设置着色器
     Drawable *SetShader(const char *vertexPath, const char *fragmentPath)
     {
@@ -95,6 +98,15 @@ public:
         }
         return this;
     }
+    unsigned int GetSkyboxTextureID()
+    {
+        return SkyboxTextureID;
+    }
+    Drawable *SetSkyTextureId(unsigned int skyboxid) {
+        SkyboxTextureID  = skyboxid;
+        return this;
+    }
+
 
     virtual void UpdateCamera()
     {
@@ -419,11 +431,6 @@ public:
         glUseProgram(0);
     }
 
-    unsigned int GetSkyBoxTextureID()
-    {
-        return TextureID;
-    }
-
 private:
 };
 
@@ -524,6 +531,15 @@ public:
         shader->setMat4("model", model);
         glUseProgram(0);
     }
+    Drawable* SetModel(const char* modelPath)
+    {
+        if (_model!=nullptr)
+        {
+            delete _model;
+        }
+        _model = new Model(modelPath);
+        return this;
+    }
 
     void Draw() override
     {
@@ -539,5 +555,5 @@ public:
     }
 
 private:
-    Model *_model;
+    Model *_model = nullptr;
 };

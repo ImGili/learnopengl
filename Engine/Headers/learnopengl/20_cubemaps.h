@@ -1694,7 +1694,7 @@ namespace glx0204
 
         Drawable *cube = new CubeWithTexture;
         // Drawable *mmodel = new mModel("./20/l4/ObjectVertex.vert", "./20/l4/ObjectFragment.frag", "./models/nanosuit/nanosuit.obj", (DrawLayout::CamerPositionInside|DrawLayout::NeedSkyBoxTexture), &skybox);
-        // Drawable * mmodel = new mModel()->SetShader()
+        Drawable * mmodel = (new mModel())->SetShader("./20/l4/ObjectVertex.vert", "./20/l4/ObjectFragment.frag")->SetDrawlayout(DrawLayout::CamerPositionInside|DrawLayout::NeedSkyBoxTexture)->SetSkyTextureId(skybox.GetSkyboxTextureID());
         
         FrameBufferObject fbo;
 
@@ -1728,7 +1728,7 @@ namespace glx0204
             skybox.Draw();
             // cubes
             // cube->Draw();
-            // mmodel->DrawObject(obj);
+            mmodel->DrawObject(obj);
             cube->DrawObject(obj);
             
 
@@ -1742,7 +1742,7 @@ namespace glx0204
             window->SwapBufferAndPollEvents();
         }
 
-        delete obj, cube;
+        delete obj, cube, mmodel;
         mGUI::DestroyGUI();
         Window::DestoryWindow();
         CameraInstance::DestoryCamera();
@@ -1766,6 +1766,7 @@ namespace glx0205
 
         Drawable *cube = new CubeWithTexture;
         // Drawable *mmodel = new mModel("./20/l5/ObjectVertex.vert", "./20/l5/ObjectFragment.frag", "./models/nanosuit/nanosuit.obj", (DrawLayout::CamerPositionInside|DrawLayout::NeedSkyBoxTexture), &skybox);
+        Drawable * mmodel = (new mModel())->SetShader("./20/l5/ObjectVertex.vert", "./20/l5/ObjectFragment.frag")->SetDrawlayout(DrawLayout::CamerPositionInside|DrawLayout::NeedSkyBoxTexture)->SetSkyTextureId(skybox.GetSkyboxTextureID());
         
         FrameBufferObject fbo;
 
@@ -1799,7 +1800,7 @@ namespace glx0205
             skybox.Draw();
             // cubes
             // cube->Draw();
-            // mmodel->DrawObject(obj);
+            mmodel->DrawObject(obj);
             cube->DrawObject(obj);
             
 
@@ -1813,7 +1814,7 @@ namespace glx0205
             window->SwapBufferAndPollEvents();
         }
 
-        delete obj, cube;
+        delete obj, cube, mmodel;
         mGUI::DestroyGUI();
         Window::DestoryWindow();
         CameraInstance::DestoryCamera();
