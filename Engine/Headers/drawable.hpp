@@ -61,7 +61,10 @@ public:
         shader->setMat4("model", model);
         glUseProgram(0);
     }
-    virtual void Init() = 0;
+    virtual void Init() 
+    {
+        
+    }
 
     Drawable() {
     }
