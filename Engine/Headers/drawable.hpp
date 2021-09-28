@@ -254,10 +254,10 @@ protected:
     }
 };
 
-class CubeWithTexture : public Drawable
+class Cube : public Drawable
 {
 public:
-    CubeWithTexture()
+    Cube()
     {
         Init();
     }
@@ -318,7 +318,7 @@ public:
         glUseProgram(0);
     }
 
-    ~CubeWithTexture()
+    ~Cube()
     {
     }
 };

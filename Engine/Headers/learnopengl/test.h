@@ -410,7 +410,7 @@ namespace glxtest2
         glEnable(GL_DEPTH_TEST);
         glDepthFunc(GL_LESS);
 
-        Drawable *cube = new CubeWithTexture;
+        Drawable *cube = new Cube();
         Drawable *mmodel = new mModel();
 
         Plane plane;

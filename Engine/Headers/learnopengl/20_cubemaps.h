@@ -1692,7 +1692,7 @@ namespace glx0204
         Plane plane;
         SkyBox skybox;
 
-        Drawable *cube = new CubeWithTexture;
+        Drawable *cube = new Cube();
         // Drawable *mmodel = new mModel("./20/l4/ObjectVertex.vert", "./20/l4/ObjectFragment.frag", "./models/nanosuit/nanosuit.obj", (DrawLayout::CamerPositionInside|DrawLayout::NeedSkyBoxTexture), &skybox);
         Drawable * mmodel = (new mModel())->SetShader("./20/l4/ObjectVertex.vert", "./20/l4/ObjectFragment.frag")->SetDrawlayout(DrawLayout::CamerPositionInside|DrawLayout::NeedSkyBoxTexture)->SetSkyTextureId(skybox.GetSkyboxTextureID());
         
@@ -1764,7 +1764,7 @@ namespace glx0205
         Plane plane;
         SkyBox skybox;
 
-        Drawable *cube = new CubeWithTexture;
+        Drawable *cube = new Cube();
         // Drawable *mmodel = new mModel("./20/l5/ObjectVertex.vert", "./20/l5/ObjectFragment.frag", "./models/nanosuit/nanosuit.obj", (DrawLayout::CamerPositionInside|DrawLayout::NeedSkyBoxTexture), &skybox);
         Drawable * mmodel = (new mModel())->SetShader("./20/l5/ObjectVertex.vert", "./20/l5/ObjectFragment.frag")->SetDrawlayout(DrawLayout::CamerPositionInside|DrawLayout::NeedSkyBoxTexture)->SetSkyTextureId(skybox.GetSkyboxTextureID());
         
