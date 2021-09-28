@@ -18,7 +18,6 @@ enum DrawLayout
 {
     None = 0,
     TextureDrawlayout = BIT(0),
-    SkyboxDrawlayout = BIT(1),
     CamerPositionInside = BIT(2),
     NeedSkyBoxTexture = BIT(3)
 
@@ -29,7 +28,7 @@ class Drawable
 public:
     virtual void Draw()
     {
-        Update();
+        UpdateCamera();
         shader->use();
         glBindVertexArray(VAO);
         glActiveTexture(GL_TEXTURE0);
@@ -37,9 +36,9 @@ public:
         {
             glBindTexture(GL_TEXTURE_2D, TextureID);
         }
-        if (drawlayout & (DrawLayout::SkyboxDrawlayout))
+        if (drawlayout & (DrawLayout::NeedSkyBoxTexture))
         {
-            glBindTexture(GL_TEXTURE_CUBE_MAP, TextureID);
+            glBindTexture(GL_TEXTURE_CUBE_MAP, SkyboxTextureID);
             glDepthFunc(GL_LEQUAL);
         }
 
@@ -62,9 +61,10 @@ public:
         shader->setMat4("model", model);
         glUseProgram(0);
     }
-    virtual void Init(const char *vertexPath, const char *fragmentPath) = 0;
+    virtual void Init() = 0;
 
-    Drawable() {}
+    Drawable() {
+    }
 
     // 设置着色器
     Drawable *SetShader(const char *vertexPath, const char *fragmentPath)
@@ -96,7 +96,7 @@ public:
         return this;
     }
 
-    virtual void Update()
+    virtual void UpdateCamera()
     {
         CameraInstance *camera = CameraInstance::GetCamera();
         glm::mat4 view = camera->GetViewMatrix();
@@ -152,17 +152,20 @@ protected:
             glEnableVertexAttribArray(1);
             glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void *)(3 * sizeof(float)));
             glBindVertexArray(0);
+            vn = vsize/(sizeof(float)*5);
             break;
         case Vertexlayout:
             glEnableVertexAttribArray(0);
             glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void *)0);
             glBindVertexArray(0);
+            vn = vsize/(sizeof(float)*3);
             break;
         case D2VertexTexcoordlayout:
             glEnableVertexAttribArray(0);
             glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(float), (void *)0);
             glEnableVertexAttribArray(1);
             glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(float), (void *)(2 * sizeof(float)));
+            vn = vsize/(sizeof(float)*4);
             glBindVertexArray(0);
             break;
         default:
@@ -244,16 +247,12 @@ class CubeWithTexture : public Drawable
 public:
     CubeWithTexture()
     {
-        Init("./EngineShaders/VertexTexcoord/ObjectVertex.vert", "./EngineShaders/VertexTexcoord/ObjectFragment.frag");
+        Init();
     }
 
-    CubeWithTexture(const char *vertexPath, const char *fragmentPath)
+    void Init() override
     {
-        Init(vertexPath, fragmentPath);
-    }
-
-    void Init(const char *vertexPath, const char *fragmentPath) override
-    {
+        drawlayout = DrawLayout::TextureDrawlayout;
         float cubeVertices[] = {
             // positions          // texture Coords
             -0.5f, -0.5f, -0.5f, 0.0f, 0.0f,
@@ -298,15 +297,13 @@ public:
             -0.5f, 0.5f, 0.5f, 0.0f, 0.0f,
             -0.5f, 0.5f, -0.5f, 0.0f, 1.0f};
         InitVertex(&cubeVertices, VertexTexcoordlayout, sizeof(cubeVertices));
-        shader = new Shader(vertexPath, fragmentPath);
-        TextureID = loadTexture("imgs/woodPicture.jpeg");
+        SetShader("./EngineShaders/VertexTexcoord/ObjectVertex.vert", "./EngineShaders/VertexTexcoord/ObjectFragment.frag");
+        SetTextureId("imgs/woodPicture.jpeg");
         shader->use();
         glm::mat4 model = glm::mat4(1.0f);
         shader->setMat4("model", model);
         shader->setInt("texture1", 0);
         glUseProgram(0);
-        drawlayout = DrawLayout::TextureDrawlayout;
-        vn = 36;
     }
 
     ~CubeWithTexture()
@@ -319,14 +316,11 @@ class Plane : public Drawable
 public:
     Plane()
     {
-        Init("./EngineShaders/VertexTexcoord/ObjectVertex.vert", "./EngineShaders/VertexTexcoord/ObjectFragment.frag");
+        Init();
     }
-    Plane(const char *vertexPath, const char *fragmentPath)
+    void Init() override
     {
-        Init(vertexPath, fragmentPath);
-    }
-    void Init(const char *vertexPath, const char *fragmentPath) override
-    {
+        drawlayout = DrawLayout::TextureDrawlayout;
         float planeVertices[] = {
             // positions          // texture Coords (note we set these higher than 1 (together with GL_REPEAT as texture wrapping mode). this will cause the floor texture to repeat)
             5.0f, -0.5f, 5.0f, 2.0f, 0.0f,
@@ -337,15 +331,13 @@ public:
             -5.0f, -0.5f, -5.0f, 0.0f, 2.0f,
             5.0f, -0.5f, -5.0f, 2.0f, 2.0f};
         InitVertex(&planeVertices, VertexTexcoordlayout, sizeof(planeVertices));
-        shader = new Shader(vertexPath, fragmentPath);
-        TextureID = loadTexture("imgs/metal.png");
+        SetShader("./EngineShaders/VertexTexcoord/ObjectVertex.vert", "./EngineShaders/VertexTexcoord/ObjectFragment.frag");
+        SetTextureId("imgs/metal.png");
         shader->use();
         glm::mat4 model = glm::mat4(1.0f);
         shader->setMat4("model", model);
         shader->setInt("texture1", 0);
         glUseProgram(0);
-        vn = 6;
-        drawlayout = DrawLayout::TextureDrawlayout;
     }
 };
 
@@ -354,15 +346,11 @@ class SkyBox : public Drawable
 public:
     SkyBox()
     {
-        Init("./20/l2/ObjectVertex.vert", "./20/l2/ObjectFragment.frag");
+        Init();
     }
-    SkyBox(const char *vertexPath, const char *fragmentPath)
+    void Init() override
     {
-        Init(vertexPath, fragmentPath);
-    }
-
-    void Init(const char *vertexPath, const char *fragmentPath) override
-    {
+        drawlayout = DrawLayout::NeedSkyBoxTexture;
         float skyboxVertices[] = {
             // positions
             -1.0f, 1.0f, -1.0f,
@@ -414,13 +402,12 @@ public:
             "imgs/skybox/bottom.jpg",
             "imgs/skybox/front.jpg",
             "imgs/skybox/back.jpg"};
-        TextureID = loadCubemap(faces);
-        shader = new Shader(vertexPath, fragmentPath);
-        drawlayout = DrawLayout::SkyboxDrawlayout;
-        vn = 36;
+        SetSkyTextureId(faces);
+
+        SetShader("./20/l2/ObjectVertex.vert", "./20/l2/ObjectFragment.frag");
     }
 
-    void Update() override
+    void UpdateCamera() override
     {
         CameraInstance *camera = CameraInstance::GetCamera();
         glm::mat4 model = glm::mat4(1.0f);
@@ -445,14 +432,10 @@ class FrameBufferObject : public Drawable
 public:
     FrameBufferObject()
     {
-        Init("./19/l1/ObjectVertex.vert", "./19/l1/ObjectFragment.frag");
-    }
-    FrameBufferObject(const char *vertexPath, const char *fragmentPath)
-    {
-        Init(vertexPath, fragmentPath);
+        Init();
     }
 
-    void Init(const char *vertexPath, const char *fragmentPath) override
+    void Init() override
     {
         Window *window = Window::getWindow();
         // 帧缓冲创建
@@ -492,7 +475,7 @@ public:
                                 1.0f, -1.0f, 1.0f, 0.0f,
                                 1.0f, 1.0f, 1.0f, 1.0f};
         InitVertex(&quadVertices, D2VertexTexcoordlayout, sizeof(quadVertices));
-        shader = new Shader(vertexPath, fragmentPath);
+        SetShader("./19/l1/ObjectVertex.vert", "./19/l1/ObjectFragment.frag");
     }
     void Draw() override
     {
@@ -523,26 +506,17 @@ class mModel : public Drawable
 public:
     mModel()
     {
-        Init("./14/l1/ObjectVertex.vert", "./14/l1/ObjectFragment.frag");
+        Init();
         _model = new Model("./models/nanosuit/nanosuit.obj");
     }
-    mModel(const char *vertexPath, const char *fragmentPath, const char *modelPath = "./models/nanosuit/nanosuit.obj", unsigned int _drawlayout = DrawLayout::None, SkyBox *skybox = nullptr)
-    {
-        Init(vertexPath, fragmentPath);
-        drawlayout = _drawlayout;
-        _model = new Model(modelPath);
-        if (drawlayout & (DrawLayout::NeedSkyBoxTexture) && skybox != nullptr)
-        {
-            SkyboxTextureID = skybox->GetSkyBoxTextureID();
-        }
-    }
+    
     ~mModel()
     {
         delete _model;
     }
-    void Init(const char *vertexPath, const char *fragmentPath) override
+    void Init() override
     {
-        shader = new Shader(vertexPath, fragmentPath);
+        SetShader("./14/l1/ObjectVertex.vert", "./14/l1/ObjectFragment.frag");
         shader->use();
         glm::mat4 model = glm::mat4(1.0f);
         model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f)); // translate it down so it's at the center of the scene
@@ -553,7 +527,7 @@ public:
 
     void Draw() override
     {
-        Update();
+        UpdateCamera();
         shader->use();
         if (drawlayout & (DrawLayout::NeedSkyBoxTexture))
         {
