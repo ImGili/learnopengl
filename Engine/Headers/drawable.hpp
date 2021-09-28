@@ -27,27 +27,27 @@ enum DrawLayout
 class Drawable
 {
 public:
-    virtual void Draw() 
+    virtual void Draw()
     {
         Update();
         shader->use();
         glBindVertexArray(VAO);
         glActiveTexture(GL_TEXTURE0);
-        if(drawlayout&(DrawLayout::TextureDrawlayout))
+        if (drawlayout & (DrawLayout::TextureDrawlayout))
         {
             glBindTexture(GL_TEXTURE_2D, TextureID);
         }
-        if (drawlayout&(DrawLayout::SkyboxDrawlayout))
+        if (drawlayout & (DrawLayout::SkyboxDrawlayout))
         {
             glBindTexture(GL_TEXTURE_CUBE_MAP, TextureID);
             glDepthFunc(GL_LEQUAL);
         }
-        
+
         glDrawArrays(GL_TRIANGLES, 0, vn);
         glDepthFunc(GL_LESS);
         glUseProgram(0);
     }
-    
+
     void DrawObject(Object *obj)
     {
         shader->use();
@@ -66,17 +66,47 @@ public:
 
     Drawable() {}
 
+    // 设置着色器
+    Drawable *SetShader(const char *vertexPath, const char *fragmentPath)
+    {
+        shader = new Shader(vertexPath, fragmentPath);
+        return this;
+    }
+
+    // 设置贴图
+    Drawable *SetTextureId(const char *texturePath)
+    {
+        if (drawlayout & (DrawLayout::TextureDrawlayout))
+        {
+            if (TextureID != 0)
+            {
+                glDeleteTextures(1, &TextureID);
+            }
+            TextureID = loadTexture(texturePath);
+        }
+
+        return this;
+    }
+
+    Drawable *SetSkyTextureId(vector<std::string> faces) {
+        if (drawlayout&(DrawLayout::NeedSkyBoxTexture))
+        {
+            SkyboxTextureID  = loadCubemap(faces);
+        }
+        return this;
+    }
+
     virtual void Update()
     {
         CameraInstance *camera = CameraInstance::GetCamera();
         glm::mat4 view = camera->GetViewMatrix();
         glm::mat4 projection = camera->getPerspective();
         shader->use();
-        if (drawlayout&(DrawLayout::CamerPositionInside))
+        if (drawlayout & (DrawLayout::CamerPositionInside))
         {
             shader->setVec3("cameraPos", camera->GetPosition());
         }
-        
+
         shader->setMat4("view", view);
         shader->setMat4("projection", projection);
         glUseProgram(0);
@@ -91,20 +121,32 @@ public:
     }
 
 protected:
-    unsigned int VAO, VBO, TextureID, vn, SkyboxTextureID;
-    unsigned int drawlayout;
+    // 可读可写数据
+    // opengl 缓冲id
+    unsigned int TextureID, SkyboxTextureID;
+
+    // 组合成员
     Shader *shader;
-    void updateVAOAndVBO(void *v, VertexLayout vt, int vsize)
+
+    // 绘制布局
+    unsigned int drawlayout = DrawLayout::None;
+
+    // 自身只读数据
+    VertexLayout vt;
+    unsigned int vn;
+    unsigned int VAO, VBO;
+
+    void InitVertex(void *v, VertexLayout vertexlayout, int vsize)
     {
+        vt = vertexlayout;
+        glGenVertexArrays(1, &VAO);
+        glGenBuffers(1, &VBO);
+        glBindVertexArray(VAO);
+        glBindBuffer(GL_ARRAY_BUFFER, VBO);
+        glBufferData(GL_ARRAY_BUFFER, vsize, v, GL_STATIC_DRAW);
         switch (vt)
         {
         case VertexTexcoordlayout:
-            // cube VAO
-            glGenVertexArrays(1, &VAO);
-            glGenBuffers(1, &VBO);
-            glBindVertexArray(VAO);
-            glBindBuffer(GL_ARRAY_BUFFER, VBO);
-            glBufferData(GL_ARRAY_BUFFER, vsize, v, GL_STATIC_DRAW);
             glEnableVertexAttribArray(0);
             glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void *)0);
             glEnableVertexAttribArray(1);
@@ -112,33 +154,22 @@ protected:
             glBindVertexArray(0);
             break;
         case Vertexlayout:
-            glGenVertexArrays(1, &VAO);
-            glGenBuffers(1, &VBO);
-            glBindVertexArray(VAO);
-            glBindBuffer(GL_ARRAY_BUFFER, VBO);
-            glBufferData(GL_ARRAY_BUFFER, vsize, v, GL_STATIC_DRAW);
             glEnableVertexAttribArray(0);
             glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void *)0);
             glBindVertexArray(0);
             break;
         case D2VertexTexcoordlayout:
-            // cube VAO
-            glGenVertexArrays(1, &VAO);
-            glGenBuffers(1, &VBO);
-            glBindVertexArray(VAO);
-            glBindBuffer(GL_ARRAY_BUFFER, VBO);
-            glBufferData(GL_ARRAY_BUFFER, vsize, v, GL_STATIC_DRAW);
             glEnableVertexAttribArray(0);
             glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(float), (void *)0);
             glEnableVertexAttribArray(1);
             glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(float), (void *)(2 * sizeof(float)));
             glBindVertexArray(0);
             break;
-
         default:
             break;
         }
     }
+
     unsigned int loadTexture(char const *path)
     {
         unsigned int textureID;
@@ -172,6 +203,37 @@ protected:
             std::cout << "Texture failed to load at path: " << path << std::endl;
             stbi_image_free(data);
         }
+
+        return textureID;
+    }
+
+    unsigned int loadCubemap(vector<std::string> faces)
+    {
+        unsigned int textureID;
+        glGenTextures(1, &textureID);
+        glBindTexture(GL_TEXTURE_CUBE_MAP, textureID);
+
+        int width, height, nrChannels;
+        for (unsigned int i = 0; i < faces.size(); i++)
+        {
+            unsigned char *data = stbi_load(faces[i].c_str(), &width, &height, &nrChannels, 0);
+            if (data)
+            {
+                glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i,
+                             0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
+                stbi_image_free(data);
+            }
+            else
+            {
+                std::cout << "Cubemap texture failed to load at path: " << faces[i] << std::endl;
+                stbi_image_free(data);
+            }
+        }
+        glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+        glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+        glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+        glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+        glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
 
         return textureID;
     }
@@ -235,7 +297,7 @@ public:
             0.5f, 0.5f, 0.5f, 1.0f, 0.0f,
             -0.5f, 0.5f, 0.5f, 0.0f, 0.0f,
             -0.5f, 0.5f, -0.5f, 0.0f, 1.0f};
-        updateVAOAndVBO(&cubeVertices, VertexTexcoordlayout, sizeof(cubeVertices));
+        InitVertex(&cubeVertices, VertexTexcoordlayout, sizeof(cubeVertices));
         shader = new Shader(vertexPath, fragmentPath);
         TextureID = loadTexture("imgs/woodPicture.jpeg");
         shader->use();
@@ -246,7 +308,7 @@ public:
         drawlayout = DrawLayout::TextureDrawlayout;
         vn = 36;
     }
-    
+
     ~CubeWithTexture()
     {
     }
@@ -274,7 +336,7 @@ public:
             5.0f, -0.5f, 5.0f, 2.0f, 0.0f,
             -5.0f, -0.5f, -5.0f, 0.0f, 2.0f,
             5.0f, -0.5f, -5.0f, 2.0f, 2.0f};
-        updateVAOAndVBO(&planeVertices, VertexTexcoordlayout, sizeof(planeVertices));
+        InitVertex(&planeVertices, VertexTexcoordlayout, sizeof(planeVertices));
         shader = new Shader(vertexPath, fragmentPath);
         TextureID = loadTexture("imgs/metal.png");
         shader->use();
@@ -285,8 +347,6 @@ public:
         vn = 6;
         drawlayout = DrawLayout::TextureDrawlayout;
     }
-
-    
 };
 
 class SkyBox : public Drawable
@@ -346,7 +406,7 @@ public:
             1.0f, -1.0f, -1.0f,
             -1.0f, -1.0f, 1.0f,
             1.0f, -1.0f, 1.0f};
-        updateVAOAndVBO(&skyboxVertices, Vertexlayout, sizeof(skyboxVertices));
+        InitVertex(&skyboxVertices, Vertexlayout, sizeof(skyboxVertices));
         vector<std::string> faces{
             "imgs/skybox/right.jpg",
             "imgs/skybox/left.jpg",
@@ -377,38 +437,7 @@ public:
         return TextureID;
     }
 
-
 private:
-    unsigned int loadCubemap(vector<std::string> faces)
-    {
-        unsigned int textureID;
-        glGenTextures(1, &textureID);
-        glBindTexture(GL_TEXTURE_CUBE_MAP, textureID);
-
-        int width, height, nrChannels;
-        for (unsigned int i = 0; i < faces.size(); i++)
-        {
-            unsigned char *data = stbi_load(faces[i].c_str(), &width, &height, &nrChannels, 0);
-            if (data)
-            {
-                glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i,
-                             0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
-                stbi_image_free(data);
-            }
-            else
-            {
-                std::cout << "Cubemap texture failed to load at path: " << faces[i] << std::endl;
-                stbi_image_free(data);
-            }
-        }
-        glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-        glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-        glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-        glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-        glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
-
-        return textureID;
-    }
 };
 
 class FrameBufferObject : public Drawable
@@ -462,7 +491,7 @@ public:
                                 -1.0f, 1.0f, 0.0f, 1.0f,
                                 1.0f, -1.0f, 1.0f, 0.0f,
                                 1.0f, 1.0f, 1.0f, 1.0f};
-        updateVAOAndVBO(&quadVertices, D2VertexTexcoordlayout, sizeof(quadVertices));
+        InitVertex(&quadVertices, D2VertexTexcoordlayout, sizeof(quadVertices));
         shader = new Shader(vertexPath, fragmentPath);
     }
     void Draw() override
@@ -497,12 +526,12 @@ public:
         Init("./14/l1/ObjectVertex.vert", "./14/l1/ObjectFragment.frag");
         _model = new Model("./models/nanosuit/nanosuit.obj");
     }
-    mModel(const char *vertexPath, const char *fragmentPath, const char *modelPath = "./models/nanosuit/nanosuit.obj", unsigned int _drawlayout=DrawLayout::None, SkyBox* skybox=nullptr)
+    mModel(const char *vertexPath, const char *fragmentPath, const char *modelPath = "./models/nanosuit/nanosuit.obj", unsigned int _drawlayout = DrawLayout::None, SkyBox *skybox = nullptr)
     {
         Init(vertexPath, fragmentPath);
         drawlayout = _drawlayout;
         _model = new Model(modelPath);
-        if (drawlayout&(DrawLayout::NeedSkyBoxTexture)&& skybox!=nullptr)
+        if (drawlayout & (DrawLayout::NeedSkyBoxTexture) && skybox != nullptr)
         {
             SkyboxTextureID = skybox->GetSkyBoxTextureID();
         }
@@ -526,11 +555,11 @@ public:
     {
         Update();
         shader->use();
-        if (drawlayout&(DrawLayout::NeedSkyBoxTexture))
+        if (drawlayout & (DrawLayout::NeedSkyBoxTexture))
         {
             glBindTexture(GL_TEXTURE_CUBE_MAP, SkyboxTextureID);
         }
-        
+
         _model->Draw(*shader);
         glBindTexture(GL_TEXTURE_CUBE_MAP, 0);
     }
