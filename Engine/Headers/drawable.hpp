@@ -170,6 +170,47 @@ public:
             break;
         }
     }
+    Drawable* SetVertexLayout(VertexLayout _vt)
+    {
+        vt = _vt;
+    }
+    Drawable* SetVertexFromData(std::string dataPath)
+    {
+        float* positions;
+        float* normals;
+        float* texcoord;
+        std::string positionsPath, normalsPath, texcoordPath;
+        positionsPath = dataPath + "positions.txt";
+        normalsPath = dataPath + "normal.txt";
+        texcoordPath = dataPath + "texcoord.txt";
+        
+        std::ifstream positionsIn(positionsPath.c_str());
+        std::ifstream normalsIn(normalsPath.c_str());
+        std::ifstream texcoordIn(texcoordPath.c_str());
+        int i = 0;
+        while (positionsIn>>positions[i])
+        {
+            i++;
+            std::cout << positions[i];
+        }
+        i = 0;
+        while (normalsIn>>normals[i])
+        {
+            i++;
+            std::cout << normals[i];
+        }
+        i = 0;
+        while (texcoordIn>>texcoord[i])
+        {
+            i++;
+            std::cout << texcoord[i];
+        }
+        
+        positionsIn.close();
+        normalsIn.close();
+        texcoordIn.close();
+        return this;
+    }
 
 protected:
     // 可读可写数据
