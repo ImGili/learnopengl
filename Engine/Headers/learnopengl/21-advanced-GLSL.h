@@ -15,7 +15,9 @@ namespace glx0211
 
         // Drawable* drawable =    (new Drawable())\
         //                         ->SetDrawlayout(TextureDrawlayout)\
-        //                         ->SetVertex(&cubeVertices, VertexTexcoordlayout, sizeof(cubeVertices))\
+        //                         ->SetVertexLayout(VertexTexcoordlayout)\
+        //                         ->SetVertexNum(36)\
+        //                         ->SetVertexFromData("./data/21/l1/")\
         //                         ->SetShader("./EngineShaders/VertexTexcoord/ObjectVertex.vert", "./EngineShaders/VertexTexcoord/ObjectFragment.frag")\
         //                         ->SetTextureId("imgs/woodPicture.jpeg");
         Drawable *cube = new Cube();
@@ -65,6 +67,85 @@ namespace glx0211
             // cubes
             // cube->Draw();
             cube->DrawObject(obj);
+
+            // floor
+            plane.Draw();
+
+            // fbo.SetMainFrameBuffer();
+            // fbo.Draw();
+
+            mGUI::DrawRenderData();
+            window->SwapBufferAndPollEvents();
+        }
+
+        delete obj;
+        delete cube;
+        delete mmodel;
+        mGUI::DestroyGUI();
+        Window::DestoryWindow();
+        CameraInstance::DestoryCamera();
+        return 0;
+    }
+
+}
+namespace glx0212
+{
+   
+    int main()
+    {
+        Window *window = Window::getWindow();
+        CameraInstance *camera = CameraInstance::GetCamera();
+
+        glEnable(GL_DEPTH_TEST);
+        glDepthFunc(GL_LESS);
+
+        Drawable* drawable =    (new Drawable())\
+                                ->SetDrawlayout(TextureDrawlayout)\
+                                ->SetVertexLayout(VertexTexcoordlayout)\
+                                ->SetVertexNum(36)\
+                                ->SetVertexFromData("./data/21/l2/")\
+                                ->SetShader("./EngineShaders/VertexTexcoord/ObjectVertex.vert", "./EngineShaders/VertexTexcoord/ObjectFragment.frag")\
+                                ->SetModle(glm::mat4(1))\
+                                ->SetTextureId("imgs/woodPicture.jpeg");
+        Drawable *cube = new Cube();
+        Drawable *mmodel = new mModel();
+
+        Plane plane;
+        SkyBox skybox;
+        FrameBufferObject fbo;
+
+        Object *obj = new Object(glm::vec3(1, 1, 1));
+
+        mGUI::Init();
+        // render loop
+        // -----------
+        while (!window->WindowShouldClose())
+        {
+            window->UpdateDeltaTime();
+            // input
+            // -----
+            window->processInput();
+
+            // render
+            // ------
+            // fbo.SetFrameBuffer();
+            window->Clear();
+
+            mGUI::NewFrame();
+            {
+                ImGui::Begin("myGUI");
+                ImGui::InputFloat3("Objet position", (float *)&(obj->Position));
+                ImGui::End();
+            }
+
+            mGUI::RenderGUI();
+
+            skybox.Draw();
+            mmodel->Draw();
+            drawable->Draw();
+            // cubes
+            // cube->Draw();
+            // cube->DrawObject(obj);
 
             // floor
             plane.Draw();

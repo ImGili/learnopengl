@@ -97,7 +97,8 @@ int main()
                      "2003、立方体贴图实验3-反射；\n"
                      "2004、立方体贴图实验4-模型加载的反射；\n"
                      "2005、立方体贴图实验5-模型加载的折射；\n"
-                     "2101、高级GLSL-PointSize内建变量；\n"
+                     "2101、高级GLSL-PointSize内建变量实验1；\n"
+                     "2102、高级GLSL-PointSize内建变量实验2；\n"
                      "-1、测试window和camera单例封装\n"
                      "-2、测试shape类\n";
         std::cout << "请输入编号（输入0退出程序）：";
@@ -303,6 +304,9 @@ int main()
             break;
         case 2101:
             glx0211::main();
+            break;
+        case 2102:
+            glx0212::main();
             break;
         case 999:
             glx999::main();

@@ -219,12 +219,12 @@ public:
     }
     Drawable *SetVertexFromData(std::string dataPath)
     {
-        float positions[100] = {0};
-        float normals[100] = {0};
-        float texcoord[100] = {0};
+        float positions[256] = {0};
+        float normals[256] = {0};
+        float texcoord[256] = {0};
         std::string positionsPath, normalsPath, texcoordPath;
         positionsPath = dataPath + "positions.txt";
-        normalsPath = dataPath + "normal.txt";
+        normalsPath = dataPath + "normals.txt";
         texcoordPath = dataPath + "texcoord.txt";
 
         std::ifstream positionsIn(positionsPath.c_str());
@@ -278,6 +278,15 @@ public:
             glEnableVertexAttribArray(1);
             glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void *)(3 * sizeof(float) * vn));
             break;
+        case VertexTexcoordlayout:
+            glBufferData(GL_ARRAY_BUFFER, vn * sizeof(float) * 3 + vn * sizeof(float) * 2, nullptr, GL_STATIC_DRAW);
+            glBufferSubData(GL_ARRAY_BUFFER, 0, 3 * sizeof(float) * vn, positions);
+            glBufferSubData(GL_ARRAY_BUFFER, 3 * sizeof(float) * vn, 2 * sizeof(float) * vn, texcoord);
+            glEnableVertexAttribArray(0);
+            glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), 0);
+            glEnableVertexAttribArray(1);
+            glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 2 * sizeof(float), (void *)(3 * sizeof(float) * vn));
+            break;
         case VertexNormalTexcoordlayout:
             glBufferData(GL_ARRAY_BUFFER, vn * sizeof(float) * 3 + vn * sizeof(float) * 3 + vn * sizeof(float) * 2, nullptr, GL_STATIC_DRAW);
             glBufferSubData(GL_ARRAY_BUFFER, 0, 3 * sizeof(float) * vn, positions);
@@ -295,7 +304,6 @@ public:
             break;
         }
         glBindVertexArray(0);
-
         return this;
     }
 
