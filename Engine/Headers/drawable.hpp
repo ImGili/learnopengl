@@ -53,6 +53,7 @@ public:
             glDrawArrays(GL_TRIANGLES, 0, vn);
             break;
         case DrawTypes::POINTS:
+            glPointSize(200);
             glDrawArrays(GL_POINTS, 0, vn);
             break;
         default:
@@ -97,6 +98,15 @@ public:
     Drawable *SetShader(const char *vertexPath, const char *fragmentPath)
     {
         shader = new Shader(vertexPath, fragmentPath);
+        
+        return this;
+    }
+
+    Drawable *SetModle(glm::mat4 model)
+    {
+        shader->use();
+        shader->setMat4("model", model);
+        glUseProgram(0);
         return this;
     }
 
@@ -112,8 +122,6 @@ public:
             TextureID = loadTexture(texturePath);
         }
         shader->use();
-        glm::mat4 model = glm::mat4(1.0f);
-        shader->setMat4("model", model);
         shader->setInt("texture1", 0);
         glUseProgram(0);
 
@@ -161,7 +169,7 @@ public:
         glDeleteTextures(1, &TextureID);
         delete shader;
     }
-    void SetVertex(void *v, VertexLayout vertexlayout, int vsize)
+    Drawable* SetVertex(void *v, VertexLayout vertexlayout, int vsize)
     {
         vt = vertexlayout;
         glGenVertexArrays(1, &VAO);
@@ -195,6 +203,7 @@ public:
             break;
         }
         glBindVertexArray(0);
+        return this;
     }
     Drawable *SetVertexLayout(VertexLayout _vt)
     {

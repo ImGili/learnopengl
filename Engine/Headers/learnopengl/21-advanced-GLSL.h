@@ -12,11 +12,19 @@ namespace glx0211
 
         glEnable(GL_DEPTH_TEST);
         glDepthFunc(GL_LESS);
-
+        // Drawable* drawable =    (new Drawable())\
+        //                         ->SetDrawlayout(TextureDrawlayout)\
+        //                         ->SetVertex(&cubeVertices, VertexTexcoordlayout, sizeof(cubeVertices))\
+        //                         ->SetShader("./EngineShaders/VertexTexcoord/ObjectVertex.vert", "./EngineShaders/VertexTexcoord/ObjectFragment.frag")\
+        //                         ->SetTextureId("imgs/woodPicture.jpeg");
         Drawable *cube = new Cube();
         Drawable *mmodel = new mModel();
-        // Drawable *drawable = (new Drawable())->SetVertexNum(4)->SetVertexLayout(Vertexlayout)->SetDrawTypes(DrawTypes::POINTS)->SetVertexFromData("./data/21/l1/")->SetShader("./21/l1/ObjectVertex.vert", "./21/l1/ObjectFragment.frag");
-        Drawable *drawable = (new Drawable())->SetVertexNum(3)->SetVertexLayout(Vertexlayout)->SetVertexFromData("./data/21/l1/")->SetShader("./21/l1/ObjectVertex.vert", "./21/l1/ObjectFragment.frag");
+        float vertices[] = {
+            -0.5f, -0.5f, 0.0f, // left
+            0.5f, -0.5f, 0.0f,  // right
+            0.0f, 0.5f, 0.0f    // top
+        };
+        Drawable *drawable = (new Drawable())->SetDrawTypes(DrawTypes::POINTS)->SetVertexNum(3)->SetVertex(&vertices, Vertexlayout, sizeof(vertices))->SetShader("./21/l1/ObjectVertex.vert", "./21/l1/ObjectFragment.frag")->SetModle(glm::mat4(1));
 
         Plane plane;
         SkyBox skybox;
@@ -36,7 +44,7 @@ namespace glx0211
 
             // render
             // ------
-            fbo.SetFrameBuffer();
+            // fbo.SetFrameBuffer();
             window->Clear();
 
             mGUI::NewFrame();
@@ -49,23 +57,25 @@ namespace glx0211
             mGUI::RenderGUI();
 
             skybox.Draw();
-            // mmodel->Draw();
+            mmodel->Draw();
             drawable->Draw();
             // cubes
             // cube->Draw();
             cube->DrawObject(obj);
 
             // floor
-            // plane.Draw();
+            plane.Draw();
 
-            fbo.SetMainFrameBuffer();
-            fbo.Draw();
+            // fbo.SetMainFrameBuffer();
+            // fbo.Draw();
 
             mGUI::DrawRenderData();
             window->SwapBufferAndPollEvents();
         }
 
-        delete obj, cube, mmodel;
+        delete obj;
+        delete cube;
+        delete mmodel;
         mGUI::DestroyGUI();
         Window::DestoryWindow();
         CameraInstance::DestoryCamera();

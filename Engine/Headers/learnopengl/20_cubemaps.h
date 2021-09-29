@@ -1742,7 +1742,9 @@ namespace glx0204
             window->SwapBufferAndPollEvents();
         }
 
-        delete obj, cube, mmodel;
+        delete obj;
+        delete cube;
+        delete mmodel;
         mGUI::DestroyGUI();
         Window::DestoryWindow();
         CameraInstance::DestoryCamera();
@@ -1814,7 +1816,9 @@ namespace glx0205
             window->SwapBufferAndPollEvents();
         }
 
-        delete obj, cube, mmodel;
+        delete obj;
+        delete cube;
+        delete mmodel;
         mGUI::DestroyGUI();
         Window::DestoryWindow();
         CameraInstance::DestoryCamera();
