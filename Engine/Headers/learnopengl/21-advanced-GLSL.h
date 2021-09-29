@@ -15,8 +15,8 @@ namespace glx0211
 
         Drawable *cube = new Cube();
         Drawable *mmodel = new mModel();
-        Drawable *drawable = (new Drawable())->SetVertexNum(4)->SetVertexLayout(Vertexlayout)->SetVertexFromData("./data/21/l1/")\
-        ->SetShader();
+        // Drawable *drawable = (new Drawable())->SetVertexNum(4)->SetVertexLayout(Vertexlayout)->SetDrawTypes(DrawTypes::POINTS)->SetVertexFromData("./data/21/l1/")->SetShader("./21/l1/ObjectVertex.vert", "./21/l1/ObjectFragment.frag");
+        Drawable *drawable = (new Drawable())->SetVertexNum(3)->SetVertexLayout(Vertexlayout)->SetVertexFromData("./data/21/l1/")->SetShader("./21/l1/ObjectVertex.vert", "./21/l1/ObjectFragment.frag");
 
         Plane plane;
         SkyBox skybox;
@@ -49,13 +49,14 @@ namespace glx0211
             mGUI::RenderGUI();
 
             skybox.Draw();
-            mmodel->Draw();
+            // mmodel->Draw();
+            drawable->Draw();
             // cubes
             // cube->Draw();
             cube->DrawObject(obj);
 
             // floor
-            plane.Draw();
+            // plane.Draw();
 
             fbo.SetMainFrameBuffer();
             fbo.Draw();

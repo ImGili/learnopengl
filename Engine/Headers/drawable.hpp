@@ -23,6 +23,12 @@ enum DrawLayout
 
 };
 
+enum class DrawTypes
+{
+    TRIANGLES,
+    POINTS
+};
+
 class Drawable
 {
 public:
@@ -31,9 +37,9 @@ public:
         UpdateCamera();
         shader->use();
         glBindVertexArray(VAO);
-        glActiveTexture(GL_TEXTURE0);
         if (drawlayout & (DrawLayout::TextureDrawlayout))
         {
+            glActiveTexture(GL_TEXTURE0);
             glBindTexture(GL_TEXTURE_2D, TextureID);
         }
         if (drawlayout & (DrawLayout::NeedSkyBoxTexture))
@@ -41,8 +47,17 @@ public:
             glBindTexture(GL_TEXTURE_CUBE_MAP, SkyboxTextureID);
             glDepthFunc(GL_LEQUAL);
         }
-
-        glDrawArrays(GL_TRIANGLES, 0, vn);
+        switch (drawTypes)
+        {
+        case DrawTypes::TRIANGLES:
+            glDrawArrays(GL_TRIANGLES, 0, vn);
+            break;
+        case DrawTypes::POINTS:
+            glDrawArrays(GL_POINTS, 0, vn);
+            break;
+        default:
+            break;
+        }
         glDepthFunc(GL_LESS);
         glUseProgram(0);
     }
@@ -73,6 +88,11 @@ public:
         drawlayout = dl;
         return this;
     }
+    Drawable *SetDrawTypes(DrawTypes dt)
+    {
+        drawTypes = dt;
+        return this;
+    }
     // 设置着色器
     Drawable *SetShader(const char *vertexPath, const char *fragmentPath)
     {
@@ -91,6 +111,11 @@ public:
             }
             TextureID = loadTexture(texturePath);
         }
+        shader->use();
+        glm::mat4 model = glm::mat4(1.0f);
+        shader->setMat4("model", model);
+        shader->setInt("texture1", 0);
+        glUseProgram(0);
 
         return this;
     }
@@ -151,13 +176,11 @@ public:
             glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void *)0);
             glEnableVertexAttribArray(1);
             glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void *)(3 * sizeof(float)));
-            glBindVertexArray(0);
             vn = vsize / (sizeof(float) * 5);
             break;
         case Vertexlayout:
             glEnableVertexAttribArray(0);
             glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void *)0);
-            glBindVertexArray(0);
             vn = vsize / (sizeof(float) * 3);
             break;
         case D2VertexTexcoordlayout:
@@ -166,11 +189,12 @@ public:
             glEnableVertexAttribArray(1);
             glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(float), (void *)(2 * sizeof(float)));
             vn = vsize / (sizeof(float) * 4);
-            glBindVertexArray(0);
+            
             break;
         default:
             break;
         }
+        glBindVertexArray(0);
     }
     Drawable *SetVertexLayout(VertexLayout _vt)
     {
@@ -185,6 +209,11 @@ public:
     }
     Drawable *SetVertexFromData(std::string dataPath)
     {
+        float vertices[] = {
+            -0.5f, -0.5f, 0.0f, // left
+            0.5f, -0.5f, 0.0f,  // right
+            0.0f, 0.5f, 0.0f    // top
+        };
         float positions[100] = {0};
         float normals[100] = {0};
         float texcoord[100] = {0};
@@ -232,11 +261,12 @@ public:
         switch (vt)
         {
         case Vertexlayout:
-            glBufferSubData(GL_ARRAY_BUFFER, 0, 3 * sizeof(float) * vn, &positions);
+            glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
             glEnableVertexAttribArray(0);
-            glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), 0);
+            glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void *)0);
             break;
         case VertexNormallayout:
+            glBufferData(GL_ARRAY_BUFFER, vn*sizeof(float)*3+vn*sizeof(float)*3, nullptr, GL_STATIC_DRAW);
             glBufferSubData(GL_ARRAY_BUFFER, 0, 3 * sizeof(float) * vn, &positions);
             glBufferSubData(GL_ARRAY_BUFFER, 3 * sizeof(float) * vn, 3 * sizeof(float) * vn, &normals);
             glEnableVertexAttribArray(0);
@@ -245,6 +275,7 @@ public:
             glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void *)(sizeof(3 * sizeof(float) * vn)));
             break;
         case VertexNormalTexcoordlayout:
+            glBufferData(GL_ARRAY_BUFFER, vn*sizeof(float)*3+vn*sizeof(float)*3+vn*sizeof(float)*2, nullptr, GL_STATIC_DRAW);
             glBufferSubData(GL_ARRAY_BUFFER, 0, 3 * sizeof(float) * vn, &positions);
             glBufferSubData(GL_ARRAY_BUFFER, 3 * sizeof(float) * vn, 3 * sizeof(float) * vn, &normals);
             glBufferSubData(GL_ARRAY_BUFFER, 3 * sizeof(float) * vn + 3 * sizeof(float) * vn, 2 * sizeof(float) * vn, &texcoord);
@@ -259,6 +290,8 @@ public:
         default:
             break;
         }
+        glBindVertexArray(0);
+        
         return this;
     }
 
@@ -272,6 +305,7 @@ protected:
 
     // 绘制布局
     unsigned int drawlayout = DrawLayout::None;
+    DrawTypes drawTypes = DrawTypes::TRIANGLES;
 
     // 自身只读数据
     VertexLayout vt;
