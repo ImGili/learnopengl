@@ -61,16 +61,17 @@ public:
         shader->setMat4("model", model);
         glUseProgram(0);
     }
-    virtual void Init() 
+    virtual void Init()
     {
-        
     }
 
-    Drawable() {
+    Drawable()
+    {
     }
-    Drawable* SetDrawlayout(unsigned int dl)
+    Drawable *SetDrawlayout(unsigned int dl)
     {
         drawlayout = dl;
+        return this;
     }
     // 设置着色器
     Drawable *SetShader(const char *vertexPath, const char *fragmentPath)
@@ -94,10 +95,11 @@ public:
         return this;
     }
 
-    Drawable *SetSkyTextureId(vector<std::string> faces) {
-        if (drawlayout&(DrawLayout::NeedSkyBoxTexture))
+    Drawable *SetSkyTextureId(vector<std::string> faces)
+    {
+        if (drawlayout & (DrawLayout::NeedSkyBoxTexture))
         {
-            SkyboxTextureID  = loadCubemap(faces);
+            SkyboxTextureID = loadCubemap(faces);
         }
         return this;
     }
@@ -105,11 +107,11 @@ public:
     {
         return SkyboxTextureID;
     }
-    Drawable *SetSkyTextureId(unsigned int skyboxid) {
-        SkyboxTextureID  = skyboxid;
+    Drawable *SetSkyTextureId(unsigned int skyboxid)
+    {
+        SkyboxTextureID = skyboxid;
         return this;
     }
-
 
     virtual void UpdateCamera()
     {
@@ -150,65 +152,113 @@ public:
             glEnableVertexAttribArray(1);
             glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void *)(3 * sizeof(float)));
             glBindVertexArray(0);
-            vn = vsize/(sizeof(float)*5);
+            vn = vsize / (sizeof(float) * 5);
             break;
         case Vertexlayout:
             glEnableVertexAttribArray(0);
             glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void *)0);
             glBindVertexArray(0);
-            vn = vsize/(sizeof(float)*3);
+            vn = vsize / (sizeof(float) * 3);
             break;
         case D2VertexTexcoordlayout:
             glEnableVertexAttribArray(0);
             glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(float), (void *)0);
             glEnableVertexAttribArray(1);
             glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(float), (void *)(2 * sizeof(float)));
-            vn = vsize/(sizeof(float)*4);
+            vn = vsize / (sizeof(float) * 4);
             glBindVertexArray(0);
             break;
         default:
             break;
         }
     }
-    Drawable* SetVertexLayout(VertexLayout _vt)
+    Drawable *SetVertexLayout(VertexLayout _vt)
     {
         vt = _vt;
+        return this;
     }
-    Drawable* SetVertexFromData(std::string dataPath)
+
+    Drawable *SetVertexNum(int _vn)
     {
-        float* positions;
-        float* normals;
-        float* texcoord;
+        vn = _vn;
+        return this;
+    }
+    Drawable *SetVertexFromData(std::string dataPath)
+    {
+        float positions[100] = {0};
+        float normals[100] = {0};
+        float texcoord[100] = {0};
         std::string positionsPath, normalsPath, texcoordPath;
         positionsPath = dataPath + "positions.txt";
         normalsPath = dataPath + "normal.txt";
         texcoordPath = dataPath + "texcoord.txt";
-        
+
         std::ifstream positionsIn(positionsPath.c_str());
         std::ifstream normalsIn(normalsPath.c_str());
         std::ifstream texcoordIn(texcoordPath.c_str());
         int i = 0;
-        while (positionsIn>>positions[i])
+        float tmp = 0.0f;
+        while (positionsIn.is_open() && positionsIn >> tmp)
         {
+            positions[i] = tmp;
             i++;
-            std::cout << positions[i];
         }
+
         i = 0;
-        while (normalsIn>>normals[i])
+        tmp = 0.0f;
+        while (normalsIn.is_open() && normalsIn >> tmp)
         {
+            normals[i] = tmp;
             i++;
-            std::cout << normals[i];
         }
+
         i = 0;
-        while (texcoordIn>>texcoord[i])
+        tmp = 0.0f;
+        while (texcoordIn.is_open() && texcoordIn >> tmp)
         {
+            texcoord[i] = tmp;
             i++;
-            std::cout << texcoord[i];
         }
         
+
         positionsIn.close();
         normalsIn.close();
         texcoordIn.close();
+
+        glGenVertexArrays(1, &VAO);
+        glGenBuffers(1, &VBO);
+        glBindVertexArray(VAO);
+        glBindBuffer(GL_ARRAY_BUFFER, VBO);
+        switch (vt)
+        {
+        case Vertexlayout:
+            glBufferSubData(GL_ARRAY_BUFFER, 0, 3 * sizeof(float) * vn, &positions);
+            glEnableVertexAttribArray(0);
+            glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), 0);
+            break;
+        case VertexNormallayout:
+            glBufferSubData(GL_ARRAY_BUFFER, 0, 3 * sizeof(float) * vn, &positions);
+            glBufferSubData(GL_ARRAY_BUFFER, 3 * sizeof(float) * vn, 3 * sizeof(float) * vn, &normals);
+            glEnableVertexAttribArray(0);
+            glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), 0);
+            glEnableVertexAttribArray(1);
+            glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void *)(sizeof(3 * sizeof(float) * vn)));
+            break;
+        case VertexNormalTexcoordlayout:
+            glBufferSubData(GL_ARRAY_BUFFER, 0, 3 * sizeof(float) * vn, &positions);
+            glBufferSubData(GL_ARRAY_BUFFER, 3 * sizeof(float) * vn, 3 * sizeof(float) * vn, &normals);
+            glBufferSubData(GL_ARRAY_BUFFER, 3 * sizeof(float) * vn + 3 * sizeof(float) * vn, 2 * sizeof(float) * vn, &texcoord);
+            glEnableVertexAttribArray(0);
+            glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), 0);
+            glEnableVertexAttribArray(1);
+            glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void *)(sizeof(3 * sizeof(float) * vn)));
+            glEnableVertexAttribArray(2);
+            glVertexAttribPointer(
+                2, 2, GL_FLOAT, GL_FALSE, 2 * sizeof(float), (void *)(3 * sizeof(float) * vn + 3 * sizeof(float) * vn));
+            break;
+        default:
+            break;
+        }
         return this;
     }
 
@@ -227,8 +277,6 @@ protected:
     VertexLayout vt;
     unsigned int vn;
     unsigned int VAO, VBO;
-
-    
 
     unsigned int loadTexture(char const *path)
     {
@@ -561,7 +609,7 @@ public:
         Init();
         _model = new Model("./models/nanosuit/nanosuit.obj");
     }
-    
+
     ~mModel()
     {
         delete _model;
@@ -576,9 +624,9 @@ public:
         shader->setMat4("model", model);
         glUseProgram(0);
     }
-    Drawable* SetModel(const char* modelPath)
+    Drawable *SetModel(const char *modelPath)
     {
-        if (_model!=nullptr)
+        if (_model != nullptr)
         {
             delete _model;
         }
