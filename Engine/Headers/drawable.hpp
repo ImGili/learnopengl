@@ -53,7 +53,7 @@ public:
             glDrawArrays(GL_TRIANGLES, 0, vn);
             break;
         case DrawTypes::POINTS:
-            glPointSize(200);
+            // glPointSize(200);
             glDrawArrays(GL_POINTS, 0, vn);
             break;
         default:

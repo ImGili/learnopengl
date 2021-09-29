@@ -12,6 +12,8 @@ namespace glx0211
 
         glEnable(GL_DEPTH_TEST);
         glDepthFunc(GL_LESS);
+        glEnable(GL_PROGRAM_POINT_SIZE);
+
         // Drawable* drawable =    (new Drawable())\
         //                         ->SetDrawlayout(TextureDrawlayout)\
         //                         ->SetVertex(&cubeVertices, VertexTexcoordlayout, sizeof(cubeVertices))\
