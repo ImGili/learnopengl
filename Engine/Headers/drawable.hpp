@@ -271,22 +271,22 @@ public:
             break;
         case VertexNormallayout:
             glBufferData(GL_ARRAY_BUFFER, vn * sizeof(float) * 3 + vn * sizeof(float) * 3, nullptr, GL_STATIC_DRAW);
-            glBufferSubData(GL_ARRAY_BUFFER, 0, 3 * sizeof(float) * vn, &positions);
-            glBufferSubData(GL_ARRAY_BUFFER, 3 * sizeof(float) * vn, 3 * sizeof(float) * vn, &normals);
+            glBufferSubData(GL_ARRAY_BUFFER, 0, 3 * sizeof(float) * vn, positions);
+            glBufferSubData(GL_ARRAY_BUFFER, 3 * sizeof(float) * vn, 3 * sizeof(float) * vn, normals);
             glEnableVertexAttribArray(0);
             glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), 0);
             glEnableVertexAttribArray(1);
-            glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void *)(sizeof(3 * sizeof(float) * vn)));
+            glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void *)(3 * sizeof(float) * vn));
             break;
         case VertexNormalTexcoordlayout:
             glBufferData(GL_ARRAY_BUFFER, vn * sizeof(float) * 3 + vn * sizeof(float) * 3 + vn * sizeof(float) * 2, nullptr, GL_STATIC_DRAW);
-            glBufferSubData(GL_ARRAY_BUFFER, 0, 3 * sizeof(float) * vn, &positions);
-            glBufferSubData(GL_ARRAY_BUFFER, 3 * sizeof(float) * vn, 3 * sizeof(float) * vn, &normals);
-            glBufferSubData(GL_ARRAY_BUFFER, 3 * sizeof(float) * vn + 3 * sizeof(float) * vn, 2 * sizeof(float) * vn, &texcoord);
+            glBufferSubData(GL_ARRAY_BUFFER, 0, 3 * sizeof(float) * vn, positions);
+            glBufferSubData(GL_ARRAY_BUFFER, 3 * sizeof(float) * vn, 3 * sizeof(float) * vn, normals);
+            glBufferSubData(GL_ARRAY_BUFFER, 3 * sizeof(float) * vn + 3 * sizeof(float) * vn, 2 * sizeof(float) * vn, texcoord);
             glEnableVertexAttribArray(0);
             glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), 0);
             glEnableVertexAttribArray(1);
-            glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void *)(sizeof(3 * sizeof(float) * vn)));
+            glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void *)(3 * sizeof(float) * vn));
             glEnableVertexAttribArray(2);
             glVertexAttribPointer(
                 2, 2, GL_FLOAT, GL_FALSE, 2 * sizeof(float), (void *)(3 * sizeof(float) * vn + 3 * sizeof(float) * vn));
@@ -312,7 +312,7 @@ protected:
     DrawTypes drawTypes = DrawTypes::TRIANGLES;
 
     // 自身只读数据
-    VertexLayout vt;
+    VertexLayout vt = Vertexlayout;
     unsigned int vn;
     unsigned int VAO, VBO;
 
