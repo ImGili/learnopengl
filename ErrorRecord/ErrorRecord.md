@@ -103,3 +103,10 @@ imgui ImGui_ImplOpenGL3_RenderDrawData必须在sawp之前。否则不会绘制gu
 
 # Model矩阵必须初始化，默认是0
 否则会什么都渲染不出来。
+
+# 顶点坐标问题
+顶点坐标-1会被映射到0
+
+顶点坐标0会被映射到SRC_WIDTH
+
+顶点坐标1会被映射到2*SRC_WIDTH
