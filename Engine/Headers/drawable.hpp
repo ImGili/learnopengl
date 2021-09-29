@@ -54,6 +54,7 @@ public:
             break;
         case DrawTypes::POINTS:
             // glPointSize(200);
+            glEnable(GL_PROGRAM_POINT_SIZE);
             glDrawArrays(GL_POINTS, 0, vn);
             break;
         default:
@@ -98,7 +99,7 @@ public:
     Drawable *SetShader(const char *vertexPath, const char *fragmentPath)
     {
         shader = new Shader(vertexPath, fragmentPath);
-        
+
         return this;
     }
 
@@ -169,7 +170,7 @@ public:
         glDeleteTextures(1, &TextureID);
         delete shader;
     }
-    Drawable* SetVertex(void *v, VertexLayout vertexlayout, int vsize)
+    Drawable *SetVertex(void *v, VertexLayout vertexlayout, int vsize)
     {
         vt = vertexlayout;
         glGenVertexArrays(1, &VAO);
@@ -197,7 +198,7 @@ public:
             glEnableVertexAttribArray(1);
             glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(float), (void *)(2 * sizeof(float)));
             vn = vsize / (sizeof(float) * 4);
-            
+
             break;
         default:
             break;
@@ -218,11 +219,6 @@ public:
     }
     Drawable *SetVertexFromData(std::string dataPath)
     {
-        float vertices[] = {
-            -0.5f, -0.5f, 0.0f, // left
-            0.5f, -0.5f, 0.0f,  // right
-            0.0f, 0.5f, 0.0f    // top
-        };
         float positions[100] = {0};
         float normals[100] = {0};
         float texcoord[100] = {0};
@@ -257,7 +253,6 @@ public:
             texcoord[i] = tmp;
             i++;
         }
-        
 
         positionsIn.close();
         normalsIn.close();
@@ -270,12 +265,12 @@ public:
         switch (vt)
         {
         case Vertexlayout:
-            glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+            glBufferData(GL_ARRAY_BUFFER, 3*sizeof(float)*vn, positions, GL_STATIC_DRAW);
             glEnableVertexAttribArray(0);
             glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void *)0);
             break;
         case VertexNormallayout:
-            glBufferData(GL_ARRAY_BUFFER, vn*sizeof(float)*3+vn*sizeof(float)*3, nullptr, GL_STATIC_DRAW);
+            glBufferData(GL_ARRAY_BUFFER, vn * sizeof(float) * 3 + vn * sizeof(float) * 3, nullptr, GL_STATIC_DRAW);
             glBufferSubData(GL_ARRAY_BUFFER, 0, 3 * sizeof(float) * vn, &positions);
             glBufferSubData(GL_ARRAY_BUFFER, 3 * sizeof(float) * vn, 3 * sizeof(float) * vn, &normals);
             glEnableVertexAttribArray(0);
@@ -284,7 +279,7 @@ public:
             glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void *)(sizeof(3 * sizeof(float) * vn)));
             break;
         case VertexNormalTexcoordlayout:
-            glBufferData(GL_ARRAY_BUFFER, vn*sizeof(float)*3+vn*sizeof(float)*3+vn*sizeof(float)*2, nullptr, GL_STATIC_DRAW);
+            glBufferData(GL_ARRAY_BUFFER, vn * sizeof(float) * 3 + vn * sizeof(float) * 3 + vn * sizeof(float) * 2, nullptr, GL_STATIC_DRAW);
             glBufferSubData(GL_ARRAY_BUFFER, 0, 3 * sizeof(float) * vn, &positions);
             glBufferSubData(GL_ARRAY_BUFFER, 3 * sizeof(float) * vn, 3 * sizeof(float) * vn, &normals);
             glBufferSubData(GL_ARRAY_BUFFER, 3 * sizeof(float) * vn + 3 * sizeof(float) * vn, 2 * sizeof(float) * vn, &texcoord);
@@ -300,7 +295,7 @@ public:
             break;
         }
         glBindVertexArray(0);
-        
+
         return this;
     }
 

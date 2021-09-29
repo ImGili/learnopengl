@@ -12,7 +12,6 @@ namespace glx0211
 
         glEnable(GL_DEPTH_TEST);
         glDepthFunc(GL_LESS);
-        glEnable(GL_PROGRAM_POINT_SIZE);
 
         // Drawable* drawable =    (new Drawable())\
         //                         ->SetDrawlayout(TextureDrawlayout)\
@@ -21,12 +20,13 @@ namespace glx0211
         //                         ->SetTextureId("imgs/woodPicture.jpeg");
         Drawable *cube = new Cube();
         Drawable *mmodel = new mModel();
-        float vertices[] = {
-            -0.5f, -0.5f, 0.0f, // left
-            0.5f, -0.5f, 0.0f,  // right
-            0.0f, 0.5f, 0.0f    // top
-        };
-        Drawable *drawable = (new Drawable())->SetDrawTypes(DrawTypes::POINTS)->SetVertexNum(3)->SetVertex(&vertices, Vertexlayout, sizeof(vertices))->SetShader("./21/l1/ObjectVertex.vert", "./21/l1/ObjectFragment.frag")->SetModle(glm::mat4(1));
+        // float vertices[] = {
+        //     -0.5f, -0.5f, 0.0f, // left
+        //     0.5f, -0.5f, 0.0f,  // right
+        //     0.0f, 0.5f, 0.0f    // top
+        // };
+        // Drawable *drawable = (new Drawable())->SetDrawTypes(DrawTypes::POINTS)->SetVertexNum(3)->SetVertex(&vertices, Vertexlayout, sizeof(vertices))->SetShader("./21/l1/ObjectVertex.vert", "./21/l1/ObjectFragment.frag")->SetModle(glm::mat4(1));
+        Drawable *drawable = (new Drawable())->SetDrawTypes(DrawTypes::POINTS)->SetVertexNum(4)->SetVertexFromData("./data/21/l1/")->SetShader("./21/l1/ObjectVertex.vert", "./21/l1/ObjectFragment.frag")->SetModle(glm::mat4(1));
 
         Plane plane;
         SkyBox skybox;
