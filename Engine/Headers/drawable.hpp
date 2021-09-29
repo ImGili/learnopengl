@@ -29,6 +29,7 @@ enum class DrawTypes
     POINTS
 };
 
+
 class Drawable
 {
 public:
@@ -39,8 +40,12 @@ public:
         glBindVertexArray(VAO);
         if (drawlayout & (DrawLayout::TextureDrawlayout))
         {
-            glActiveTexture(GL_TEXTURE0);
-            glBindTexture(GL_TEXTURE_2D, TextureID);
+            for (int i = 0; i < TextureID.size(); i++)
+            {
+                glActiveTexture(GL_TEXTURE0+i);
+                glBindTexture(GL_TEXTURE_2D, TextureID[i]);
+            }
+            
         }
         if (drawlayout & (DrawLayout::NeedSkyBoxTexture))
         {
@@ -114,17 +119,12 @@ public:
     // 设置贴图
     Drawable *SetTextureId(const char *texturePath)
     {
-        if (drawlayout & (DrawLayout::TextureDrawlayout))
-        {
-            if (TextureID != 0)
-            {
-                glDeleteTextures(1, &TextureID);
-            }
-            TextureID = loadTexture(texturePath);
-        }
-        shader->use();
-        shader->setInt("texture1", 0);
-        glUseProgram(0);
+        unsigned int tmp;
+        tmp = loadTexture(texturePath);
+        TextureID.push_back(tmp);
+        // shader->use();
+        // shader->setInt("texture1", 0);
+        // glUseProgram(0);
 
         return this;
     }
@@ -167,7 +167,12 @@ public:
     {
         glDeleteVertexArrays(1, &VAO);
         glDeleteBuffers(1, &VBO);
-        glDeleteTextures(1, &TextureID);
+        // glDeleteTextures(1, &TextureID);
+        for (int i = 0; i < TextureID.size(); i++)
+        {
+            glDeleteTextures(1, &TextureID[i]);
+        }
+        
         delete shader;
     }
     Drawable *SetVertex(void *v, VertexLayout vertexlayout, int vsize)
@@ -310,7 +315,8 @@ public:
 protected:
     // 可读可写数据
     // opengl 缓冲id
-    unsigned int TextureID, SkyboxTextureID;
+    unsigned int SkyboxTextureID;
+    std::vector<unsigned int> TextureID;
 
     // 组合成员
     Shader *shader;
