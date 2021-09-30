@@ -235,7 +235,6 @@ public:
         glm::mat4 projection = glm::perspective(_camera->Zoom, (float)800 / (float)600, 0.1f, 100.0f);
         glBindBuffer(GL_UNIFORM_BUFFER, uboCameraMatrices);
         glBufferSubData(GL_UNIFORM_BUFFER, 0, sizeof(glm::mat4), glm::value_ptr(projection));
-        glBindBuffer(GL_UNIFORM_BUFFER, 0);
         glm::mat4 view = _camera->GetViewMatrix();
         glBindBuffer(GL_UNIFORM_BUFFER, uboCameraMatrices);
         glBufferSubData(GL_UNIFORM_BUFFER, sizeof(glm::mat4), sizeof(glm::mat4), glm::value_ptr(view));
