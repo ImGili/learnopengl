@@ -60,7 +60,7 @@ public:
             break;
         case DrawTypes::POINTS:
             // glPointSize(200);
-            glEnable(GL_PROGRAM_POINT_SIZE);
+            // glEnable(GL_PROGRAM_POINT_SIZE);
             glDrawArrays(GL_POINTS, 0, vn);
             break;
         default:
@@ -102,9 +102,9 @@ public:
         return this;
     }
     // 设置着色器
-    Drawable *SetShader(const char *vertexPath, const char *fragmentPath)
+    Drawable *SetShader(const char *vertexPath, const char *fragmentPath, const char* geometryPath = nullptr)
     {
-        shader = new Shader(vertexPath, fragmentPath);
+        shader = new Shader(vertexPath, fragmentPath, geometryPath);
         unsigned int uniformBlockIndex = glGetUniformBlockIndex(shader->ID, "CameraMatrices");
         if (uniformBlockIndex!=GL_INVALID_INDEX)
         {
