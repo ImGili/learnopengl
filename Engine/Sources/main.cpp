@@ -102,6 +102,7 @@ int main()
                      "2103、高级GLSL-PointSize内建变量实验3-gl_FragCoord；\n"
                      "2104、高级GLSL-PointSize内建变量实验4-gl_FrontFacing\n"
                      "2105、高级GLSL-PointSize内建变量实验5-Uniform块布局\n"
+                     "2106、高级GLSL-PointSize内建变量实验6-接口块\n"
                      "-1、测试window和camera单例封装\n"
                      "-2、测试shape类\n";
         std::cout << "请输入编号（输入0退出程序）：";
@@ -319,6 +320,9 @@ int main()
             break;
         case 2105:
             glx0215::main();
+            break;
+        case 2106:
+            glx0216::main();
             break;
         case 999:
             glx999::main();

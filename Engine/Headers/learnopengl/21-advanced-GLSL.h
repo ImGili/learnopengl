@@ -2,6 +2,8 @@
 #include "Engine.h"
 
 #include <fstream>
+
+// gl_PointSize测试
 namespace glx0211
 {
    
@@ -168,7 +170,7 @@ namespace glx0212
 
 }
 
-        
+// gl_FragCoord测试
 namespace glx0213
 {
    
@@ -248,7 +250,7 @@ namespace glx0213
 
 }
 
-
+// 多贴图测试
 namespace glx0214
 {
    
@@ -328,6 +330,8 @@ namespace glx0214
     }
 
 }
+
+// gl_FrontFacing测试
 namespace glx0215
 {
    
@@ -344,6 +348,87 @@ namespace glx0215
                                 ->SetVertexNum(36)\
                                 ->SetVertexFromData("./data/21/l3/")\
                                 ->SetShader("./21/l4/ObjectVertex.vert", "./21/l4/ObjectFragment.frag")\
+                                ->SetModle(glm::mat4(1))\
+                                ->SetTextureId("imgs/woodPicture.jpeg", "texture1");
+        Drawable *cube = new Cube();
+        Drawable *mmodel = new mModel();
+
+        Plane plane;
+        SkyBox skybox;
+        FrameBufferObject fbo;
+
+        Object *obj = new Object(glm::vec3(1, 1, 1));
+
+        mGUI::Init();
+        // render loop
+        // -----------
+        while (!window->WindowShouldClose())
+        {
+            window->UpdateDeltaTime();
+            camera->UpdateUniform();
+            // input
+            // -----
+            window->processInput();
+
+            // render
+            // ------
+            // fbo.SetFrameBuffer();
+            window->Clear();
+
+            mGUI::NewFrame();
+            {
+                ImGui::Begin("myGUI");
+                ImGui::InputFloat3("Objet position", (float *)&(obj->Position));
+                ImGui::End();
+            }
+
+            mGUI::RenderGUI();
+
+            skybox.Draw();
+            mmodel->Draw();
+            drawable->Draw();
+            // cubes
+            // cube->Draw();
+            // cube->DrawObject(obj);
+
+            // floor
+            plane.Draw();
+
+            // fbo.SetMainFrameBuffer();
+            // fbo.Draw();
+
+            mGUI::DrawRenderData();
+            window->SwapBufferAndPollEvents();
+        }
+
+        delete obj;
+        delete cube;
+        delete mmodel;
+        mGUI::DestroyGUI();
+        Window::DestoryWindow();
+        CameraInstance::DestoryCamera();
+        return 0;
+    }
+
+}
+
+// 接口块
+namespace glx0216
+{
+   
+    int main()
+    {
+        Window *window = Window::getWindow();
+        CameraInstance *camera = CameraInstance::GetCamera();
+
+        glEnable(GL_DEPTH_TEST);
+        glDepthFunc(GL_LESS);
+
+        Drawable* drawable =    (new Drawable())\
+                                ->SetVertexLayout(VertexTexcoordlayout)\
+                                ->SetVertexNum(36)\
+                                ->SetVertexFromData("./data/21/l3/")\
+                                ->SetShader("./21/l5/ObjectVertex.vert", "./21/l5/ObjectFragment.frag")\
                                 ->SetModle(glm::mat4(1))\
                                 ->SetTextureId("imgs/woodPicture.jpeg", "texture1");
         Drawable *cube = new Cube();
