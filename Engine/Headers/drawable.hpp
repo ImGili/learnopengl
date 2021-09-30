@@ -117,11 +117,19 @@ public:
     }
 
     // 设置贴图
-    Drawable *SetTextureId(const char *texturePath)
+    Drawable *SetTextureId(const char *texturePath, const char* uniformName = nullptr)
     {
+        drawlayout |= TextureDrawlayout;
         unsigned int tmp;
         tmp = loadTexture(texturePath);
         TextureID.push_back(tmp);
+        shader->use();
+        if (uniformName!=nullptr)
+        {
+            shader->setInt(uniformName, TextureID.size()-1);
+        }
+        glUseProgram(0);
+        
         // shader->use();
         // shader->setInt("texture1", 0);
         // glUseProgram(0);
@@ -131,10 +139,8 @@ public:
 
     Drawable *SetSkyTextureId(vector<std::string> faces)
     {
-        if (drawlayout & (DrawLayout::NeedSkyBoxTexture))
-        {
-            SkyboxTextureID = loadCubemap(faces);
-        }
+        drawlayout |= NeedSkyBoxTexture;
+        SkyboxTextureID = loadCubemap(faces);
         return this;
     }
     unsigned int GetSkyboxTextureID()

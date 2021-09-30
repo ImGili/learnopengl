@@ -110,3 +110,6 @@ imgui ImGui_ImplOpenGL3_RenderDrawData必须在sawp之前。否则不会绘制gu
 顶点坐标0会被映射到SRC_WIDTH
 
 顶点坐标1会被映射到2*SRC_WIDTH
+
+# gl_FrontFacing判断是按照绘制顶点的旋转顺序
+所以需要设置一定到顶点绘制顺序

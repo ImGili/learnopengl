@@ -181,11 +181,12 @@ namespace glx0213
         glDepthFunc(GL_LESS);
 
         Drawable* drawable =    (new Drawable())\
-                                ->SetVertexLayout(Vertexlayout)\
+                                ->SetVertexLayout(VertexTexcoordlayout)\
                                 ->SetVertexNum(36)\
                                 ->SetVertexFromData("./data/21/l2/")\
                                 ->SetShader("./21/l2/ObjectVertex.vert", "./21/l2/ObjectFragment.frag")\
                                 ->SetModle(glm::mat4(1));
+        
         Drawable *cube = new Cube();
         Drawable *mmodel = new mModel();
 
@@ -262,9 +263,11 @@ namespace glx0214
         Drawable* drawable =    (new Drawable())\
                                 ->SetVertexLayout(VertexTexcoordlayout)\
                                 ->SetVertexNum(36)\
-                                ->SetVertexFromData("./data/21/l2/")\
-                                ->SetShader("./21/l2/ObjectVertex.vert", "./21/l2/ObjectFragment.frag")\
-                                ->SetModle(glm::mat4(1));
+                                ->SetVertexFromData("./data/21/l3/")\
+                                ->SetShader("./21/l3/ObjectVertex.vert", "./21/l3/ObjectFragment.frag")\
+                                ->SetModle(glm::mat4(1))\
+                                ->SetTextureId("imgs/woodPicture.jpeg", "frontTexture")\
+                                ->SetTextureId("imgs/container2.png", "backTexture");
         Drawable *cube = new Cube();
         Drawable *mmodel = new mModel();
 
