@@ -29,23 +29,24 @@ enum class DrawTypes
     POINTS
 };
 
-
 class Drawable
 {
 public:
     virtual void Draw()
     {
-        UpdateCamera();
+        if (!hasCameraMatrics)
+        {
+            UpdateCamera();
+        }
         shader->use();
         glBindVertexArray(VAO);
         if (drawlayout & (DrawLayout::TextureDrawlayout))
         {
             for (int i = 0; i < TextureID.size(); i++)
             {
-                glActiveTexture(GL_TEXTURE0+i);
+                glActiveTexture(GL_TEXTURE0 + i);
                 glBindTexture(GL_TEXTURE_2D, TextureID[i]);
             }
-            
         }
         if (drawlayout & (DrawLayout::NeedSkyBoxTexture))
         {
@@ -104,7 +105,12 @@ public:
     Drawable *SetShader(const char *vertexPath, const char *fragmentPath)
     {
         shader = new Shader(vertexPath, fragmentPath);
-
+        unsigned int uniformBlockIndex = glGetUniformBlockIndex(shader->ID, "CameraMatrices");
+        if (uniformBlockIndex!=GL_INVALID_INDEX)
+        {
+            hasCameraMatrics=true;
+            glUniformBlockBinding(shader->ID, uniformBlockIndex, 0);
+        }
         return this;
     }
 
@@ -117,22 +123,18 @@ public:
     }
 
     // 设置贴图
-    Drawable *SetTextureId(const char *texturePath, const char* uniformName = nullptr)
+    Drawable *SetTextureId(const char *texturePath, const char *uniformName = nullptr)
     {
         drawlayout |= TextureDrawlayout;
         unsigned int tmp;
         tmp = loadTexture(texturePath);
         TextureID.push_back(tmp);
         shader->use();
-        if (uniformName!=nullptr)
+        if (uniformName != nullptr)
         {
-            shader->setInt(uniformName, TextureID.size()-1);
+            shader->setInt(uniformName, TextureID.size() - 1);
         }
         glUseProgram(0);
-        
-        // shader->use();
-        // shader->setInt("texture1", 0);
-        // glUseProgram(0);
 
         return this;
     }
@@ -178,7 +180,7 @@ public:
         {
             glDeleteTextures(1, &TextureID[i]);
         }
-        
+
         delete shader;
     }
     Drawable *SetVertex(void *v, VertexLayout vertexlayout, int vsize)
@@ -276,7 +278,7 @@ public:
         switch (vt)
         {
         case Vertexlayout:
-            glBufferData(GL_ARRAY_BUFFER, 3*sizeof(float)*vn, positions, GL_STATIC_DRAW);
+            glBufferData(GL_ARRAY_BUFFER, 3 * sizeof(float) * vn, positions, GL_STATIC_DRAW);
             glEnableVertexAttribArray(0);
             glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void *)0);
             break;
@@ -335,6 +337,7 @@ protected:
     VertexLayout vt = Vertexlayout;
     unsigned int vn;
     unsigned int VAO, VBO;
+    bool hasCameraMatrics = false;
 
     unsigned int loadTexture(char const *path)
     {

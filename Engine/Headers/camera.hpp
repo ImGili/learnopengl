@@ -3,11 +3,13 @@
 #include <glad/glad.h>
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
-#include<GLFW/glfw3.h>
-#include<math.h>
+#include <glm/gtc/type_ptr.hpp>
+#include <GLFW/glfw3.h>
+#include <math.h>
 #include <vector>
 // Defines several possible options for camera movement. Used as abstraction to stay away from window-system specific input methods
-enum Camera_Movement {
+enum Camera_Movement
+{
     FORWARD,
     BACKWARD,
     LEFT,
@@ -15,12 +17,11 @@ enum Camera_Movement {
 };
 
 // Default camera values
-const float YAW         = -90.0f;
-const float PITCH       =  0.0f;
-const float SPEED       =  1.8f;
-const float SENSITIVITY =  0.1f;
-const float ZOOM        =  45.0f;
-
+const float YAW = -90.0f;
+const float PITCH = 0.0f;
+const float SPEED = 1.8f;
+const float SENSITIVITY = 0.1f;
+const float ZOOM = 45.0f;
 
 // An abstract camera class that processes input and calculates the corresponding Euler Angles, Vectors and Matrices for use in OpenGL
 class Camera
@@ -41,8 +42,8 @@ public:
     float Zoom;
 
     // constructor with vectors
-    Camera(glm::vec3 position = glm::vec3(0.0f, 0.0f, 3.0f), glm::vec3 up = glm::vec3(0.0f, 1.0f, 0.0f), float yaw = YAW, float pitch = PITCH) 
-    : Front(glm::vec3(0.0f, 0.0f, -1.0f)), MovementSpeed(SPEED), MouseSensitivity(SENSITIVITY), Zoom(ZOOM)
+    Camera(glm::vec3 position = glm::vec3(0.0f, 0.0f, 3.0f), glm::vec3 up = glm::vec3(0.0f, 1.0f, 0.0f), float yaw = YAW, float pitch = PITCH)
+        : Front(glm::vec3(0.0f, 0.0f, -1.0f)), MovementSpeed(SPEED), MouseSensitivity(SENSITIVITY), Zoom(ZOOM)
     {
         Position = position;
         WorldUp = up;
@@ -86,7 +87,7 @@ public:
         xoffset *= MouseSensitivity;
         yoffset *= MouseSensitivity;
 
-        Yaw   += xoffset;
+        Yaw += xoffset;
         Pitch += yoffset;
 
         // make sure that when pitch is out of bounds, screen doesn't get flipped
@@ -109,7 +110,7 @@ public:
         if (Zoom < 1.0f)
             Zoom = 1.0f;
         if (Zoom > 45.0f)
-            Zoom = 45.0f; 
+            Zoom = 45.0f;
     }
 
 private:
@@ -123,8 +124,8 @@ private:
         front.z = sin(glm::radians(Yaw)) * cos(glm::radians(Pitch));
         Front = glm::normalize(front);
         // also re-calculate the Right and Up vector
-        Right = glm::normalize(glm::cross(Front, WorldUp));  // normalize the vectors, because their length gets closer to 0 the more you look up or down which results in slower movement.
-        Up    = glm::normalize(glm::cross(Right, Front));
+        Right = glm::normalize(glm::cross(Front, WorldUp)); // normalize the vectors, because their length gets closer to 0 the more you look up or down which results in slower movement.
+        Up = glm::normalize(glm::cross(Right, Front));
     }
 };
 // An abstract camera class that processes input and calculates the corresponding Euler Angles, Vectors and Matrices for use in OpenGL
@@ -133,9 +134,8 @@ class FPSCamera
 {
 public:
     FPSCamera()
-        : Camera(glm::vec3(0.0f, 0.0f, 3.0f), glm::vec3(0.0f, 1.0f, 0.0f), YAW, PITCH) 
+        : Camera(glm::vec3(0.0f, 0.0f, 3.0f), glm::vec3(0.0f, 1.0f, 0.0f), YAW, PITCH)
     {
-
     }
     // processes input received from any keyboard-like input system. Accepts input parameter in the form of camera defined ENUM (to abstract it from windowing systems)
     void ProcessKeyboard(Camera_Movement direction, float deltaTime) override
@@ -150,22 +150,37 @@ public:
         if (direction == RIGHT)
             Position += Right * velocity;
         float now = glfwGetTime();
-        Position.y = 2 + 0.5f * sin(10.0f*now);
+        Position.y = 2 + 0.5f * sin(10.0f * now);
     }
-
-
 };
 
 class CameraInstance
 {
 private:
-    static CameraInstance* Instance;
-    Camera* _camera;
+    static CameraInstance *Instance;
+    Camera *_camera;
     // 禁止复制 禁止构造
-    CameraInstance(){_camera = new Camera();}
-    CameraInstance& operator=(const CameraInstance&);
+    CameraInstance()
+    {
+        _camera = new Camera();
+
+        // 创建共享uniform布局块的缓冲对象
+        glGenBuffers(1, &uboCameraMatrices);
+
+        glBindBuffer(GL_UNIFORM_BUFFER, uboCameraMatrices);
+        glBufferData(GL_UNIFORM_BUFFER, 2 * sizeof(glm::mat4), NULL, GL_STATIC_DRAW);
+        glBindBuffer(GL_UNIFORM_BUFFER, 0);
+
+        glBindBufferRange(GL_UNIFORM_BUFFER, 0, uboCameraMatrices, 0, 2 * sizeof(glm::mat4));
+        UpdateUniform();
+    }
+    CameraInstance &operator=(const CameraInstance &);
+
+    unsigned int uboCameraMatrices;
+
 public:
-    ~CameraInstance(){
+    ~CameraInstance()
+    {
         delete _camera;
     }
 
@@ -174,9 +189,9 @@ public:
         delete Instance;
         Instance = NULL;
     }
-    static CameraInstance* GetCamera()
+    static CameraInstance *GetCamera()
     {
-        if(Instance == NULL)
+        if (Instance == NULL)
         {
             Instance = new CameraInstance();
         }
@@ -212,7 +227,17 @@ public:
     }
     glm::mat4 getPerspective()
     {
-        glm::mat4 p =  glm::perspective(_camera->Zoom, (float)800 / (float)600, 0.1f, 100.0f);
+        glm::mat4 p = glm::perspective(_camera->Zoom, (float)800 / (float)600, 0.1f, 100.0f);
         return p;
+    }
+    void UpdateUniform()
+    {
+        glm::mat4 projection = glm::perspective(_camera->Zoom, (float)800 / (float)600, 0.1f, 100.0f);
+        glBindBuffer(GL_UNIFORM_BUFFER, uboCameraMatrices);
+        glBufferSubData(GL_UNIFORM_BUFFER, 0, sizeof(glm::mat4), glm::value_ptr(projection));
+        glBindBuffer(GL_UNIFORM_BUFFER, 0);
+        glm::mat4 view = _camera->GetViewMatrix();
+        glBindBuffer(GL_UNIFORM_BUFFER, uboCameraMatrices);
+        glBufferSubData(GL_UNIFORM_BUFFER, sizeof(glm::mat4), sizeof(glm::mat4), glm::value_ptr(view));
     }
 };
