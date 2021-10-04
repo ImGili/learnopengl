@@ -25,6 +25,7 @@
 #include "imguidemo.h"
 
 CameraInstance* CameraInstance::Instance = NULL;
+SpecialShaders* SpecialShaders::Instance = NULL;
 
 int main()
 {

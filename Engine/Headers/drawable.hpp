@@ -5,6 +5,9 @@
 
 #pragma once
 #include "Engine.h"
+
+#define GU_DRAW_NORAML 0
+#define GU_DRAW_EXPLOR 1
 enum VertexLayout
 {
     Vertexlayout,
@@ -27,6 +30,32 @@ enum class DrawTypes
 {
     TRIANGLES,
     POINTS
+};
+
+class SpecialShaders
+{
+public:
+    static SpecialShaders *getInstance()
+    {
+        if (Instance == NULL)
+        {
+            Instance = new SpecialShaders();
+        }
+
+        return Instance;
+    }
+
+    Shader* exshader = new Shader("./22/l3/ObjectVertex.vert", "./22/l3/ObjectFragment.frag", "./22/l3/ObjectGeometry.gs");
+    Shader* normalshader = new Shader("./22/l3/ObjectVertex.vert", "./22/l3/ObjectFragment.frag", "./22/l3/ObjectGeometry.gs");
+private:
+    SpecialShaders(){
+        exshader->use();
+        exshader->setMat4("model", glm::mat4(1));
+        normalshader->use();
+        normalshader->setMat4("model", glm::mat4(1));
+        glUseProgram(0);
+    }
+    static SpecialShaders* Instance;
 };
 
 class Drawable
@@ -129,13 +158,33 @@ public:
     Drawable *SetSpecialShader(Shader* ss)
     {
         drawlayout |= DrawLayout::NeedSpecialShader;
-        if (specialShader != nullptr)
-        {
-            delete specialShader;
-        }
+        
         specialShader = ss;
         
         
+        unsigned int uniformBlockIndex = glGetUniformBlockIndex(specialShader->ID, "CameraMatrices");
+        if (uniformBlockIndex!=GL_INVALID_INDEX)
+        {
+            hasCameraMatrics=true;
+            glUniformBlockBinding(specialShader->ID, uniformBlockIndex, 0);
+        }
+        return this;
+    }
+    Drawable *SetSpecialShader(unsigned int ss)
+    {
+        drawlayout |= DrawLayout::NeedSpecialShader;
+        
+        switch (ss)
+        {
+        case GU_DRAW_EXPLOR:
+            specialShader = specialShaders->exshader;
+            break;
+        case GU_DRAW_NORAML:
+            specialShader = specialShaders->normalshader;
+            break;
+        default:
+            break;
+        }        
         unsigned int uniformBlockIndex = glGetUniformBlockIndex(specialShader->ID, "CameraMatrices");
         if (uniformBlockIndex!=GL_INVALID_INDEX)
         {
@@ -360,6 +409,7 @@ protected:
     // 组合成员
     Shader *shader = nullptr;
     Shader *specialShader = nullptr;
+    SpecialShaders *specialShaders = SpecialShaders::getInstance();
 
     // 绘制布局
     unsigned int drawlayout = DrawLayout::None;

@@ -140,12 +140,14 @@ namespace glx0223
         glPointSize(200);
         
         // Drawable* drawable =  (new mModel())->SetShader("./22/l3/ObjectVertex.vert", "./22/l3/ObjectFragment.frag", "./22/l3/ObjectGeometry.gs")->SetModle(glm::mat4(1));
-        Shader* ss = new Shader("./22/l3/ObjectVertex.vert", "./22/l3/ObjectFragment.frag", "./22/l3/ObjectGeometry.gs");
-        ss->use();
-        glm::mat4 model = glm::mat4(1);
-        ss->setMat4("model", model);
-        glUseProgram(0);
-        Drawable* drawable =  (new mModel())->SetSpecialShader(ss);
+        // Shader* ss = new Shader("./22/l3/ObjectVertex.vert", "./22/l3/ObjectFragment.frag", "./22/l3/ObjectGeometry.gs");
+        // ss->use();
+        // glm::mat4 model = glm::mat4(1);
+        // ss->setMat4("model", model);
+        // glUseProgram(0);
+        // Drawable* drawable =  (new mModel())->SetSpecialShader(ss);
+        Drawable* drawable =  (new mModel())->SetSpecialShader(GU_DRAW_EXPLOR);
+        Shader* ss = SpecialShaders::getInstance()->exshader;
 
         float ex = 0.0f;
 
