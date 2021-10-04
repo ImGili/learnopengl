@@ -19,8 +19,8 @@ enum DrawLayout
     None = 0,
     TextureDrawlayout = BIT(0),
     CamerPositionInside = BIT(2),
-    NeedSkyBoxTexture = BIT(3)
-
+    NeedSkyBoxTexture = BIT(3), 
+    NeedSpecialShader = BIT(4)
 };
 
 enum class DrawTypes
@@ -38,7 +38,15 @@ public:
         {
             UpdateCamera();
         }
-        shader->use();
+        if (drawlayout & (DrawLayout::NeedSpecialShader))
+        {
+            specialShader->use();
+        }
+        else
+        {
+            shader->use();
+        }
+        
         glBindVertexArray(VAO);
         if (drawlayout & (DrawLayout::TextureDrawlayout))
         {
@@ -104,12 +112,35 @@ public:
     // 设置着色器
     Drawable *SetShader(const char *vertexPath, const char *fragmentPath, const char* geometryPath = nullptr)
     {
+        if (shader != nullptr)
+        {
+            delete shader;
+        }
+        
         shader = new Shader(vertexPath, fragmentPath, geometryPath);
         unsigned int uniformBlockIndex = glGetUniformBlockIndex(shader->ID, "CameraMatrices");
         if (uniformBlockIndex!=GL_INVALID_INDEX)
         {
             hasCameraMatrics=true;
             glUniformBlockBinding(shader->ID, uniformBlockIndex, 0);
+        }
+        return this;
+    }
+    Drawable *SetSpecialShader(Shader* ss)
+    {
+        drawlayout |= DrawLayout::NeedSpecialShader;
+        if (specialShader != nullptr)
+        {
+            delete specialShader;
+        }
+        specialShader = ss;
+        
+        
+        unsigned int uniformBlockIndex = glGetUniformBlockIndex(specialShader->ID, "CameraMatrices");
+        if (uniformBlockIndex!=GL_INVALID_INDEX)
+        {
+            hasCameraMatrics=true;
+            glUniformBlockBinding(specialShader->ID, uniformBlockIndex, 0);
         }
         return this;
     }
@@ -327,7 +358,8 @@ protected:
     std::vector<unsigned int> TextureID;
 
     // 组合成员
-    Shader *shader;
+    Shader *shader = nullptr;
+    Shader *specialShader = nullptr;
 
     // 绘制布局
     unsigned int drawlayout = DrawLayout::None;
@@ -697,14 +729,31 @@ public:
 
     void Draw() override
     {
-        UpdateCamera();
-        shader->use();
+        if (!hasCameraMatrics)
+        {
+            UpdateCamera();
+        }
+        if (drawlayout & (DrawLayout::NeedSpecialShader))
+        {
+            specialShader->use();
+        }
+        else
+        {
+            shader->use();
+        }
         if (drawlayout & (DrawLayout::NeedSkyBoxTexture))
         {
             glBindTexture(GL_TEXTURE_CUBE_MAP, SkyboxTextureID);
         }
 
-        _model->Draw(*shader);
+        if (drawlayout & (DrawLayout::NeedSpecialShader))
+        {
+            _model->Draw(*specialShader);
+        }
+        else
+        {
+            _model->Draw(*shader);
+        }
         glBindTexture(GL_TEXTURE_CUBE_MAP, 0);
     }
 

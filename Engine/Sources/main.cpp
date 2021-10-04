@@ -106,6 +106,7 @@ int main()
                      "2106、高级GLSL-PointSize内建变量实验6-接口块\n"
                      "2201、几何着色器实验1\n"
                      "2202、几何着色器实验1-造房子\n"
+                     "2203、几何着色器实验2-爆炸\n"
                      "-1、测试window和camera单例封装\n"
                      "-2、测试shape类\n";
         std::cout << "请输入编号（输入0退出程序）：";
@@ -332,6 +333,9 @@ int main()
             break;
         case 2202:
             glx0222::main();
+            break;
+        case 2203:
+            glx0223::main();
             break;
         case 999:
             glx999::main();
