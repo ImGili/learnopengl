@@ -24,11 +24,7 @@ enum DrawLayout
     InstanceDrawlayout = BIT(4)
 };
 
-enum class DrawTypes
-{
-    TRIANGLES,
-    POINTS
-};
+
 
 class SpecialShaders
 {
@@ -90,19 +86,17 @@ public:
             glBindTexture(GL_TEXTURE_CUBE_MAP, SkyboxTextureID);
             glDepthFunc(GL_LEQUAL);
         }
-        switch (drawTypes)
+
+        if (drawlayout&(DrawLayout::InstanceDrawlayout))
         {
-        case DrawTypes::TRIANGLES:
-            glDrawArrays(GL_TRIANGLES, 0, vn);
-            break;
-        case DrawTypes::POINTS:
-            // glPointSize(200);
-            // glEnable(GL_PROGRAM_POINT_SIZE);
-            glDrawArrays(GL_POINTS, 0, vn);
-            break;
-        default:
-            break;
+            glDrawArraysInstanced(drawTypes, 0, vn, instanceNum);
         }
+        else
+        {
+            glDrawArrays(drawTypes, 0, vn);
+        }
+            
+        
         glDepthFunc(GL_LESS);
         glUseProgram(0);
     }
@@ -140,7 +134,7 @@ public:
         drawlayout = dl;
         return this;
     }
-    Drawable *SetDrawTypes(DrawTypes dt)
+    Drawable *SetDrawTypes(unsigned int dt)
     {
         drawTypes = dt;
         return this;
@@ -384,7 +378,7 @@ protected:
 
     // 绘制布局
     unsigned int drawlayout = DrawLayout::None;
-    DrawTypes drawTypes = DrawTypes::TRIANGLES;
+    unsigned int drawTypes = GL_TRIANGLES;
 
     // 自身只读数据
     VertexLayout vt = Vertexlayout;

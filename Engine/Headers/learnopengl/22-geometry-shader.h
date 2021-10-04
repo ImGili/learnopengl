@@ -14,7 +14,7 @@ namespace glx0221
 
         Drawable* drawable =    (new Drawable())\
                                 ->SetVertexLayout(Vertexlayout)\
-                                ->SetDrawTypes(DrawTypes::POINTS)\
+                                ->SetDrawTypes(GL_POINTS)\
                                 ->SetVertexNum(4)\
                                 ->SetVertexFromData("./data/22/l1/")\
                                 ->SetShader("./22/l1/ObjectVertex.vert", "./22/l1/ObjectFragment.frag", "./22/l1/ObjectGeometry.gs")\
@@ -81,7 +81,7 @@ namespace glx0222
 
         Drawable* drawable =    (new Drawable())\
                                 ->SetVertexLayout(VertexNormallayout)\
-                                ->SetDrawTypes(DrawTypes::POINTS)\
+                                ->SetDrawTypes(GL_POINTS)\
                                 ->SetVertexNum(4)\
                                 ->SetVertexFromData("./data/22/l2/")\
                                 ->SetShader("./22/l2/ObjectVertex.vert", "./22/l2/ObjectFragment.frag", "./22/l2/ObjectGeometry.gs")\
