@@ -21,6 +21,7 @@
 #include "learnopengl/20_cubemaps.h"
 #include "learnopengl/21-advanced-GLSL.h"
 #include "learnopengl/22-geometry-shader.h"
+#include "learnopengl/23-Instancing.h"
 #include "learnopengl/test.h"
 #include "imguidemo.h"
 
@@ -109,6 +110,7 @@ int main()
                      "2202、几何着色器实验1-造房子\n"
                      "2203、几何着色器实验2-爆炸\n"
                      "2204、几何着色器实验3-法线可视化\n"
+                     "2301、实例化实验1\n"
                      "-1、测试window和camera单例封装\n"
                      "-2、测试shape类\n";
         std::cout << "请输入编号（输入0退出程序）：";
@@ -341,6 +343,9 @@ int main()
             break;
         case 2204:
             glx0224::main();
+            break;
+        case 2301:
+            glx0231::main();
             break;
         case 999:
             glx999::main();
