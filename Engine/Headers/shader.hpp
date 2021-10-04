@@ -97,13 +97,19 @@ public:
             glAttachShader(ID, geometry);
         glLinkProgram(ID);
         checkCompileErrors(ID, "PROGRAM");
+
+        unsigned int uniformBlockIndex = glGetUniformBlockIndex(ID, "CameraMatrices");
+        if (uniformBlockIndex != GL_INVALID_INDEX)
+        {
+            glUniformBlockBinding(ID, uniformBlockIndex, 0);
+        }
         // delete the shaders as they're linked into our program now and no longer necessary
         glDeleteShader(vertex);
         glDeleteShader(fragment);
     }
     // activate the shader
     // ------------------------------------------------------------------------
-    void use() 
+    void use() const
     { 
         glUseProgram(ID); 
     }
@@ -111,6 +117,7 @@ public:
     // ------------------------------------------------------------------------
     void setBool(const std::string &name, bool value) const
     {   
+        use();
         int flag = glGetUniformLocation(ID, name.c_str());
         if (flag != -1)
         {
@@ -120,11 +127,13 @@ public:
         {
             checkUniformErrors(name, flag);
         }
+        glUseProgram(0);
         
     }
     // ------------------------------------------------------------------------
     void setInt(const std::string &name, int value) const
     { 
+        use();
         int flag = glGetUniformLocation(ID, name.c_str());
         if (flag != -1)
         {
@@ -134,11 +143,13 @@ public:
         {
             checkUniformErrors(name, flag);
         }
+        glUseProgram(0);
         
     }
     // ------------------------------------------------------------------------
     void setFloat(const std::string &name, float value) const
-    { 
+    {   
+        use();
         int flag = glGetUniformLocation(ID, name.c_str());
         if (flag != -1)
         {
@@ -148,10 +159,11 @@ public:
         {
             checkUniformErrors(name, flag);
         }
-         
+        glUseProgram(0);
     }
     void setMat4(const std::string &name, const glm::mat4& value) const
     { 
+        use();
         int flag = glGetUniformLocation(ID, name.c_str());
         if (flag != -1)
         {
@@ -161,6 +173,7 @@ public:
         {
             checkUniformErrors(name, flag);
         }
+        glUseProgram(0);
         
     }
     void setVec3(const std::string &name, const glm::vec3& value) const
@@ -178,6 +191,7 @@ public:
     }
     void setVec3(const std::string &name, float x, float y, float z) const
     { 
+        use();
         int flag = glGetUniformLocation(ID, name.c_str());
         if (flag != -1)
         {
@@ -187,6 +201,7 @@ public:
         {
             checkUniformErrors(name, flag);
         }
+        glUseProgram(0);
         
     }
 

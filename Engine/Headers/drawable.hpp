@@ -6,8 +6,6 @@
 #pragma once
 #include "Engine.h"
 
-#define GU_DRAW_NORAML 0
-#define GU_DRAW_EXPLOR 1
 enum VertexLayout
 {
     Vertexlayout,
@@ -22,8 +20,7 @@ enum DrawLayout
     None = 0,
     TextureDrawlayout = BIT(0),
     CamerPositionInside = BIT(2),
-    NeedSkyBoxTexture = BIT(3), 
-    NeedSpecialShader = BIT(4)
+    NeedSkyBoxTexture = BIT(3),
 };
 
 enum class DrawTypes
@@ -45,29 +42,31 @@ public:
         return Instance;
     }
 
-    Shader* exshader = new Shader("./22/l3/ObjectVertex.vert", "./22/l3/ObjectFragment.frag", "./22/l3/ObjectGeometry.gs");
-    Shader* normalshader = new Shader("./22/l3/ObjectVertex.vert", "./22/l3/ObjectFragment.frag", "./22/l3/ObjectGeometry.gs");
+    Shader *exshader = new Shader("./22/l3/ObjectVertex.vert", "./22/l3/ObjectFragment.frag", "./22/l3/ObjectGeometry.gs");
+    Shader *normalshader = new Shader("./22/l3/ObjectVertex.vert", "./22/l3/ObjectFragment.frag", "./22/l3/ObjectGeometry.gs");
+
 private:
-    SpecialShaders(){
+    SpecialShaders()
+    {
         exshader->use();
         exshader->setMat4("model", glm::mat4(1));
         normalshader->use();
         normalshader->setMat4("model", glm::mat4(1));
         glUseProgram(0);
     }
-    static SpecialShaders* Instance;
+    static SpecialShaders *Instance;
 };
+
+#define GU_NORAML_SHADER SpecialShaders::getInstance()->normalshader
+#define GU_EXPLOR_SHADER SpecialShaders::getInstance()->exshader
 
 class Drawable
 {
 public:
-    virtual void Draw()
+    virtual void Draw(Shader *specialShader = nullptr)
     {
-        if (!hasCameraMatrics)
-        {
-            UpdateCamera();
-        }
-        if (drawlayout & (DrawLayout::NeedSpecialShader))
+        UpdateCamera();
+        if (specialShader != nullptr)
         {
             specialShader->use();
         }
@@ -75,7 +74,7 @@ public:
         {
             shader->use();
         }
-        
+
         glBindVertexArray(VAO);
         if (drawlayout & (DrawLayout::TextureDrawlayout))
         {
@@ -139,58 +138,14 @@ public:
         return this;
     }
     // 设置着色器
-    Drawable *SetShader(const char *vertexPath, const char *fragmentPath, const char* geometryPath = nullptr)
+    Drawable *SetShader(const char *vertexPath, const char *fragmentPath, const char *geometryPath = nullptr)
     {
         if (shader != nullptr)
         {
             delete shader;
         }
-        
+
         shader = new Shader(vertexPath, fragmentPath, geometryPath);
-        unsigned int uniformBlockIndex = glGetUniformBlockIndex(shader->ID, "CameraMatrices");
-        if (uniformBlockIndex!=GL_INVALID_INDEX)
-        {
-            hasCameraMatrics=true;
-            glUniformBlockBinding(shader->ID, uniformBlockIndex, 0);
-        }
-        return this;
-    }
-    Drawable *SetSpecialShader(Shader* ss)
-    {
-        drawlayout |= DrawLayout::NeedSpecialShader;
-        
-        specialShader = ss;
-        
-        
-        unsigned int uniformBlockIndex = glGetUniformBlockIndex(specialShader->ID, "CameraMatrices");
-        if (uniformBlockIndex!=GL_INVALID_INDEX)
-        {
-            hasCameraMatrics=true;
-            glUniformBlockBinding(specialShader->ID, uniformBlockIndex, 0);
-        }
-        return this;
-    }
-    Drawable *SetSpecialShader(unsigned int ss)
-    {
-        drawlayout |= DrawLayout::NeedSpecialShader;
-        
-        switch (ss)
-        {
-        case GU_DRAW_EXPLOR:
-            specialShader = specialShaders->exshader;
-            break;
-        case GU_DRAW_NORAML:
-            specialShader = specialShaders->normalshader;
-            break;
-        default:
-            break;
-        }        
-        unsigned int uniformBlockIndex = glGetUniformBlockIndex(specialShader->ID, "CameraMatrices");
-        if (uniformBlockIndex!=GL_INVALID_INDEX)
-        {
-            hasCameraMatrics=true;
-            glUniformBlockBinding(specialShader->ID, uniformBlockIndex, 0);
-        }
         return this;
     }
 
@@ -237,18 +192,21 @@ public:
 
     virtual void UpdateCamera()
     {
-        CameraInstance *camera = CameraInstance::GetCamera();
-        glm::mat4 view = camera->GetViewMatrix();
-        glm::mat4 projection = camera->getPerspective();
-        shader->use();
-        if (drawlayout & (DrawLayout::CamerPositionInside))
+        if (glGetUniformBlockIndex(shader->ID, "CameraMatrices") == GL_INVALID_INDEX)
         {
-            shader->setVec3("cameraPos", camera->GetPosition());
-        }
+            CameraInstance *camera = CameraInstance::GetCamera();
+            glm::mat4 view = camera->GetViewMatrix();
+            glm::mat4 projection = camera->getPerspective();
+            shader->use();
+            if (drawlayout & (DrawLayout::CamerPositionInside))
+            {
+                shader->setVec3("cameraPos", camera->GetPosition());
+            }
 
-        shader->setMat4("view", view);
-        shader->setMat4("projection", projection);
-        glUseProgram(0);
+            shader->setMat4("view", view);
+            shader->setMat4("projection", projection);
+            glUseProgram(0);
+        }
     }
 
     virtual ~Drawable()
@@ -408,8 +366,6 @@ protected:
 
     // 组合成员
     Shader *shader = nullptr;
-    Shader *specialShader = nullptr;
-    SpecialShaders *specialShaders = SpecialShaders::getInstance();
 
     // 绘制布局
     unsigned int drawlayout = DrawLayout::None;
@@ -419,7 +375,6 @@ protected:
     VertexLayout vt = Vertexlayout;
     unsigned int vn;
     unsigned int VAO, VBO;
-    bool hasCameraMatrics = false;
 
     unsigned int loadTexture(char const *path)
     {
@@ -720,7 +675,7 @@ public:
         SetVertex(&quadVertices, D2VertexTexcoordlayout, sizeof(quadVertices));
         SetShader("./19/l1/ObjectVertex.vert", "./19/l1/ObjectFragment.frag");
     }
-    void Draw() override
+    void Draw(Shader *specialShader = nullptr) override
     {
         Window::Clear();
         shader->use();
@@ -777,13 +732,10 @@ public:
         return this;
     }
 
-    void Draw() override
+    void Draw(Shader *specialShader = nullptr) override
     {
-        if (!hasCameraMatrics)
-        {
-            UpdateCamera();
-        }
-        if (drawlayout & (DrawLayout::NeedSpecialShader))
+        UpdateCamera();
+        if (specialShader != nullptr)
         {
             specialShader->use();
         }
@@ -796,7 +748,7 @@ public:
             glBindTexture(GL_TEXTURE_CUBE_MAP, SkyboxTextureID);
         }
 
-        if (drawlayout & (DrawLayout::NeedSpecialShader))
+        if (specialShader != nullptr)
         {
             _model->Draw(*specialShader);
         }
