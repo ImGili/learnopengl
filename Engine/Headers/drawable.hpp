@@ -21,6 +21,7 @@ enum DrawLayout
     TextureDrawlayout = BIT(0),
     CamerPositionInside = BIT(2),
     NeedSkyBoxTexture = BIT(3),
+    InstanceDrawlayout = BIT(4)
 };
 
 enum class DrawTypes
@@ -127,6 +128,13 @@ public:
     Drawable()
     {
     }
+
+    Drawable *SetDrawInstance(unsigned int n)
+    {
+        drawlayout |= DrawLayout::InstanceDrawlayout;
+        instanceNum = n;
+        return this;
+    }
     Drawable *SetDrawlayout(unsigned int dl)
     {
         drawlayout = dl;
@@ -136,6 +144,11 @@ public:
     {
         drawTypes = dt;
         return this;
+    }
+
+    Shader* GetShader()
+    {
+        return shader;
     }
     // 设置着色器
     Drawable *SetShader(const char *vertexPath, const char *fragmentPath, const char *geometryPath = nullptr)
@@ -358,6 +371,8 @@ public:
         return this;
     }
 
+
+
 protected:
     // 可读可写数据
     // opengl 缓冲id
@@ -374,6 +389,7 @@ protected:
     // 自身只读数据
     VertexLayout vt = Vertexlayout;
     unsigned int vn;
+    unsigned int instanceNum;
     unsigned int VAO, VBO;
 
     unsigned int loadTexture(char const *path)
