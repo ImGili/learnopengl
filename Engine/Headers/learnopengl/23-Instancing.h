@@ -132,11 +132,12 @@ namespace glx0232
             mGUI::NewFrame();
             {
                 ImGui::Begin("实例化");
+                ImGui::Text("FPS:%f", 1/window->deltaTime);
                 ImGui::End();
             }
 
             mGUI::RenderGUI();
-            
+
             drawable->Draw();
             
 
