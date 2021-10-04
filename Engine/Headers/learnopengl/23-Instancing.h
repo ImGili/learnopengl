@@ -77,7 +77,7 @@ namespace glx0231
     }
 
 }
-// 未使用实例化
+// 使用实例化
 namespace glx0232
 {
     int main()
@@ -91,9 +91,10 @@ namespace glx0232
         
         Drawable* drawable =    (new Drawable())\
                                 ->SetVertexNum(6)\
+                                ->SetDrawInstance(100)\
                                 ->SetVertexLayout(VertexNormallayout)\
                                 ->SetVertexFromData("./data/23/l1/")\
-                                ->SetShader("./23/l1/ObjectVertex.vert", "./23/l1/ObjectFragment.frag")\
+                                ->SetShader("./23/l2/ObjectVertex.vert", "./23/l2/ObjectFragment.frag")\
                                 ->SetModle(glm::mat4(1));
         glm::vec3 translations[100];
         int index = 0;
@@ -108,6 +109,14 @@ namespace glx0232
                 translation.z = 0;
                 translations[index++] = translation;
             }
+        }
+        for(unsigned int i = 0; i < 100; i++)
+        {
+            stringstream ss;
+            string index;
+            ss << i; 
+            index = ss.str(); 
+            drawable->GetShader()->setVec3(("offsets[" + index + "]").c_str(), translations[i]);
         }
         
         glm::mat4 model = glm::mat4(1);

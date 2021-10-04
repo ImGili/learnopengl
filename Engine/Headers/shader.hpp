@@ -178,6 +178,7 @@ public:
     }
     void setVec3(const std::string &name, const glm::vec3& value) const
     { 
+        use();
         int flag = glGetUniformLocation(ID, name.c_str());
         if (flag != -1)
         {
@@ -187,7 +188,7 @@ public:
         {
             checkUniformErrors(name, flag);
         }
-        
+        glUseProgram(0);
     }
     void setVec3(const std::string &name, float x, float y, float z) const
     { 
