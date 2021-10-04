@@ -129,7 +129,6 @@ namespace glx0222
 
 namespace glx0223
 {
-    #define PI 3.14
     int main()
     {
         Window *window = Window::getWindow();
@@ -143,7 +142,8 @@ namespace glx0223
         Drawable* drawable =  (new mModel());
         Shader* ss = GU_EXPLOR_SHADER;
         
-        
+        Plane plane;
+        SkyBox skybox;
 
         float ex = 0.0f;
 
@@ -166,13 +166,16 @@ namespace glx0223
             mGUI::NewFrame();
             {
                 ImGui::Begin("爆破");
-                ImGui::DragFloat("爆破", &ex, PI/180, -PI, PI);
+                ImGui::DragFloat("爆破", &ex, 0.01, 0, 10);
                 ImGui::End();
             }
 
             mGUI::RenderGUI();
-            ss->setFloat("time", ex);
+            skybox.Draw();
+            ss->setFloat("ex", ex);
             drawable->Draw(ss);
+            drawable->Draw();
+            plane.Draw();
             
             
 
