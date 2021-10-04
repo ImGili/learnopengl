@@ -43,7 +43,7 @@ public:
     }
 
     Shader *exshader = new Shader("./22/l3/ObjectVertex.vert", "./22/l3/ObjectFragment.frag", "./22/l3/ObjectGeometry.gs");
-    Shader *normalshader = new Shader("./22/l3/ObjectVertex.vert", "./22/l3/ObjectFragment.frag", "./22/l3/ObjectGeometry.gs");
+    Shader *normalshader = new Shader("./22/l4/ObjectVertex.vert", "./22/l4/ObjectFragment.frag", "./22/l4/ObjectGeometry.gs");
 
 private:
     SpecialShaders()

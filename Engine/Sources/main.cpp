@@ -108,6 +108,7 @@ int main()
                      "2201、几何着色器实验1\n"
                      "2202、几何着色器实验1-造房子\n"
                      "2203、几何着色器实验2-爆炸\n"
+                     "2204、几何着色器实验3-法线可视化\n"
                      "-1、测试window和camera单例封装\n"
                      "-2、测试shape类\n";
         std::cout << "请输入编号（输入0退出程序）：";
@@ -337,6 +338,9 @@ int main()
             break;
         case 2203:
             glx0223::main();
+            break;
+        case 2204:
+            glx0224::main();
             break;
         case 999:
             glx999::main();

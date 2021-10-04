@@ -190,3 +190,64 @@ namespace glx0223
     }
 
 }
+namespace glx0224
+{
+    int main()
+    {
+        Window *window = Window::getWindow();
+        CameraInstance *camera = CameraInstance::GetCamera();
+
+        glEnable(GL_DEPTH_TEST);
+        glDepthFunc(GL_LESS);
+        glPointSize(200);
+        
+        // Drawable* drawable =  (new mModel())->SetShader("./22/l3/ObjectVertex.vert", "./22/l3/ObjectFragment.frag", "./22/l3/ObjectGeometry.gs")->SetModle(glm::mat4(1));
+        Drawable* drawable =  (new mModel());
+        Shader* ss = GU_NORAML_SHADER;
+        
+        Plane plane;
+        SkyBox skybox;
+
+        float ex = 0.0f;
+
+        // glPointSize(200);
+        
+        mGUI::Init();
+        // render loop
+        // -----------
+        while (!window->WindowShouldClose())
+        {
+            window->UpdateDeltaTime();
+            camera->UpdateUniform();
+            // input
+            // -----
+            window->processInput();
+
+            
+            window->Clear();
+
+            mGUI::NewFrame();
+            {
+                ImGui::Begin("法线可视化");
+                ImGui::End();
+            }
+
+            mGUI::RenderGUI();
+            skybox.Draw();
+            drawable->Draw(ss);
+            drawable->Draw();
+            plane.Draw();
+            
+            
+
+            mGUI::DrawRenderData();
+            window->SwapBufferAndPollEvents();
+        }
+
+        mGUI::DestroyGUI();
+        Window::DestoryWindow();
+        CameraInstance::DestoryCamera();
+        return 0;
+    }
+
+}
