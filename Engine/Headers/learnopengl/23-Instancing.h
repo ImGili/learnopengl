@@ -33,9 +33,6 @@ namespace glx0231
             }
         }
         
-        glm::mat4 model = glm::mat4(1);
-
-        
         mGUI::Init();
         // render loop
         // -----------
@@ -59,9 +56,7 @@ namespace glx0231
             mGUI::RenderGUI();
             for (int i = 0; i < 100; i++)
             {
-                model = glm::mat4(1);
-                model = glm::translate(model, translations[i]);
-                drawable->SetModle(model);
+                drawable->GetShader()->setVec3("offset", translations[i]);
                 drawable->Draw();
             }
             
@@ -119,8 +114,6 @@ namespace glx0232
             drawable->GetShader()->setVec3(("offsets[" + index + "]").c_str(), translations[i]);
         }
         
-        glm::mat4 model = glm::mat4(1);
-
         
         mGUI::Init();
         // render loop
@@ -143,13 +136,8 @@ namespace glx0232
             }
 
             mGUI::RenderGUI();
-            for (int i = 0; i < 100; i++)
-            {
-                model = glm::mat4(1);
-                model = glm::translate(model, translations[i]);
-                drawable->SetModle(model);
-                drawable->Draw();
-            }
+            
+            drawable->Draw();
             
 
             mGUI::DrawRenderData();
