@@ -379,7 +379,7 @@ public:
         default:
             break;
         }
-        if (drawlayout&(DrawLayout::InstanceDrawlayout) && 、iv)
+        if (drawlayout&(DrawLayout::InstanceDrawlayout) && iv)
         {
             glBufferSubData(GL_ARRAY_BUFFER, subOffset, iv * sizeof(float) * instanceNum, instance);
             glEnableVertexAttribArray(3);
