@@ -153,7 +153,7 @@ namespace glx0232
 
 }
 
-// 使用实例化
+// 实例化数组
 namespace glx0233
 {
     int main()
@@ -164,36 +164,15 @@ namespace glx0233
         glEnable(GL_DEPTH_TEST);
         glDepthFunc(GL_LESS);
         glPointSize(200);
+        SkyBox skybox;
         
         Drawable* drawable =    (new Drawable())\
                                 ->SetVertexNum(6)\
-                                ->SetDrawInstance(100)\
+                                ->SetDrawInstance(10000)\
                                 ->SetVertexLayout(VertexNormallayout)\
-                                ->SetVertexFromData("./data/23/l1/")\
-                                ->SetShader("./23/l2/ObjectVertex.vert", "./23/l2/ObjectFragment.frag")\
+                                ->SetVertexFromData("./data/23/l3/", 2)\
+                                ->SetShader("./23/l3/ObjectVertex.vert", "./23/l3/ObjectFragment.frag")\
                                 ->SetModle(glm::mat4(1));
-        glm::vec3 translations[100];
-        int index = 0;
-        float offset = 0.1f;
-        for(int y = -10; y < 10; y += 2)
-        {
-            for(int x = -10; x < 10; x += 2)
-            {
-                glm::vec3 translation;
-                translation.x = (float)x / 10.0f + offset;
-                translation.y = (float)y / 10.0f + offset;
-                translation.z = 0;
-                translations[index++] = translation;
-            }
-        }
-        for(unsigned int i = 0; i < 100; i++)
-        {
-            stringstream ss;
-            string index;
-            ss << i; 
-            index = ss.str(); 
-            drawable->GetShader()->setVec3(("offsets[" + index + "]").c_str(), translations[i]);
-        }
         
         
         mGUI::Init();
@@ -220,6 +199,7 @@ namespace glx0233
             mGUI::RenderGUI();
 
             drawable->Draw();
+            skybox.Draw();
             
 
             mGUI::DrawRenderData();

@@ -275,20 +275,23 @@ public:
         vn = _vn;
         return this;
     }
-    Drawable *SetVertexFromData(std::string dataPath)
+    Drawable *SetVertexFromData(std::string dataPath, unsigned int iv=0)
     {
         float positions[256] = {0};
         float normals[256] = {0};
         float texcoord[256] = {0};
-        std::string positionsPath, normalsPath, texcoordPath;
+        float instance[32768] = {0};
+        std::string positionsPath, normalsPath, texcoordPath, instancePath;
         positionsPath = dataPath + "positions.txt";
         normalsPath = dataPath + "normals.txt";
         texcoordPath = dataPath + "texcoord.txt";
+        instancePath = dataPath + "instance.txt";
 
         std::ifstream positionsIn(positionsPath.c_str());
         std::ifstream normalsIn(normalsPath.c_str());
         std::ifstream texcoordIn(texcoordPath.c_str());
-        int i = 0;
+        std::ifstream instanceIn(instancePath.c_str());
+        unsigned int i = 0;
         float tmp = 0.0f;
         while (positionsIn.is_open() && positionsIn >> tmp)
         {
@@ -311,24 +314,37 @@ public:
             texcoord[i] = tmp;
             i++;
         }
+        i = 0;
+        tmp = 0.0f;
+        while (drawlayout&(DrawLayout::InstanceDrawlayout) && instanceIn.is_open() && instanceIn >> tmp)
+        {
+            instance[i] = tmp;
+            i++;
+        }
 
         positionsIn.close();
         normalsIn.close();
         texcoordIn.close();
+        instanceIn.close();
 
         glGenVertexArrays(1, &VAO);
         glGenBuffers(1, &VBO);
         glBindVertexArray(VAO);
         glBindBuffer(GL_ARRAY_BUFFER, VBO);
+
+        unsigned long subOffset = 0;
         switch (vt)
         {
         case Vertexlayout:
-            glBufferData(GL_ARRAY_BUFFER, 3 * sizeof(float) * vn, positions, GL_STATIC_DRAW);
+            subOffset = vn * sizeof(float) * 3;
+            glBufferData(GL_ARRAY_BUFFER, vn * sizeof(float) * 3 + iv * sizeof(float) * instanceNum , nullptr, GL_STATIC_DRAW);
+            glBufferSubData(GL_ARRAY_BUFFER, 0, 3 * sizeof(float) * vn, positions);
             glEnableVertexAttribArray(0);
             glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void *)0);
             break;
         case VertexNormallayout:
-            glBufferData(GL_ARRAY_BUFFER, vn * sizeof(float) * 3 + vn * sizeof(float) * 3, nullptr, GL_STATIC_DRAW);
+            subOffset = vn * sizeof(float) * 3 + vn * sizeof(float) * 3;
+            glBufferData(GL_ARRAY_BUFFER, vn * sizeof(float) * 3 + vn * sizeof(float) * 3+ iv * sizeof(float) * instanceNum, nullptr, GL_STATIC_DRAW);
             glBufferSubData(GL_ARRAY_BUFFER, 0, 3 * sizeof(float) * vn, positions);
             glBufferSubData(GL_ARRAY_BUFFER, 3 * sizeof(float) * vn, 3 * sizeof(float) * vn, normals);
             glEnableVertexAttribArray(0);
@@ -337,7 +353,8 @@ public:
             glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void *)(3 * sizeof(float) * vn));
             break;
         case VertexTexcoordlayout:
-            glBufferData(GL_ARRAY_BUFFER, vn * sizeof(float) * 3 + vn * sizeof(float) * 2, nullptr, GL_STATIC_DRAW);
+            subOffset = vn * sizeof(float) * 3 + vn * sizeof(float) * 2;
+            glBufferData(GL_ARRAY_BUFFER, vn * sizeof(float) * 3 + vn * sizeof(float) * 2+ iv * sizeof(float) * instanceNum, nullptr, GL_STATIC_DRAW);
             glBufferSubData(GL_ARRAY_BUFFER, 0, 3 * sizeof(float) * vn, positions);
             glBufferSubData(GL_ARRAY_BUFFER, 3 * sizeof(float) * vn, 2 * sizeof(float) * vn, texcoord);
             glEnableVertexAttribArray(0);
@@ -346,7 +363,8 @@ public:
             glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 2 * sizeof(float), (void *)(3 * sizeof(float) * vn));
             break;
         case VertexNormalTexcoordlayout:
-            glBufferData(GL_ARRAY_BUFFER, vn * sizeof(float) * 3 + vn * sizeof(float) * 3 + vn * sizeof(float) * 2, nullptr, GL_STATIC_DRAW);
+            subOffset = vn * sizeof(float) * 3 + vn * sizeof(float) * 3 + vn * sizeof(float) * 2;
+            glBufferData(GL_ARRAY_BUFFER, vn * sizeof(float) * 3 + vn * sizeof(float) * 3 + vn * sizeof(float) * 2+ iv * sizeof(float) * instanceNum, nullptr, GL_STATIC_DRAW);
             glBufferSubData(GL_ARRAY_BUFFER, 0, 3 * sizeof(float) * vn, positions);
             glBufferSubData(GL_ARRAY_BUFFER, 3 * sizeof(float) * vn, 3 * sizeof(float) * vn, normals);
             glBufferSubData(GL_ARRAY_BUFFER, 3 * sizeof(float) * vn + 3 * sizeof(float) * vn, 2 * sizeof(float) * vn, texcoord);
@@ -361,6 +379,15 @@ public:
         default:
             break;
         }
+        if (drawlayout&(DrawLayout::InstanceDrawlayout))
+        {
+            glBufferSubData(GL_ARRAY_BUFFER, subOffset, iv * sizeof(float) * instanceNum, instance);
+            glEnableVertexAttribArray(3);
+            glVertexAttribPointer(
+                3, iv, GL_FLOAT, GL_FALSE, iv * sizeof(float), (void *)(subOffset));
+            glVertexAttribDivisor(3, 1);
+        }
+        
         glBindVertexArray(0);
         return this;
     }
