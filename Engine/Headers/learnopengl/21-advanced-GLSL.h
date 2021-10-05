@@ -85,6 +85,7 @@ namespace glx0211
         delete obj;
         delete cube;
         delete mmodel;
+        delete drawable;
         mGUI::DestroyGUI();
         Window::DestoryWindow();
         CameraInstance::DestoryCamera();
@@ -164,6 +165,7 @@ namespace glx0212
         delete obj;
         delete cube;
         delete mmodel;
+        delete drawable;
         mGUI::DestroyGUI();
         Window::DestoryWindow();
         CameraInstance::DestoryCamera();
@@ -244,6 +246,7 @@ namespace glx0213
         delete obj;
         delete cube;
         delete mmodel;
+        delete drawable;
         mGUI::DestroyGUI();
         Window::DestoryWindow();
         CameraInstance::DestoryCamera();
@@ -325,6 +328,7 @@ namespace glx0214
         delete obj;
         delete cube;
         delete mmodel;
+        delete drawable;
         mGUI::DestroyGUI();
         Window::DestoryWindow();
         CameraInstance::DestoryCamera();
@@ -406,6 +410,7 @@ namespace glx0215
         delete obj;
         delete cube;
         delete mmodel;
+        delete drawable;
         mGUI::DestroyGUI();
         Window::DestoryWindow();
         CameraInstance::DestoryCamera();
@@ -487,6 +492,7 @@ namespace glx0216
         delete obj;
         delete cube;
         delete mmodel;
+        delete drawable;
         mGUI::DestroyGUI();
         Window::DestoryWindow();
         CameraInstance::DestoryCamera();

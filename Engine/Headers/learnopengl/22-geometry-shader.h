@@ -58,7 +58,7 @@ namespace glx0221
             mGUI::DrawRenderData();
             window->SwapBufferAndPollEvents();
         }
-
+        delete drawable;
         mGUI::DestroyGUI();
         Window::DestoryWindow();
         CameraInstance::DestoryCamera();
@@ -118,7 +118,7 @@ namespace glx0222
             mGUI::DrawRenderData();
             window->SwapBufferAndPollEvents();
         }
-
+        delete drawable;
         mGUI::DestroyGUI();
         Window::DestoryWindow();
         CameraInstance::DestoryCamera();
@@ -182,7 +182,7 @@ namespace glx0223
             mGUI::DrawRenderData();
             window->SwapBufferAndPollEvents();
         }
-
+        delete drawable;
         mGUI::DestroyGUI();
         Window::DestoryWindow();
         CameraInstance::DestoryCamera();
@@ -243,7 +243,7 @@ namespace glx0224
             mGUI::DrawRenderData();
             window->SwapBufferAndPollEvents();
         }
-
+        delete drawable;
         mGUI::DestroyGUI();
         Window::DestoryWindow();
         CameraInstance::DestoryCamera();

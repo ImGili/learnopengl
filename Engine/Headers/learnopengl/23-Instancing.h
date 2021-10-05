@@ -64,7 +64,7 @@ namespace glx0231
             mGUI::DrawRenderData();
             window->SwapBufferAndPollEvents();
         }
-
+        delete drawable;
         mGUI::DestroyGUI();
         Window::DestoryWindow();
         CameraInstance::DestoryCamera();
@@ -144,7 +144,7 @@ namespace glx0232
             mGUI::DrawRenderData();
             window->SwapBufferAndPollEvents();
         }
-
+        delete drawable;
         mGUI::DestroyGUI();
         Window::DestoryWindow();
         CameraInstance::DestoryCamera();
@@ -205,7 +205,68 @@ namespace glx0233
             mGUI::DrawRenderData();
             window->SwapBufferAndPollEvents();
         }
+        delete drawable;
+        mGUI::DestroyGUI();
+        Window::DestoryWindow();
+        CameraInstance::DestoryCamera();
+        return 0;
+    }
 
+}
+
+// 实例化行星模型试验
+namespace glx0234
+{
+    int main()
+    {
+        Window *window = Window::getWindow();
+        CameraInstance *camera = CameraInstance::GetCamera();
+
+        glEnable(GL_DEPTH_TEST);
+        glDepthFunc(GL_LESS);
+        glPointSize(200);
+        SkyBox skybox;
+        
+        Drawable* drawable =    (new Drawable())\
+                                ->SetVertexNum(6)\
+                                ->SetDrawInstance(10000)\
+                                ->SetVertexLayout(VertexNormallayout)\
+                                ->SetVertexFromData("./data/23/l3/", 2)\
+                                ->SetShader("./23/l3/ObjectVertex.vert", "./23/l3/ObjectFragment.frag")\
+                                ->SetModle(glm::mat4(1));
+        
+        
+        mGUI::Init();
+        // render loop
+        // -----------
+        while (!window->WindowShouldClose())
+        {
+            window->UpdateDeltaTime();
+            camera->UpdateUniform();
+            // input
+            // -----
+            window->processInput();
+
+            
+            window->Clear();
+
+            mGUI::NewFrame();
+            {
+                ImGui::Begin(u8"实例化");
+                ImGui::Text("FPS:%f", 1/window->deltaTime);
+                ImGui::End();
+            }
+
+            mGUI::RenderGUI();
+
+            drawable->Draw();
+            skybox.Draw();
+            
+
+            mGUI::DrawRenderData();
+            window->SwapBufferAndPollEvents();
+        }
+        delete drawable;
         mGUI::DestroyGUI();
         Window::DestoryWindow();
         CameraInstance::DestoryCamera();
