@@ -52,10 +52,10 @@ file(GLOB PROJECT_HEADERS           Engine/include/*.hpp
                                     Engine/test/*.h
                                     )
 file(GLOB PROJECT_SOURCES           Engine/src/*.cpp)
-file(GLOB PROJECT_SHADERS           Resources/shader/*)
-file(GLOB PROJECT_RESOURCES_FONTS   Engine/Resources/fonts/*.ttf
+file(GLOB PROJECT_SHADERS           resources/shader/*)
+file(GLOB PROJECT_RESOURCES_FONTS   Engine/resources/fonts/*.ttf
                                     )
-file(GLOB PROJECT_RESOURCES_IMGS    Engine/Resources/imgs/*
+file(GLOB PROJECT_RESOURCES_IMGS    Engine/resources/imgs/*
                                     )
 
 

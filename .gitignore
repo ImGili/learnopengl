@@ -1,4 +1,4 @@
 [Bb]uild/
 .DS_Store
 .vscode
-Vendor/
+[Vv]endor/
