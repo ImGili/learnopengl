@@ -33,7 +33,7 @@ else()
 endif()
 
 
-include_directories(                Engine/Headers/
+include_directories(                Engine/include/
                                     Engine/Vendor/glad/include/
                                     Engine/Vendor/glfw/include/
                                     Engine/Vendor/stb
@@ -47,35 +47,22 @@ file(GLOB VENDORS_SOURCES           Engine/Vendor/glad/src/glad.c
                                     Engine/Vendor/imgui/backends/imgui_impl_opengl3.cpp
                                     Engine/Vendor/imgui/backends/imgui_impl_glfw.cpp
                                     )
-file(GLOB PROJECT_HEADERS           Engine/Headers/*.hpp
-                                    Engine/Headers/*.h)
-file(GLOB PROJECT_SOURCES           Engine/Sources/*.cpp)
-                                    # Engine/Sources/window.cpp)
-file(GLOB PROJECT_SHADERS           Engine/Shaders/*.comp
-                                    Engine/Shaders/*.frag
-                                    Engine/Shaders/*.geom
-                                    Engine/Shaders/*.vert)
+file(GLOB PROJECT_HEADERS           Engine/include/*.hpp
+                                    Engine/include/*.h
+                                    Engine/test/*.h
+                                    )
+file(GLOB PROJECT_SOURCES           Engine/src/*.cpp)
+file(GLOB PROJECT_SHADERS           Resources/shader/*)
 file(GLOB PROJECT_RESOURCES_FONTS   Engine/Resources/fonts/*.ttf
                                     )
 file(GLOB PROJECT_RESOURCES_IMGS    Engine/Resources/imgs/*
                                     )
-file(GLOB PROJECT_CONFIGS           CMakeLists.txt
-                                    Readme.md
-                                    .gitattributes
-                                    .gitignore
-                                    .gitmodules
-                                    )
 
-source_group("Headers" FILES ${PROJECT_HEADERS})
-source_group("Shaders" FILES ${PROJECT_SHADERS})
-source_group("Sources" FILES ${PROJECT_SOURCES})
-source_group("Vendors" FILES ${VENDORS_SOURCES})
 
 add_definitions(-DGLFW_INCLUDE_NONE
                 -DPROJECT_SOURCE_DIR=\"${PROJECT_SOURCE_DIR}\"
                 -DASSIMP_BUILD_ASSIMP_TOOLS="OFF")
 add_executable(${PROJECT_NAME} ${PROJECT_SOURCES} ${PROJECT_HEADERS}
-                               ${PROJECT_SHADERS} ${PROJECT_CONFIGS}
                                ${VENDORS_SOURCES})
 target_link_libraries(${PROJECT_NAME} assimp glfw
                       ${GLFW_LIBRARIES} ${GLAD_LIBRARIES}
