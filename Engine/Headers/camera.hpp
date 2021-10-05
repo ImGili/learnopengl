@@ -113,6 +113,11 @@ public:
             Zoom = 45.0f;
     }
 
+    void SetMovementSpeed(float movespeed)
+    {
+        MovementSpeed = movespeed;
+    }
+
 private:
     // calculates the front vector from the Camera's (updated) Euler Angles
     void updateCameraVectors()
@@ -225,9 +230,13 @@ public:
     {
         _camera->ProcessMouseScroll(yoffset);
     }
+    void SetMovementSpeed(float movespeed)
+    {
+        _camera->SetMovementSpeed(movespeed);
+    }
     glm::mat4 getPerspective()
     {
-        glm::mat4 p = glm::perspective(_camera->Zoom, (float)800 / (float)600, 0.1f, 100.0f);
+        glm::mat4 p = glm::perspective(_camera->Zoom, (float)800 / (float)600, 0.1f, 10000.0f);
         return p;
     }
     void UpdateUniform()
@@ -239,4 +248,5 @@ public:
         glBindBuffer(GL_UNIFORM_BUFFER, uboCameraMatrices);
         glBufferSubData(GL_UNIFORM_BUFFER, sizeof(glm::mat4), sizeof(glm::mat4), glm::value_ptr(view));
     }
+    
 };

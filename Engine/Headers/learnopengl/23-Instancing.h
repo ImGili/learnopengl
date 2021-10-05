@@ -1,4 +1,4 @@
-#include"Engine.h"
+#include "Engine.h"
 
 // 未使用实例化
 namespace glx0231
@@ -11,19 +11,19 @@ namespace glx0231
         glEnable(GL_DEPTH_TEST);
         glDepthFunc(GL_LESS);
         glPointSize(200);
-        
-        Drawable* drawable =    (new Drawable())\
-                                ->SetVertexNum(6)\
-                                ->SetVertexLayout(VertexNormallayout)\
-                                ->SetVertexFromData("./data/23/l1/")\
-                                ->SetShader("./23/l1/ObjectVertex.vert", "./23/l1/ObjectFragment.frag")\
-                                ->SetModle(glm::mat4(1));
+
+        Drawable *drawable = (new Drawable())
+                                 ->SetVertexNum(6)
+                                 ->SetVertexLayout(VertexNormallayout)
+                                 ->SetVertexFromData("./data/23/l1/")
+                                 ->SetShader("./23/l1/ObjectVertex.vert", "./23/l1/ObjectFragment.frag")
+                                 ->SetModle(glm::mat4(1));
         glm::vec3 translations[100];
         int index = 0;
         float offset = 0.1f;
-        for(int y = -10; y < 10; y += 2)
+        for (int y = -10; y < 10; y += 2)
         {
-            for(int x = -10; x < 10; x += 2)
+            for (int x = -10; x < 10; x += 2)
             {
                 glm::vec3 translation;
                 translation.x = (float)x / 10.0f + offset;
@@ -32,7 +32,7 @@ namespace glx0231
                 translations[index++] = translation;
             }
         }
-        
+
         mGUI::Init();
         // render loop
         // -----------
@@ -44,7 +44,6 @@ namespace glx0231
             // -----
             window->processInput();
 
-            
             window->Clear();
 
             mGUI::NewFrame();
@@ -59,7 +58,6 @@ namespace glx0231
                 drawable->GetShader()->setVec3("offset", translations[i]);
                 drawable->Draw();
             }
-            
 
             mGUI::DrawRenderData();
             window->SwapBufferAndPollEvents();
@@ -83,20 +81,20 @@ namespace glx0232
         glEnable(GL_DEPTH_TEST);
         glDepthFunc(GL_LESS);
         glPointSize(200);
-        
-        Drawable* drawable =    (new Drawable())\
-                                ->SetVertexNum(6)\
-                                ->SetDrawInstance(100)\
-                                ->SetVertexLayout(VertexNormallayout)\
-                                ->SetVertexFromData("./data/23/l1/")\
-                                ->SetShader("./23/l2/ObjectVertex.vert", "./23/l2/ObjectFragment.frag")\
-                                ->SetModle(glm::mat4(1));
+
+        Drawable *drawable = (new Drawable())
+                                 ->SetVertexNum(6)
+                                 ->SetDrawInstance(100)
+                                 ->SetVertexLayout(VertexNormallayout)
+                                 ->SetVertexFromData("./data/23/l1/")
+                                 ->SetShader("./23/l2/ObjectVertex.vert", "./23/l2/ObjectFragment.frag")
+                                 ->SetModle(glm::mat4(1));
         glm::vec3 translations[100];
         int index = 0;
         float offset = 0.1f;
-        for(int y = -10; y < 10; y += 2)
+        for (int y = -10; y < 10; y += 2)
         {
-            for(int x = -10; x < 10; x += 2)
+            for (int x = -10; x < 10; x += 2)
             {
                 glm::vec3 translation;
                 translation.x = (float)x / 10.0f + offset;
@@ -105,16 +103,15 @@ namespace glx0232
                 translations[index++] = translation;
             }
         }
-        for(unsigned int i = 0; i < 100; i++)
+        for (unsigned int i = 0; i < 100; i++)
         {
             stringstream ss;
             string index;
-            ss << i; 
-            index = ss.str(); 
+            ss << i;
+            index = ss.str();
             drawable->GetShader()->setVec3(("offsets[" + index + "]").c_str(), translations[i]);
         }
-        
-        
+
         mGUI::Init();
         // render loop
         // -----------
@@ -126,20 +123,18 @@ namespace glx0232
             // -----
             window->processInput();
 
-            
             window->Clear();
 
             mGUI::NewFrame();
             {
                 ImGui::Begin("实例化");
-                ImGui::Text("FPS:%f", 1/window->deltaTime);
+                ImGui::Text("FPS:%f", 1 / window->deltaTime);
                 ImGui::End();
             }
 
             mGUI::RenderGUI();
 
             drawable->Draw();
-            
 
             mGUI::DrawRenderData();
             window->SwapBufferAndPollEvents();
@@ -165,16 +160,15 @@ namespace glx0233
         glDepthFunc(GL_LESS);
         glPointSize(200);
         SkyBox skybox;
-        
-        Drawable* drawable =    (new Drawable())\
-                                ->SetVertexNum(6)\
-                                ->SetDrawInstance(10000)\
-                                ->SetVertexLayout(VertexNormallayout)\
-                                ->SetVertexFromData("./data/23/l3/", 2)\
-                                ->SetShader("./23/l3/ObjectVertex.vert", "./23/l3/ObjectFragment.frag")\
-                                ->SetModle(glm::mat4(1));
-        
-        
+
+        Drawable *drawable = (new Drawable())
+                                 ->SetVertexNum(6)
+                                 ->SetDrawInstance(10000)
+                                 ->SetVertexLayout(VertexNormallayout)
+                                 ->SetVertexFromData("./data/23/l3/", 2)
+                                 ->SetShader("./23/l3/ObjectVertex.vert", "./23/l3/ObjectFragment.frag")
+                                 ->SetModle(glm::mat4(1));
+
         mGUI::Init();
         // render loop
         // -----------
@@ -186,13 +180,12 @@ namespace glx0233
             // -----
             window->processInput();
 
-            
             window->Clear();
 
             mGUI::NewFrame();
             {
                 ImGui::Begin(u8"实例化");
-                ImGui::Text("FPS:%f", 1/window->deltaTime);
+                ImGui::Text("FPS:%f", 1 / window->deltaTime);
                 ImGui::End();
             }
 
@@ -200,7 +193,6 @@ namespace glx0233
 
             drawable->Draw();
             skybox.Draw();
-            
 
             mGUI::DrawRenderData();
             window->SwapBufferAndPollEvents();
@@ -214,28 +206,63 @@ namespace glx0233
 
 }
 
-// 实例化行星模型试验
+// 实例化行星模型试验(未使用实例化渲染)
 namespace glx0234
 {
     int main()
     {
         Window *window = Window::getWindow();
         CameraInstance *camera = CameraInstance::GetCamera();
+        camera->SetMovementSpeed(2*SPEED);
 
         glEnable(GL_DEPTH_TEST);
         glDepthFunc(GL_LESS);
-        glPointSize(200);
-        SkyBox skybox;
-        
-        Drawable* drawable =    (new Drawable())\
-                                ->SetVertexNum(6)\
-                                ->SetDrawInstance(10000)\
-                                ->SetVertexLayout(VertexNormallayout)\
-                                ->SetVertexFromData("./data/23/l3/", 2)\
-                                ->SetShader("./23/l3/ObjectVertex.vert", "./23/l3/ObjectFragment.frag")\
-                                ->SetModle(glm::mat4(1));
-        
-        
+
+        Drawable *planet = (new mModel())
+                               ->Setmodel("./models/planet/planet.obj")
+                               ->SetShader("./23/l4/PlanetVertex.vert", "./23/l4/PlanetFragment.frag")
+                               ->SetModle(glm::mat4(1));
+        Drawable *rock = (new mModel())
+                             ->Setmodel("./models/rock/rock.obj")
+                             ->SetShader("./23/l4/RockVertex.vert", "./23/l4/RockFragment.frag")
+                             ->SetModle(glm::mat4(1));
+
+        unsigned int amount = 20000;
+        glm::mat4 *modelMatrices;
+        modelMatrices = new glm::mat4[amount];
+        srand(glfwGetTime()); // 初始化随机种子
+        float radius = 50.0;
+        float offset = 25.0f;
+        for (unsigned int i = 0; i < amount; i++)
+        {
+            glm::mat4 model;
+            // 1. 位移：分布在半径为 'radius' 的圆形上，偏移的范围是 [-offset, offset]
+            float angle = (float)i / (float)amount * 360.0f;
+            float displacement = (rand() % (int)(2 * offset * 100)) / 100.0f - offset;
+            float x = sin(angle) * radius + displacement;
+            displacement = (rand() % (int)(2 * offset * 100)) / 100.0f - offset;
+            float y = displacement * 0.2f; // 让行星带的高度比x和z的宽度要小
+            displacement = (rand() % (int)(2 * offset * 100)) / 100.0f - offset;
+            float z = cos(angle) * radius + displacement;
+            model = glm::translate(model, glm::vec3(x, y, z));
+
+            // 2. 缩放：在 0.05 和 0.25f 之间缩放
+            float scale = (rand() % 20) / 100.0f + 0.05;
+            model = glm::scale(model, glm::vec3(scale));
+
+            // 3. 旋转：绕着一个（半）随机选择的旋转轴向量进行随机的旋转
+            float rotAngle = (rand() % 360);
+            model = glm::rotate(model, rotAngle, glm::vec3(0.4f, 0.6f, 0.8f));
+
+            // 4. 添加到矩阵的数组中
+            modelMatrices[i] = model;
+        }
+
+        glm::mat4 model;
+        model = glm::translate(model, glm::vec3(0.0f, -3.0f, 0.0f));
+        model = glm::scale(model, glm::vec3(4.0f, 4.0f, 4.0f));
+        planet->SetModle(model);
+
         mGUI::Init();
         // render loop
         // -----------
@@ -247,26 +274,30 @@ namespace glx0234
             // -----
             window->processInput();
 
-            
             window->Clear();
 
             mGUI::NewFrame();
             {
                 ImGui::Begin(u8"实例化");
-                ImGui::Text("FPS:%f", 1/window->deltaTime);
+                ImGui::Text("FPS:%f", 1 / window->deltaTime);
                 ImGui::End();
             }
 
             mGUI::RenderGUI();
 
-            drawable->Draw();
-            skybox.Draw();
-            
+            planet->Draw();
+            // 绘制小行星
+            for (unsigned int i = 0; i < amount; i++)
+            {
+                rock->SetModle(modelMatrices[i]);
+                rock->Draw();
+            }
 
             mGUI::DrawRenderData();
             window->SwapBufferAndPollEvents();
         }
-        delete drawable;
+        delete planet;
+        delete rock;
         mGUI::DestroyGUI();
         Window::DestoryWindow();
         CameraInstance::DestoryCamera();

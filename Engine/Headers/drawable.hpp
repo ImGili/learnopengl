@@ -796,6 +796,21 @@ public:
         glBindTexture(GL_TEXTURE_CUBE_MAP, 0);
     }
 
+    Drawable* Setmodel(const char* path)
+    {
+        if (_model != nullptr)
+        {
+            delete _model;
+        }
+        
+        _model = new Model(path);
+        return this;
+    }
+    Model* GetModel()
+    {
+        return _model;
+    }
+
 private:
     Model *_model = nullptr;
 };
