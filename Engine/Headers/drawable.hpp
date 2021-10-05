@@ -24,8 +24,6 @@ enum DrawLayout
     InstanceDrawlayout = BIT(4)
 };
 
-
-
 class SpecialShaders
 {
 public:
@@ -87,7 +85,7 @@ public:
             glDepthFunc(GL_LEQUAL);
         }
 
-        if (drawlayout&(DrawLayout::InstanceDrawlayout))
+        if (drawlayout & (DrawLayout::InstanceDrawlayout))
         {
             glDrawArraysInstanced(drawTypes, 0, vn, instanceNum);
         }
@@ -95,8 +93,7 @@ public:
         {
             glDrawArrays(drawTypes, 0, vn);
         }
-            
-        
+
         glDepthFunc(GL_LESS);
         glUseProgram(0);
     }
@@ -140,7 +137,7 @@ public:
         return this;
     }
 
-    Shader* GetShader()
+    Shader *GetShader()
     {
         return shader;
     }
@@ -275,7 +272,7 @@ public:
         vn = _vn;
         return this;
     }
-    Drawable *SetVertexFromData(std::string dataPath, unsigned int iv=0)
+    Drawable *SetVertexFromData(std::string dataPath, unsigned int iv = 0)
     {
         float positions[256] = {0};
         float normals[256] = {0};
@@ -316,7 +313,7 @@ public:
         }
         i = 0;
         tmp = 0.0f;
-        while (drawlayout&(DrawLayout::InstanceDrawlayout) && instanceIn.is_open() && instanceIn >> tmp)
+        while (drawlayout & (DrawLayout::InstanceDrawlayout) && instanceIn.is_open() && instanceIn >> tmp)
         {
             instance[i] = tmp;
             i++;
@@ -337,14 +334,14 @@ public:
         {
         case Vertexlayout:
             subOffset = vn * sizeof(float) * 3;
-            glBufferData(GL_ARRAY_BUFFER, vn * sizeof(float) * 3 + iv * sizeof(float) * instanceNum , nullptr, GL_STATIC_DRAW);
+            glBufferData(GL_ARRAY_BUFFER, vn * sizeof(float) * 3 + iv * sizeof(float) * instanceNum, nullptr, GL_STATIC_DRAW);
             glBufferSubData(GL_ARRAY_BUFFER, 0, 3 * sizeof(float) * vn, positions);
             glEnableVertexAttribArray(0);
             glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void *)0);
             break;
         case VertexNormallayout:
             subOffset = vn * sizeof(float) * 3 + vn * sizeof(float) * 3;
-            glBufferData(GL_ARRAY_BUFFER, vn * sizeof(float) * 3 + vn * sizeof(float) * 3+ iv * sizeof(float) * instanceNum, nullptr, GL_STATIC_DRAW);
+            glBufferData(GL_ARRAY_BUFFER, vn * sizeof(float) * 3 + vn * sizeof(float) * 3 + iv * sizeof(float) * instanceNum, nullptr, GL_STATIC_DRAW);
             glBufferSubData(GL_ARRAY_BUFFER, 0, 3 * sizeof(float) * vn, positions);
             glBufferSubData(GL_ARRAY_BUFFER, 3 * sizeof(float) * vn, 3 * sizeof(float) * vn, normals);
             glEnableVertexAttribArray(0);
@@ -354,7 +351,7 @@ public:
             break;
         case VertexTexcoordlayout:
             subOffset = vn * sizeof(float) * 3 + vn * sizeof(float) * 2;
-            glBufferData(GL_ARRAY_BUFFER, vn * sizeof(float) * 3 + vn * sizeof(float) * 2+ iv * sizeof(float) * instanceNum, nullptr, GL_STATIC_DRAW);
+            glBufferData(GL_ARRAY_BUFFER, vn * sizeof(float) * 3 + vn * sizeof(float) * 2 + iv * sizeof(float) * instanceNum, nullptr, GL_STATIC_DRAW);
             glBufferSubData(GL_ARRAY_BUFFER, 0, 3 * sizeof(float) * vn, positions);
             glBufferSubData(GL_ARRAY_BUFFER, 3 * sizeof(float) * vn, 2 * sizeof(float) * vn, texcoord);
             glEnableVertexAttribArray(0);
@@ -364,7 +361,7 @@ public:
             break;
         case VertexNormalTexcoordlayout:
             subOffset = vn * sizeof(float) * 3 + vn * sizeof(float) * 3 + vn * sizeof(float) * 2;
-            glBufferData(GL_ARRAY_BUFFER, vn * sizeof(float) * 3 + vn * sizeof(float) * 3 + vn * sizeof(float) * 2+ iv * sizeof(float) * instanceNum, nullptr, GL_STATIC_DRAW);
+            glBufferData(GL_ARRAY_BUFFER, vn * sizeof(float) * 3 + vn * sizeof(float) * 3 + vn * sizeof(float) * 2 + iv * sizeof(float) * instanceNum, nullptr, GL_STATIC_DRAW);
             glBufferSubData(GL_ARRAY_BUFFER, 0, 3 * sizeof(float) * vn, positions);
             glBufferSubData(GL_ARRAY_BUFFER, 3 * sizeof(float) * vn, 3 * sizeof(float) * vn, normals);
             glBufferSubData(GL_ARRAY_BUFFER, 3 * sizeof(float) * vn + 3 * sizeof(float) * vn, 2 * sizeof(float) * vn, texcoord);
@@ -379,7 +376,7 @@ public:
         default:
             break;
         }
-        if (drawlayout&(DrawLayout::InstanceDrawlayout) && iv)
+        if (drawlayout & (DrawLayout::InstanceDrawlayout) && iv)
         {
             glBufferSubData(GL_ARRAY_BUFFER, subOffset, iv * sizeof(float) * instanceNum, instance);
             glEnableVertexAttribArray(3);
@@ -387,12 +384,10 @@ public:
                 3, iv, GL_FLOAT, GL_FALSE, iv * sizeof(float), (void *)(subOffset));
             glVertexAttribDivisor(3, 1);
         }
-        
+
         glBindVertexArray(0);
         return this;
     }
-
-
 
 protected:
     // 可读可写数据
@@ -410,7 +405,7 @@ protected:
     // 自身只读数据
     VertexLayout vt = Vertexlayout;
     unsigned int vn;
-    unsigned int instanceNum;
+    unsigned int instanceNum = 0;
     unsigned int VAO, VBO;
 
     unsigned int loadTexture(char const *path)
@@ -784,29 +779,43 @@ public:
         {
             glBindTexture(GL_TEXTURE_CUBE_MAP, SkyboxTextureID);
         }
+        
+        if(!instanceNum)
+        {
+            if (specialShader != nullptr)
+            {
+                _model->Draw(*specialShader);
+            }
+            else
+            {
+                _model->Draw(*shader);
+            }
+        }
 
-        if (specialShader != nullptr)
+        if (drawlayout & (DrawLayout::InstanceDrawlayout) && instanceNum)
         {
-            _model->Draw(*specialShader);
+            for (unsigned int i = 0; i < _model->meshes.size(); i++)
+            {
+                glBindVertexArray(_model->meshes[i].VAO);
+                glDrawElementsInstanced(
+                    GL_TRIANGLES, _model->meshes[i].indices.size(), GL_UNSIGNED_INT, 0, instanceNum);
+            }
         }
-        else
-        {
-            _model->Draw(*shader);
-        }
+
         glBindTexture(GL_TEXTURE_CUBE_MAP, 0);
     }
 
-    Drawable* Setmodel(const char* path)
+    Drawable *Setmodel(const char *path)
     {
         if (_model != nullptr)
         {
             delete _model;
         }
-        
+
         _model = new Model(path);
         return this;
     }
-    Model* GetModel()
+    Model *Getmodel()
     {
         return _model;
     }
