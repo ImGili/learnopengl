@@ -280,6 +280,7 @@ namespace glx0234
             {
                 ImGui::Begin(u8"实例化");
                 ImGui::Text("FPS:%f", 1 / window->deltaTime);
+                ImGui::Text(u8"模型数%d", amount);
                 ImGui::End();
             }
 
@@ -409,7 +410,8 @@ namespace glx0235
             mGUI::NewFrame();
             {
                 ImGui::Begin(u8"实例化");
-                ImGui::Text("FPS:%f", 1 / window->deltaTime);
+                ImGui::Text(u8"FPS:%f", 1 / window->deltaTime);
+                ImGui::Text(u8"模型数%d", amount);
                 ImGui::End();
             }
 
