@@ -17,7 +17,7 @@ cd Engine
 请先下载安装好mingw，并配置好环境变量
 ```bash
 cd build 
-cmake ..
+cmake .. -G"MinGW Makefile"
 mingw32-make
 cd Engine
 ./Engine
