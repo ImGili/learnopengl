@@ -25,15 +25,15 @@
 #include "learnopengl/test.h"
 #include "imguidemo.h"
 
-CameraInstance* CameraInstance::Instance = NULL;
-SpecialShaders* SpecialShaders::Instance = NULL;
+CameraInstance *CameraInstance::Instance = NULL;
+SpecialShaders *SpecialShaders::Instance = NULL;
 
 int main()
 {
     int no = 1;
     while (no)
     {
-        __CLEAR_TERMINAL;
+        // __CLEAR_TERMINAL;
         std::cout << "1、你好，窗口；\n"
                      "21、三角形实验1（你好、三角形）；\n"
                      "22、三角形实验2（用顶点组索引绘制正方形）；\n"

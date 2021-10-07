@@ -68,8 +68,7 @@ namespace glx031
         // VAOs requires a call to glBindVertexArray anyways so we generally don't unbind VAOs (nor VBOs) when it's not directly necessary.
         glBindVertexArray(0);
 
-        Shader myshader("./3/l1/vertex.vert", "./3/l1/fragment.frag");
-
+        Shader myshader(GET_SHADER_PATH("/3/l1/vertex.vert"), GET_SHADER_PATH("/3/l1/fragment.frag"));
         // render loop
         // -----------
         while (!glfwWindowShouldClose(window))
@@ -184,7 +183,7 @@ namespace glx032
         // VAOs requires a call to glBindVertexArray anyways so we generally don't unbind VAOs (nor VBOs) when it's not directly necessary.
         glBindVertexArray(0);
 
-        Shader myshader("./3/l2/vertex.vert", "./3/l2/fragment.frag");
+        Shader myshader(GET_SHADER_PATH("/3/l2/vertex.vert"), GET_SHADER_PATH("/3/l2/fragment.frag"));
 
         float greenValue = 0.0f;
 
@@ -306,7 +305,7 @@ namespace glxe031
         // VAOs requires a call to glBindVertexArray anyways so we generally don't unbind VAOs (nor VBOs) when it's not directly necessary.
         glBindVertexArray(0);
 
-        Shader myshader("./3/e1/vertex.vert", "./3/e1/fragment.frag");
+        Shader myshader(GET_SHADER_PATH("/3/e1/vertex.vert"), GET_SHADER_PATH("/3/e1/fragment.frag"));
 
         // render loop
         // -----------
@@ -423,7 +422,7 @@ namespace glxe032
         // VAOs requires a call to glBindVertexArray anyways so we generally don't unbind VAOs (nor VBOs) when it's not directly necessary.
         glBindVertexArray(0);
 
-        Shader myshader("./3/e2/vertex.vert", "./3/e2/fragment.frag");
+        Shader myshader(GET_SHADER_PATH("/3/e2/vertex.vert"), GET_SHADER_PATH("/3/e2/fragment.frag"));
 
         std::cout << "输入移动距离，范围为（0,1）:" << std::endl;
         float mDistance;
@@ -546,7 +545,7 @@ namespace glxe033
         // VAOs requires a call to glBindVertexArray anyways so we generally don't unbind VAOs (nor VBOs) when it's not directly necessary.
         glBindVertexArray(0);
 
-        Shader myshader("./3/e3/vertex.vert", "./3/e3/fragment.frag");
+        Shader myshader(GET_SHADER_PATH("/3/e3/vertex.vert"), GET_SHADER_PATH("/3/e3/fragment.frag"));
 
         // render loop
         // -----------

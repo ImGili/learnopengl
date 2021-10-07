@@ -4,12 +4,12 @@ project(Engine)
 option(GLFW_BUILD_DOCS OFF)
 option(GLFW_BUILD_EXAMPLES OFF)
 option(GLFW_BUILD_TESTS OFF)
-add_subdirectory(Engine/Vendor/glfw)
+add_subdirectory(Engine/vendor/glfw)
 
 option(ASSIMP_BUILD_ASSIMP_TOOLS OFF)
 option(ASSIMP_BUILD_SAMPLES OFF)
 option(ASSIMP_BUILD_TESTS OFF)
-add_subdirectory(Engine/Vendor/assimp)
+add_subdirectory(Engine/vendor/assimp)
 
 
 if(MSVC)
@@ -33,31 +33,32 @@ else()
 endif()
 
 
+configure_file (
+    "${PROJECT_SOURCE_DIR}/Engine/configuration/rw_config.h.in"
+    "${PROJECT_SOURCE_DIR}/Engine/include/rw_config.h"
+)
+
 include_directories(                Engine/include/
-                                    Engine/Vendor/glad/include/
-                                    Engine/Vendor/glfw/include/
-                                    Engine/Vendor/stb
-                                    Engine/Vendor/glm
-                                    Engine/Vendor/imgui
-                                    Engine/Vendor/assimp/include/
+                                    Engine/vendor/glad/include/
+                                    Engine/vendor/glfw/include/
+                                    Engine/vendor/stb
+                                    Engine/vendor/glm
+                                    Engine/vendor/imgui
+                                    Engine/vendor/assimp/include/
                                     )
 
-file(GLOB VENDORS_SOURCES           Engine/Vendor/glad/src/glad.c
-                                    Engine/Vendor/imgui/*.cpp
-                                    Engine/Vendor/imgui/backends/imgui_impl_opengl3.cpp
-                                    Engine/Vendor/imgui/backends/imgui_impl_glfw.cpp
+file(GLOB VENDORS_SOURCES           Engine/vendor/glad/src/glad.c
+                                    Engine/vendor/imgui/*.cpp
+                                    Engine/vendor/imgui/backends/imgui_impl_opengl3.cpp
+                                    Engine/vendor/imgui/backends/imgui_impl_glfw.cpp
                                     )
 file(GLOB PROJECT_HEADERS           Engine/include/*.hpp
                                     Engine/include/*.h
                                     Engine/test/*.h
                                     )
-file(GLOB PROJECT_SOURCES           Engine/src/*.cpp)
-file(GLOB PROJECT_SHADERS           resources/shader/*)
-file(GLOB PROJECT_RESOURCES_FONTS   Engine/resources/fonts/*.ttf
+file(GLOB PROJECT_SOURCES           Engine/src/*.cpp
+                                    Engine/test/*.cpp
                                     )
-file(GLOB PROJECT_RESOURCES_IMGS    Engine/resources/imgs/*
-                                    )
-
 
 add_definitions(-DGLFW_INCLUDE_NONE
                 -DPROJECT_SOURCE_DIR=\"${PROJECT_SOURCE_DIR}\"
@@ -72,10 +73,4 @@ set_target_properties(${PROJECT_NAME} PROPERTIES
 
 add_custom_command(
     TARGET ${PROJECT_NAME} POST_BUILD
-    COMMAND ${CMAKE_COMMAND} -E copy_directory ${CMAKE_SOURCE_DIR}/Engine/Shaders $<TARGET_FILE_DIR:${PROJECT_NAME}>
-    DEPENDS ${PROJECT_SHADERS})
-add_custom_command(
-    TARGET ${PROJECT_NAME} POST_BUILD
-    COMMAND ${CMAKE_COMMAND} -E copy_directory ${CMAKE_SOURCE_DIR}/Engine/Resources $<TARGET_FILE_DIR:${PROJECT_NAME}>
-    DEPENDS ${PROJECT_RESOURCES_FONTS} ${PROJECT_RESOURCES_IMGS})
-    
+    COMMAND ${CMAKE_COMMAND} -E copy_directory ${CMAKE_SOURCE_DIR}/Engine/resources $<TARGET_FILE_DIR:${PROJECT_NAME}>/resources/)

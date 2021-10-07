@@ -93,7 +93,7 @@ namespace glx041
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
         // 加载纹理图片
         int width, height, nrChannels;
-        unsigned char *data = stbi_load("./imgs/woodPicture.jpeg", &width, &height, &nrChannels, 0);
+        unsigned char *data = stbi_load(GET_RESOURCE_PATH("/imgs/woodPicture.jpeg"), &width, &height, &nrChannels, 0);
         if (data)
         {
             glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
@@ -105,7 +105,7 @@ namespace glx041
         }
         stbi_image_free(data);
 
-        Shader myshader("./4/l1/vertex.vert", "./4/l1/fragment.frag");
+        Shader myshader(GET_SHADER_PATH("/4/l1/vertex.vert"), GET_SHADER_PATH("/4/l1/fragment.frag"));
 
         // render loop
         // -----------
@@ -246,7 +246,7 @@ namespace glx042
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
         // 加载纹理图片
         int width, height, nrChannels;
-        unsigned char *data = stbi_load("./imgs/woodPicture.jpeg", &width, &height, &nrChannels, 0);
+        unsigned char *data = stbi_load(GET_RESOURCE_PATH("/imgs/woodPicture.jpeg"), &width, &height, &nrChannels, 0);
         if (data)
         {
             glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
@@ -258,7 +258,7 @@ namespace glx042
         }
         stbi_image_free(data);
 
-        Shader myshader("./4/l2/vertex.vert", "./4/l2/fragment.frag");
+        Shader myshader(GET_SHADER_PATH("/4/l2/vertex.vert"), GET_SHADER_PATH("/4/l2/fragment.frag"));
 
         // render loop
         // -----------
@@ -420,7 +420,7 @@ namespace glx043
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-        data = stbi_load("./imgs/awesomeface.png", &width, &height, &nrChannels, 0);
+        data = stbi_load(GET_RESOURCE_PATH("/imgs/awesomeface.png"), &width, &height, &nrChannels, 0);
         if (data)
         {
             glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
@@ -432,7 +432,7 @@ namespace glx043
         }
         stbi_image_free(data);
 
-        Shader myshader("./4/l3/vertex.vert", "./4/l3/fragment.frag");
+        Shader myshader(GET_SHADER_PATH("/4/l3/vertex.vert"), GET_SHADER_PATH("/4/l3/fragment.frag"));
 
         myshader.use();
         myshader.setInt("texture1", 0);
@@ -601,7 +601,7 @@ namespace glxe041
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-        data = stbi_load("./imgs/awesomeface.png", &width, &height, &nrChannels, 0);
+        data = stbi_load(GET_RESOURCE_PATH("/imgs/awesomeface.png"), &width, &height, &nrChannels, 0);
         if (data)
         {
             glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
@@ -613,7 +613,7 @@ namespace glxe041
         }
         stbi_image_free(data);
 
-        Shader myshader("./4/e1/vertex.vert", "./4/e1/fragment.frag");
+        Shader myshader(GET_SHADER_PATH("/4/e1/vertex.vert"), GET_SHADER_PATH("/4/e1/fragment.frag"));
 
         myshader.use();
         myshader.setInt("texture1", 0);
@@ -796,7 +796,7 @@ namespace glxe042
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
         // 加载纹理图片
         int width, height, nrChannels;
-        unsigned char *data = stbi_load("./imgs/woodPicture.jpeg", &width, &height, &nrChannels, 0);
+        unsigned char *data = stbi_load(GET_RESOURCE_PATH("/imgs/woodPicture.jpeg"), &width, &height, &nrChannels, 0);
         if (data)
         {
             glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
@@ -814,7 +814,7 @@ namespace glxe042
 
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-        data = stbi_load("./imgs/awesomeface.png", &width, &height, &nrChannels, 0);
+        data = stbi_load(GET_RESOURCE_PATH("/imgs/awesomeface.png"), &width, &height, &nrChannels, 0);
         if (data)
         {
             glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
@@ -826,7 +826,7 @@ namespace glxe042
         }
         stbi_image_free(data);
 
-        Shader myshader("./4/e1/vertex.vert", "./4/e1/fragment.frag");
+        Shader myshader(GET_SHADER_PATH("/4/e1/vertex.vert"), GET_SHADER_PATH("/4/e1/fragment.frag"));
 
         myshader.use();
         myshader.setInt("texture1", 0);
@@ -976,7 +976,7 @@ namespace glxe043
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
         // 加载纹理图片
         int width, height, nrChannels;
-        unsigned char *data = stbi_load("./imgs/woodPicture.jpeg", &width, &height, &nrChannels, 0);
+        unsigned char *data = stbi_load(GET_RESOURCE_PATH("/imgs/woodPicture.jpeg"), &width, &height, &nrChannels, 0);
         if (data)
         {
             glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
@@ -988,7 +988,7 @@ namespace glxe043
         }
         stbi_image_free(data);
 
-        Shader myshader("./4/l1/vertex.vert", "./4/l1/fragment.frag");
+        Shader myshader(GET_SHADER_PATH("/4/l1/vertex.vert"), GET_SHADER_PATH("/4/l1/fragment.frag"));
 
         // render loop
         // -----------
@@ -1132,7 +1132,7 @@ namespace glxe044
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
         // 加载纹理图片
         int width, height, nrChannels;
-        unsigned char *data = stbi_load("./imgs/woodPicture.jpeg", &width, &height, &nrChannels, 0);
+        unsigned char *data = stbi_load(GET_RESOURCE_PATH("/imgs/woodPicture.jpeg"), &width, &height, &nrChannels, 0);
         if (data)
         {
             glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
@@ -1152,7 +1152,7 @@ namespace glxe044
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-        data = stbi_load("./imgs/awesomeface.png", &width, &height, &nrChannels, 0);
+        data = stbi_load(GET_RESOURCE_PATH("/imgs/awesomeface.png"), &width, &height, &nrChannels, 0);
         if (data)
         {
             glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
@@ -1164,7 +1164,7 @@ namespace glxe044
         }
         stbi_image_free(data);
 
-        Shader myshader("./4/e4/vertex.vert", "./4/e4/fragment.frag");
+        Shader myshader(GET_SHADER_PATH("/4/e4/vertex.vert"), GET_SHADER_PATH("/4/e4/fragment.frag"));
 
         myshader.use();
         myshader.setInt("texture1", 0);

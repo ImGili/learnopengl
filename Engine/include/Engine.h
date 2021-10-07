@@ -52,5 +52,6 @@
 #include "scene.hpp"
 #include "drawable.hpp"
 #include "gui.h"
+#include "rw_config.h"
 
 #endif
