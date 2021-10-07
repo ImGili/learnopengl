@@ -81,7 +81,7 @@ namespace glx0101
         (void)io;
         io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard; // Enable Keyboard Controls
         //io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;      // Enable Gamepad Controls
-        ImFont *font = io.Fonts->AddFontFromFileTTF("./fonts/楷体_GB2312.ttf", 15.0f, NULL, io.Fonts->GetGlyphRangesChineseFull());
+        ImFont *font = io.Fonts->AddFontFromFileTTF(GET_RESOURCE_PATH("/fonts/楷体_GB2312.ttf"), 15.0f, NULL, io.Fonts->GetGlyphRangesChineseFull());
         io.Fonts->GetGlyphRangesChineseSimplifiedCommon();
         // io.Fonts->GetGlyphRangesChineseFull();
 
@@ -220,8 +220,8 @@ namespace glx0101
         // }
         // stbi_image_free(data);
 
-        Shader objshader("./10/l1/ObjectVertex.vert", "./10/l1/ObjectFragment.frag");
-        Shader lightshader("./10/l1/LightVertex.vert", "./10/l1/LightFragment.frag");
+        Shader objshader(GET_SHADER_PATH("/10/l1/ObjectVertex.vert"), GET_SHADER_PATH("/10/l1/ObjectFragment.frag"));
+        Shader lightshader(GET_SHADER_PATH("/10/l1/LightVertex.vert"), GET_SHADER_PATH("/10/l1/LightFragment.frag"));
 
         objshader.use();
         objshader.setInt("texture1", 0);
@@ -500,7 +500,7 @@ namespace glxe0101
         (void)io;
         io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard; // Enable Keyboard Controls
         //io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;      // Enable Gamepad Controls
-        ImFont *font = io.Fonts->AddFontFromFileTTF("./fonts/楷体_GB2312.ttf", 15.0f, NULL, io.Fonts->GetGlyphRangesChineseFull());
+        ImFont *font = io.Fonts->AddFontFromFileTTF(GET_RESOURCE_PATH("/fonts/楷体_GB2312.ttf"), 15.0f, NULL, io.Fonts->GetGlyphRangesChineseFull());
         io.Fonts->GetGlyphRangesChineseSimplifiedCommon();
         // io.Fonts->GetGlyphRangesChineseFull();
 
@@ -639,8 +639,8 @@ namespace glxe0101
         // }
         // stbi_image_free(data);
 
-        Shader objshader("./10/l1/ObjectVertex.vert", "./10/l1/ObjectFragment.frag");
-        Shader lightshader("./10/l1/LightVertex.vert", "./10/l1/LightFragment.frag");
+        Shader objshader(GET_SHADER_PATH("/10/l1/ObjectVertex.vert"), GET_SHADER_PATH("/10/l1/ObjectFragment.frag"));
+        Shader lightshader(GET_SHADER_PATH("/10/l1/LightVertex.vert"), GET_SHADER_PATH("/10/l1/LightFragment.frag"));
 
         objshader.use();
         objshader.setInt("texture1", 0);

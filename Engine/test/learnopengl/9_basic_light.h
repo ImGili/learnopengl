@@ -63,7 +63,7 @@ namespace glx091
         (void)io;
         io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard; // Enable Keyboard Controls
         //io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;      // Enable Gamepad Controls
-        ImFont *font = io.Fonts->AddFontFromFileTTF("./fonts/楷体_GB2312.ttf", 15.0f, NULL, io.Fonts->GetGlyphRangesChineseFull());
+        ImFont *font = io.Fonts->AddFontFromFileTTF(GET_RESOURCE_PATH("/fonts/楷体_GB2312.ttf"), 15.0f, NULL, io.Fonts->GetGlyphRangesChineseFull());
         io.Fonts->GetGlyphRangesChineseSimplifiedCommon();
         // io.Fonts->GetGlyphRangesChineseFull();
 
@@ -202,8 +202,8 @@ namespace glx091
         // }
         // stbi_image_free(data);
 
-        Shader objshader("./9/l1/ObjectVertex.vert", "./9/l1/ObjectFragment.frag");
-        Shader lightshader("./9/l1/LightVertex.vert", "./9/l1/LightFragment.frag");
+        Shader objshader(GET_SHADER_PATH("/9/l1/ObjectVertex.vert"), GET_SHADER_PATH("/9/l1/ObjectFragment.frag"));
+        Shader lightshader(GET_SHADER_PATH("/9/l1/LightVertex.vert"), GET_SHADER_PATH("/9/l1/LightFragment.frag"));
 
         objshader.use();
         objshader.setInt("texture1", 0);
@@ -447,7 +447,7 @@ namespace glxe091
         (void)io;
         io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard; // Enable Keyboard Controls
         //io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;      // Enable Gamepad Controls
-        ImFont *font = io.Fonts->AddFontFromFileTTF("./fonts/楷体_GB2312.ttf", 15.0f, NULL, io.Fonts->GetGlyphRangesChineseFull());
+        ImFont *font = io.Fonts->AddFontFromFileTTF(GET_RESOURCE_PATH("/fonts/楷体_GB2312.ttf"), 15.0f, NULL, io.Fonts->GetGlyphRangesChineseFull());
         io.Fonts->GetGlyphRangesChineseSimplifiedCommon();
         // io.Fonts->GetGlyphRangesChineseFull();
 
@@ -586,8 +586,9 @@ namespace glxe091
         // }
         // stbi_image_free(data);
 
-        Shader objshader("./9/l1/ObjectVertex.vert", "./9/l1/ObjectFragment.frag");
-        Shader lightshader("./9/l1/LightVertex.vert", "./9/l1/LightFragment.frag");
+        Shader objshader(GET_SHADER_PATH("/9/l1/ObjectVertex.vert"), GET_SHADER_PATH("/9/l1/ObjectFragment.frag"));
+        Shader lightshader(GET_SHADER_PATH("/9/l1/LightVertex.vert"), GET_SHADER_PATH("/9/l1/LightFragment.frag"));
+
 
         objshader.use();
         objshader.setInt("texture1", 0);
@@ -833,7 +834,7 @@ namespace glxe092
         (void)io;
         io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard; // Enable Keyboard Controls
         //io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;      // Enable Gamepad Controls
-        ImFont *font = io.Fonts->AddFontFromFileTTF("./fonts/楷体_GB2312.ttf", 15.0f, NULL, io.Fonts->GetGlyphRangesChineseFull());
+        ImFont *font = io.Fonts->AddFontFromFileTTF(GET_RESOURCE_PATH("/fonts/楷体_GB2312.ttf"), 15.0f, NULL, io.Fonts->GetGlyphRangesChineseFull());
         io.Fonts->GetGlyphRangesChineseSimplifiedCommon();
         // io.Fonts->GetGlyphRangesChineseFull();
 
@@ -972,8 +973,9 @@ namespace glxe092
         // }
         // stbi_image_free(data);
 
-        Shader objshader("./9/e3/ObjectVertex.vert", "./9/e3/ObjectFragment.frag");
-        Shader lightshader("./9/e3/LightVertex.vert", "./9/e3/LightFragment.frag");
+        Shader objshader(GET_SHADER_PATH("/9/e3/ObjectVertex.vert"), GET_SHADER_PATH("/9/e3/ObjectFragment.frag"));
+        Shader lightshader(GET_SHADER_PATH("/9/e3/LightVertex.vert"), GET_SHADER_PATH("/9/e3/LightFragment.frag"));
+
 
         objshader.use();
         objshader.setInt("texture1", 0);
@@ -1219,7 +1221,7 @@ namespace glxe093
         (void)io;
         io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard; // Enable Keyboard Controls
         //io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;      // Enable Gamepad Controls
-        ImFont *font = io.Fonts->AddFontFromFileTTF("./fonts/楷体_GB2312.ttf", 15.0f, NULL, io.Fonts->GetGlyphRangesChineseFull());
+        ImFont *font = io.Fonts->AddFontFromFileTTF(GET_RESOURCE_PATH("/fonts/楷体_GB2312.ttf"), 15.0f, NULL, io.Fonts->GetGlyphRangesChineseFull());
         io.Fonts->GetGlyphRangesChineseSimplifiedCommon();
         // io.Fonts->GetGlyphRangesChineseFull();
 
@@ -1358,8 +1360,8 @@ namespace glxe093
         // }
         // stbi_image_free(data);
 
-        Shader objshader("./9/e4/ObjectVertex.vert", "./9/e4/ObjectFragment.frag");
-        Shader lightshader("./9/e4/LightVertex.vert", "./9/e4/LightFragment.frag");
+        Shader objshader(GET_SHADER_PATH("/9/e4/ObjectVertex.vert"), GET_SHADER_PATH("/9/e4/ObjectFragment.frag"));
+        Shader lightshader(GET_SHADER_PATH("/9/e4/LightVertex.vert"), GET_SHADER_PATH("/9/e4/LightFragment.frag"));
 
         objshader.use();
         objshader.setInt("texture1", 0);

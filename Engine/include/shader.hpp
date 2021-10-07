@@ -106,6 +106,7 @@ public:
         // delete the shaders as they're linked into our program now and no longer necessary
         glDeleteShader(vertex);
         glDeleteShader(fragment);
+        glDeleteShader(geometry);
     }
     // activate the shader
     // ------------------------------------------------------------------------
@@ -127,7 +128,6 @@ public:
         {
             checkUniformErrors(name, flag);
         }
-        glUseProgram(0);
         
     }
     // ------------------------------------------------------------------------
@@ -143,7 +143,6 @@ public:
         {
             checkUniformErrors(name, flag);
         }
-        glUseProgram(0);
         
     }
     // ------------------------------------------------------------------------
@@ -159,7 +158,6 @@ public:
         {
             checkUniformErrors(name, flag);
         }
-        glUseProgram(0);
     }
     void setMat4(const std::string &name, const glm::mat4& value) const
     { 
@@ -173,7 +171,6 @@ public:
         {
             checkUniformErrors(name, flag);
         }
-        glUseProgram(0);
         
     }
     void setVec3(const std::string &name, const glm::vec3& value) const
@@ -188,7 +185,6 @@ public:
         {
             checkUniformErrors(name, flag);
         }
-        glUseProgram(0);
     }
     void setVec3(const std::string &name, float x, float y, float z) const
     { 
@@ -202,7 +198,6 @@ public:
         {
             checkUniformErrors(name, flag);
         }
-        glUseProgram(0);
         
     }
 
