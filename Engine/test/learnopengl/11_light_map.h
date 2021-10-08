@@ -80,7 +80,7 @@ namespace glx0111
         (void)io;
         io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard; // Enable Keyboard Controls
         //io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;      // Enable Gamepad Controls
-        ImFont *font = io.Fonts->AddFontFromFileTTF("./fonts/楷体_GB2312.ttf", 15.0f, NULL, io.Fonts->GetGlyphRangesChineseFull());
+        ImFont *font = io.Fonts->AddFontFromFileTTF(GET_RESOURCE_PATH("/fonts/楷体_GB2312.ttf"), 15.0f, NULL, io.Fonts->GetGlyphRangesChineseFull());
         io.Fonts->GetGlyphRangesChineseSimplifiedCommon();
         // io.Fonts->GetGlyphRangesChineseFull();
 
@@ -190,7 +190,7 @@ namespace glx0111
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
         // 加载纹理图片
         int width, height, nrChannels;
-        unsigned char *data = stbi_load("./imgs/container2.png", &width, &height, &nrChannels, 0);
+        unsigned char *data = stbi_load(GET_RESOURCE_PATH("/imgs/container2.png"), &width, &height, &nrChannels, 0);
         if (data)
         {
             glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
@@ -222,8 +222,8 @@ namespace glx0111
         // }
         // stbi_image_free(data);
 
-        Shader objshader("./11/l1/ObjectVertex.vert", "./11/l1/ObjectFragment.frag");
-        Shader lightshader("./11/l1/LightVertex.vert", "./11/l1/LightFragment.frag");
+        Shader objshader(GET_SHADER_PATH("/11/l1/ObjectVertex.vert"), GET_SHADER_PATH("/11/l1/ObjectFragment.frag"));
+        Shader lightshader(GET_SHADER_PATH("/11/l1/LightVertex.vert"), GET_SHADER_PATH("/11/l1/LightFragment.frag"));
 
         objshader.use();
         objshader.setInt("material.diffuse", 0);
@@ -495,7 +495,7 @@ namespace glx0112
         (void)io;
         io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard; // Enable Keyboard Controls
         //io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;      // Enable Gamepad Controls
-        ImFont *font = io.Fonts->AddFontFromFileTTF("./fonts/楷体_GB2312.ttf", 15.0f, NULL, io.Fonts->GetGlyphRangesChineseFull());
+        ImFont *font = io.Fonts->AddFontFromFileTTF(GET_RESOURCE_PATH("/fonts/楷体_GB2312.ttf"), 15.0f, NULL, io.Fonts->GetGlyphRangesChineseFull());
         io.Fonts->GetGlyphRangesChineseSimplifiedCommon();
         // io.Fonts->GetGlyphRangesChineseFull();
 
@@ -605,7 +605,7 @@ namespace glx0112
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
         // 加载纹理图片
         int width, height, nrChannels;
-        unsigned char *data = stbi_load("./imgs/container2.png", &width, &height, &nrChannels, 0);
+        unsigned char *data = stbi_load(GET_RESOURCE_PATH("/imgs/container2.png"), &width, &height, &nrChannels, 0);
         if (data)
         {
             glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
@@ -625,7 +625,7 @@ namespace glx0112
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-        data = stbi_load("./imgs/container2_specular.png", &width, &height, &nrChannels, 0);
+        data = stbi_load(GET_RESOURCE_PATH("/imgs/container2_specular.png"), &width, &height, &nrChannels, 0);
         if (data)
         {
             glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
@@ -637,8 +637,8 @@ namespace glx0112
         }
         stbi_image_free(data);
 
-        Shader objshader("./11/l2/ObjectVertex.vert", "./11/l2/ObjectFragment.frag");
-        Shader lightshader("./11/l2/LightVertex.vert", "./11/l2/LightFragment.frag");
+        Shader objshader(GET_SHADER_PATH("/11/l2/ObjectVertex.vert"), GET_SHADER_PATH("/11/l2/ObjectFragment.frag"));
+        Shader lightshader(GET_SHADER_PATH("/11/l2/LightVertex.vert"), GET_SHADER_PATH("/11/l2/LightFragment.frag"));
 
         objshader.use();
         objshader.setInt("material.diffuse", 0);
@@ -911,7 +911,7 @@ namespace glxe0111
         (void)io;
         io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard; // Enable Keyboard Controls
         //io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;      // Enable Gamepad Controls
-        ImFont *font = io.Fonts->AddFontFromFileTTF("./fonts/楷体_GB2312.ttf", 15.0f, NULL, io.Fonts->GetGlyphRangesChineseFull());
+        ImFont *font = io.Fonts->AddFontFromFileTTF(GET_RESOURCE_PATH("/fonts/楷体_GB2312.ttf"), 15.0f, NULL, io.Fonts->GetGlyphRangesChineseFull());
         io.Fonts->GetGlyphRangesChineseSimplifiedCommon();
         // io.Fonts->GetGlyphRangesChineseFull();
 
@@ -1021,7 +1021,7 @@ namespace glxe0111
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
         // 加载纹理图片
         int width, height, nrChannels;
-        unsigned char *data = stbi_load("./imgs/container2.png", &width, &height, &nrChannels, 0);
+        unsigned char *data = stbi_load(GET_RESOURCE_PATH("/imgs/container2.png"), &width, &height, &nrChannels, 0);
         if (data)
         {
             glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
@@ -1041,7 +1041,7 @@ namespace glxe0111
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-        data = stbi_load("./imgs/container2_specular.png", &width, &height, &nrChannels, 0);
+        data = stbi_load(GET_RESOURCE_PATH("/imgs/container2_specular.png"), &width, &height, &nrChannels, 0);
         if (data)
         {
             glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
@@ -1053,8 +1053,8 @@ namespace glxe0111
         }
         stbi_image_free(data);
 
-        Shader objshader("./11/e1/ObjectVertex.vert", "./11/e1/ObjectFragment.frag");
-        Shader lightshader("./11/e1/LightVertex.vert", "./11/e1/LightFragment.frag");
+        Shader objshader(GET_SHADER_PATH("/11/e1/ObjectVertex.vert"), GET_SHADER_PATH("/11/e1/ObjectFragment.frag"));
+        Shader lightshader(GET_SHADER_PATH("/11/e1/LightVertex.vert"), GET_SHADER_PATH("/11/e1/LightFragment.frag"));
 
         objshader.use();
         objshader.setInt("material.diffuse", 0);
@@ -1327,7 +1327,7 @@ namespace glxe0112
         (void)io;
         io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard; // Enable Keyboard Controls
         //io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;      // Enable Gamepad Controls
-        ImFont *font = io.Fonts->AddFontFromFileTTF("./fonts/楷体_GB2312.ttf", 15.0f, NULL, io.Fonts->GetGlyphRangesChineseFull());
+        ImFont *font = io.Fonts->AddFontFromFileTTF(GET_RESOURCE_PATH("/fonts/楷体_GB2312.ttf"), 15.0f, NULL, io.Fonts->GetGlyphRangesChineseFull());
         io.Fonts->GetGlyphRangesChineseSimplifiedCommon();
         // io.Fonts->GetGlyphRangesChineseFull();
 
@@ -1437,7 +1437,7 @@ namespace glxe0112
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
         // 加载纹理图片
         int width, height, nrChannels;
-        unsigned char *data = stbi_load("./imgs/container2.png", &width, &height, &nrChannels, 0);
+        unsigned char *data = stbi_load(GET_RESOURCE_PATH("/imgs/container2.png"), &width, &height, &nrChannels, 0);
         if (data)
         {
             glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
@@ -1457,7 +1457,7 @@ namespace glxe0112
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-        data = stbi_load("./imgs/lighting_maps_specular_color.png", &width, &height, &nrChannels, 0);
+        data = stbi_load(GET_RESOURCE_PATH("/imgs/lighting_maps_specular_color.png"), &width, &height, &nrChannels, 0);
         if (data)
         {
             glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
@@ -1469,8 +1469,8 @@ namespace glxe0112
         }
         stbi_image_free(data);
 
-        Shader objshader("./11/e2/ObjectVertex.vert", "./11/e2/ObjectFragment.frag");
-        Shader lightshader("./11/e2/LightVertex.vert", "./11/e2/LightFragment.frag");
+        Shader objshader(GET_SHADER_PATH("/11/e2/ObjectVertex.vert"), GET_SHADER_PATH("/11/e2/ObjectFragment.frag"));
+        Shader lightshader(GET_SHADER_PATH("/11/e2/LightVertex.vert"), GET_SHADER_PATH("/11/e2/LightFragment.frag"));
 
         objshader.use();
         objshader.setInt("material.diffuse", 0);
@@ -1743,7 +1743,7 @@ namespace glxe0113
         (void)io;
         io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard; // Enable Keyboard Controls
         //io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;      // Enable Gamepad Controls
-        ImFont *font = io.Fonts->AddFontFromFileTTF("./fonts/楷体_GB2312.ttf", 15.0f, NULL, io.Fonts->GetGlyphRangesChineseFull());
+        ImFont *font = io.Fonts->AddFontFromFileTTF(GET_RESOURCE_PATH("/fonts/楷体_GB2312.ttf"), 15.0f, NULL, io.Fonts->GetGlyphRangesChineseFull());
         io.Fonts->GetGlyphRangesChineseSimplifiedCommon();
         // io.Fonts->GetGlyphRangesChineseFull();
 
@@ -1853,7 +1853,7 @@ namespace glxe0113
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
         // 加载纹理图片
         int width, height, nrChannels;
-        unsigned char *data = stbi_load("./imgs/container2.png", &width, &height, &nrChannels, 0);
+        unsigned char *data = stbi_load(GET_RESOURCE_PATH("/imgs/container2.png"), &width, &height, &nrChannels, 0);
         if (data)
         {
             glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
@@ -1873,7 +1873,7 @@ namespace glxe0113
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-        data = stbi_load("./imgs/container2_specular.png", &width, &height, &nrChannels, 0);
+        data = stbi_load(GET_RESOURCE_PATH("/imgs/container2_specular.png"), &width, &height, &nrChannels, 0);
         if (data)
         {
             glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
@@ -1893,7 +1893,7 @@ namespace glxe0113
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-        data = stbi_load("./imgs/matrix.jpeg", &width, &height, &nrChannels, 0);
+        data = stbi_load(GET_RESOURCE_PATH("/imgs/matrix.jpeg"), &width, &height, &nrChannels, 0);
         if (data)
         {
             glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
@@ -1905,8 +1905,8 @@ namespace glxe0113
         }
         stbi_image_free(data);
 
-        Shader objshader("./11/e3/ObjectVertex.vert", "./11/e3/ObjectFragment.frag");
-        Shader lightshader("./11/e3/LightVertex.vert", "./11/e3/LightFragment.frag");
+        Shader objshader(GET_SHADER_PATH("/11/e3/ObjectVertex.vert"), GET_SHADER_PATH("/11/e3/ObjectFragment.frag"));
+        Shader lightshader(GET_SHADER_PATH("/11/e3/LightVertex.vert"), GET_SHADER_PATH("/11/e3/LightFragment.frag"));
 
         objshader.use();
         objshader.setInt("material.diffuse", 0);
