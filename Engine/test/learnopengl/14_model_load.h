@@ -67,7 +67,7 @@ namespace glx0141
         (void)io;
         io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard; // Enable Keyboard Controls
         //io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;      // Enable Gamepad Controls
-        ImFont *font = io.Fonts->AddFontFromFileTTF("./fonts/楷体_GB2312.ttf", 15.0f, NULL, io.Fonts->GetGlyphRangesChineseFull());
+        ImFont *font = io.Fonts->AddFontFromFileTTF(GET_RESOURCE_PATH("/fonts/楷体_GB2312.ttf"), 15.0f, NULL, io.Fonts->GetGlyphRangesChineseFull());
         io.Fonts->GetGlyphRangesChineseSimplifiedCommon();
         // io.Fonts->GetGlyphRangesChineseFull();
 
@@ -82,9 +82,9 @@ namespace glx0141
         glEnable(GL_DEPTH_TEST);
 
 
-        Shader ourShader("./14/l1/ObjectVertex.vert", "./14/l1/ObjectFragment.frag");
+        Shader ourShader(GET_SHADER_PATH("/14/l1/ObjectVertex.vert"), GET_SHADER_PATH("/14/l1/ObjectFragment.frag"));
 
-        Model ourModel("./models/nanosuit/nanosuit.obj");
+        Model ourModel(GET_RESOURCE_PATH("/models/nanosuit/nanosuit.obj"));
 
         // render loop
         // -----------
