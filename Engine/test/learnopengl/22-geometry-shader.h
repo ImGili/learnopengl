@@ -16,16 +16,9 @@ namespace glx0221
                                 ->SetVertexLayout(Vertexlayout)\
                                 ->SetDrawTypes(GL_POINTS)\
                                 ->SetVertexNum(4)\
-                                ->SetVertexFromData("./data/22/l1/")\
-                                ->SetShader("./22/l1/ObjectVertex.vert", "./22/l1/ObjectFragment.frag", "./22/l1/ObjectGeometry.gs")\
+                                ->SetVertexFromData(GET_RESOURCE_PATH("/data/22/l1/"))\
+                                ->SetShader(GET_SHADER_PATH("/22/l1/ObjectVertex.vert"), GET_SHADER_PATH("/22/l1/ObjectFragment.frag"), GET_SHADER_PATH("/22/l1/ObjectGeometry.gs"))\
                                 ->SetModle(glm::mat4(1));
-        // Drawable *drawable = (new Drawable())\
-        // ->SetDrawTypes(DrawTypes::POINTS)\
-        // ->SetVertexLayout(Vertexlayout)->\
-        // SetVertexNum(4)\
-        // ->SetVertexFromData("./data/22/l1/")->\
-        // SetShader("./21/l1/ObjectVertex.vert", "./21/l1/ObjectFragment.frag")\
-        // ->SetModle(glm::mat4(1));
 
         glPointSize(200);
         
@@ -83,8 +76,8 @@ namespace glx0222
                                 ->SetVertexLayout(VertexNormallayout)\
                                 ->SetDrawTypes(GL_POINTS)\
                                 ->SetVertexNum(4)\
-                                ->SetVertexFromData("./data/22/l2/")\
-                                ->SetShader("./22/l2/ObjectVertex.vert", "./22/l2/ObjectFragment.frag", "./22/l2/ObjectGeometry.gs")\
+                                ->SetVertexFromData(GET_RESOURCE_PATH("/data/22/l2/"))\
+                                ->SetShader(GET_SHADER_PATH("/22/l2/ObjectVertex.vert"), GET_SHADER_PATH("/22/l2/ObjectFragment.frag"), GET_SHADER_PATH("/22/l2/ObjectGeometry.gs"))\
                                 ->SetModle(glm::mat4(1));
 
         // glPointSize(200);
