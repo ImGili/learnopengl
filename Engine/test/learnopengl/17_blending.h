@@ -70,7 +70,7 @@ namespace glx0171
         (void)io;
         io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard; // Enable Keyboard Controls
         //io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;      // Enable Gamepad Controls
-        ImFont *font = io.Fonts->AddFontFromFileTTF("./fonts/楷体_GB2312.ttf", 15.0f, NULL, io.Fonts->GetGlyphRangesChineseFull());
+        ImFont *font = io.Fonts->AddFontFromFileTTF(GET_RESOURCE_PATH("/fonts/楷体_GB2312.ttf"), 15.0f, NULL, io.Fonts->GetGlyphRangesChineseFull());
         io.Fonts->GetGlyphRangesChineseSimplifiedCommon();
         // io.Fonts->GetGlyphRangesChineseFull();
 
@@ -88,7 +88,7 @@ namespace glx0171
         glDepthFunc(GL_LESS);
         // build and compile shaders
         // -------------------------
-        Shader shader("./17/l1/ObjectVertex.vert", "./17/l1/ObjectFragment.frag");
+        Shader shader(GET_SHADER_PATH("/17/l1/ObjectVertex.vert"), GET_SHADER_PATH("/17/l1/ObjectFragment.frag"));
 
         // set up vertex data (and buffer(s)) and configure vertex attributes
         // ------------------------------------------------------------------
@@ -199,9 +199,9 @@ namespace glx0171
 
         // load textures
         // -------------
-        unsigned int cubeTexture = loadTexture("imgs/marble.jpg");
-        unsigned int floorTexture = loadTexture("imgs/metal.png");
-        unsigned int transparentTexture = loadTexture("imgs/grass.png");
+        unsigned int cubeTexture = loadTexture(GET_RESOURCE_PATH("imgs/marble.jpg"));
+        unsigned int floorTexture = loadTexture(GET_RESOURCE_PATH("imgs/metal.png"));
+        unsigned int transparentTexture = loadTexture(GET_RESOURCE_PATH("imgs/grass.png"));
 
         // shader configuration
         // --------------------
@@ -486,7 +486,7 @@ namespace glx0172
         (void)io;
         io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard; // Enable Keyboard Controls
         //io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;      // Enable Gamepad Controls
-        ImFont *font = io.Fonts->AddFontFromFileTTF("./fonts/楷体_GB2312.ttf", 15.0f, NULL, io.Fonts->GetGlyphRangesChineseFull());
+        ImFont *font = io.Fonts->AddFontFromFileTTF(GET_RESOURCE_PATH("/fonts/楷体_GB2312.ttf"), 15.0f, NULL, io.Fonts->GetGlyphRangesChineseFull());
         io.Fonts->GetGlyphRangesChineseSimplifiedCommon();
         // io.Fonts->GetGlyphRangesChineseFull();
 
@@ -506,7 +506,7 @@ namespace glx0172
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
         // build and compile shaders
         // -------------------------
-        Shader shader("./17/l1/ObjectVertex.vert", "./17/l1/ObjectFragment.frag");
+        Shader shader(GET_SHADER_PATH("/17/l1/ObjectVertex.vert"), GET_SHADER_PATH("/17/l1/ObjectFragment.frag"));
 
         // set up vertex data (and buffer(s)) and configure vertex attributes
         // ------------------------------------------------------------------
@@ -612,9 +612,9 @@ namespace glx0172
 
         // load textures
         // -------------
-        unsigned int cubeTexture = loadTexture("imgs/marble.jpg");
-        unsigned int floorTexture = loadTexture("imgs/metal.png");
-        unsigned int transparentTexture = loadTexture("imgs/window.png");
+        unsigned int cubeTexture = loadTexture(GET_RESOURCE_PATH("imgs/marble.jpg"));
+        unsigned int floorTexture = loadTexture(GET_RESOURCE_PATH("imgs/metal.png"));
+        unsigned int transparentTexture = loadTexture(GET_RESOURCE_PATH("imgs/window.png"));
 
         // transparent window locations
         // --------------------------------
