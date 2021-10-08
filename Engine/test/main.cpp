@@ -371,7 +371,10 @@ int main()
             glx0242::main();
             break;
         case -1:
-            test::main();
+            test1::main();
+            break;
+        case -2:
+            test1::main();
             break;
         default:
             break;

@@ -763,7 +763,7 @@ public:
     }
     void Init() override
     {
-        SetShader(GET_SHADER_PATH("/14/l1/ObjectVertex.vert"), GET_SHADER_PATH("/14/l1/ObjectFragment.frag"));
+        SetShader(GET_SHADER_PATH("/ModelShader/ObjectVertex.vert"), GET_SHADER_PATH("/ModelShader/ObjectFragment.frag"));
         shader->use();
         glm::mat4 model = glm::mat4(1.0f);
         model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f)); // translate it down so it's at the center of the scene
