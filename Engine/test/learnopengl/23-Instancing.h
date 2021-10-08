@@ -15,8 +15,8 @@ namespace glx0231
         Drawable *drawable = (new Drawable())
                                  ->SetVertexNum(6)
                                  ->SetVertexLayout(VertexNormallayout)
-                                 ->SetVertexFromData("./data/23/l1/")
-                                 ->SetShader("./23/l1/ObjectVertex.vert", "./23/l1/ObjectFragment.frag")
+                                 ->SetVertexFromData(GET_RESOURCE_PATH("/data/23/l1/"))
+                                 ->SetShader(GET_SHADER_PATH("/23/l1/ObjectVertex.vert"), GET_SHADER_PATH("/23/l1/ObjectFragment.frag"))
                                  ->SetModle(glm::mat4(1));
         glm::vec3 translations[100];
         int index = 0;
@@ -86,8 +86,8 @@ namespace glx0232
                                  ->SetVertexNum(6)
                                  ->SetDrawInstance(100)
                                  ->SetVertexLayout(VertexNormallayout)
-                                 ->SetVertexFromData("./data/23/l1/")
-                                 ->SetShader("./23/l2/ObjectVertex.vert", "./23/l2/ObjectFragment.frag")
+                                 ->SetVertexFromData(GET_RESOURCE_PATH("/data/23/l1/"))
+                                 ->SetShader(GET_SHADER_PATH("/23/l2/ObjectVertex.vert"), GET_SHADER_PATH("/23/l2/ObjectFragment.frag"))
                                  ->SetModle(glm::mat4(1));
         glm::vec3 translations[100];
         int index = 0;
@@ -165,8 +165,8 @@ namespace glx0233
                                  ->SetVertexNum(6)
                                  ->SetDrawInstance(10000)
                                  ->SetVertexLayout(VertexNormallayout)
-                                 ->SetVertexFromData("./data/23/l3/", 2)
-                                 ->SetShader("./23/l3/ObjectVertex.vert", "./23/l3/ObjectFragment.frag")
+                                 ->SetVertexFromData(GET_RESOURCE_PATH("/data/23/l3/"), 2)
+                                 ->SetShader(GET_SHADER_PATH("/23/l3/ObjectVertex.vert"), GET_SHADER_PATH("/23/l3/ObjectFragment.frag"))
                                  ->SetModle(glm::mat4(1));
 
         mGUI::Init();
@@ -219,12 +219,12 @@ namespace glx0234
         glDepthFunc(GL_LESS);
 
         Drawable *planet = (new mModel())
-                               ->Setmodel("./models/planet/planet.obj")
-                               ->SetShader("./23/l4/PlanetVertex.vert", "./23/l4/PlanetFragment.frag")
+                               ->Setmodel(GET_RESOURCE_PATH("/models/planet/planet.obj"))
+                               ->SetShader(GET_SHADER_PATH("/23/l4/PlanetVertex.vert"), GET_SHADER_PATH("/23/l4/PlanetFragment.frag"))
                                ->SetModle(glm::mat4(1));
         Drawable *rock = (new mModel())
-                             ->Setmodel("./models/rock/rock.obj")
-                             ->SetShader("./23/l4/RockVertex.vert", "./23/l4/RockFragment.frag")
+                             ->Setmodel(GET_RESOURCE_PATH("/models/rock/rock.obj"))
+                             ->SetShader(GET_SHADER_PATH("/23/l4/RockVertex.vert"), GET_SHADER_PATH("/23/l4/RockFragment.frag"))
                              ->SetModle(glm::mat4(1));
 
         unsigned int amount = 20000;
@@ -320,13 +320,13 @@ namespace glx0235
         glDepthFunc(GL_LESS);
 
         Drawable *planet = (new mModel())
-                               ->Setmodel("./models/planet/planet.obj")
-                               ->SetShader("./23/l5/PlanetVertex.vert", "./23/l5/PlanetFragment.frag")
+                               ->Setmodel(GET_RESOURCE_PATH("/models/planet/planet.obj"))
+                               ->SetShader(GET_SHADER_PATH("/23/l5/PlanetVertex.vert"), GET_SHADER_PATH("/23/l5/PlanetFragment.frag"))
                                ->SetModle(glm::mat4(1));
         Drawable *rock = (new mModel())\
-                            ->Setmodel("./models/rock/rock.obj")\
+                            ->Setmodel(GET_RESOURCE_PATH("/models/rock/rock.obj"))\
                              ->SetDrawInstance(20000)\
-                             ->SetShader("./23/l5/RockVertex.vert", "./23/l5/RockFragment.frag")\
+                             ->SetShader(GET_SHADER_PATH("/23/l5/RockVertex.vert"), GET_SHADER_PATH("/23/l5/RockFragment.frag"))\
                              ->SetModle(glm::mat4(1));
 
         unsigned int amount = 1000000;

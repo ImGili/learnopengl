@@ -366,12 +366,6 @@ int main()
         case 999:
             glx999::main();
             break;
-        case -1:
-            glxtest1::main();
-            break;
-        case -2:
-            glxtest2::main();
-            break;
         default:
             break;
         }
