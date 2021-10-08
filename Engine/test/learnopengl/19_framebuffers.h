@@ -69,7 +69,7 @@ namespace glx0191
         (void)io;
         io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard; // Enable Keyboard Controls
         //io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;      // Enable Gamepad Controls
-        ImFont *font = io.Fonts->AddFontFromFileTTF("./fonts/楷体_GB2312.ttf", 15.0f, NULL, io.Fonts->GetGlyphRangesChineseFull());
+        ImFont *font = io.Fonts->AddFontFromFileTTF(GET_RESOURCE_PATH("/fonts/楷体_GB2312.ttf"), 15.0f, NULL, io.Fonts->GetGlyphRangesChineseFull());
         io.Fonts->GetGlyphRangesChineseSimplifiedCommon();
         // io.Fonts->GetGlyphRangesChineseFull();
 
@@ -88,8 +88,8 @@ namespace glx0191
 
         // build and compile shaders
         // -------------------------
-        Shader shader("./15/l1/ObjectVertex.vert", "./15/l1/ObjectFragment.frag");
-        Shader screenShader("./19/l1/ObjectVertex.vert", "./19/l1/ObjectFragment.frag");
+        Shader shader(GET_SHADER_PATH("/15/l1/ObjectVertex.vert"), GET_SHADER_PATH("/15/l1/ObjectFragment.frag"));
+        Shader screenShader(GET_SHADER_PATH("/19/l1/ObjectVertex.vert"), GET_SHADER_PATH("/19/l1/ObjectFragment.frag"));
 
         // set up vertex data (and buffer(s)) and configure vertex attributes
         // ------------------------------------------------------------------
@@ -194,8 +194,8 @@ namespace glx0191
 
         // load textures
         // -------------
-        unsigned int cubeTexture = loadTexture("imgs/woodPicture.jpeg");
-        unsigned int floorTexture = loadTexture("imgs/metal.png");
+        unsigned int cubeTexture = loadTexture(GET_RESOURCE_PATH("imgs/woodPicture.jpeg"));
+        unsigned int floorTexture = loadTexture(GET_RESOURCE_PATH("imgs/metal.png"));
 
         // shader configuration
         // --------------------
@@ -516,7 +516,7 @@ namespace glx0192
         (void)io;
         io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard; // Enable Keyboard Controls
         //io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;      // Enable Gamepad Controls
-        ImFont *font = io.Fonts->AddFontFromFileTTF("./fonts/楷体_GB2312.ttf", 15.0f, NULL, io.Fonts->GetGlyphRangesChineseFull());
+        ImFont *font = io.Fonts->AddFontFromFileTTF(GET_RESOURCE_PATH("/fonts/楷体_GB2312.ttf"), 15.0f, NULL, io.Fonts->GetGlyphRangesChineseFull());
         io.Fonts->GetGlyphRangesChineseSimplifiedCommon();
         // io.Fonts->GetGlyphRangesChineseFull();
 
@@ -535,8 +535,8 @@ namespace glx0192
 
         // build and compile shaders
         // -------------------------
-        Shader shader("./15/l1/ObjectVertex.vert", "./15/l1/ObjectFragment.frag");
-        Shader screenShader("./19/l2/ObjectVertex.vert", "./19/l2/ObjectFragment.frag");
+        Shader shader(GET_SHADER_PATH("/15/l1/ObjectVertex.vert"), GET_SHADER_PATH("/15/l1/ObjectFragment.frag"));
+        Shader screenShader(GET_SHADER_PATH("/19/l2/ObjectVertex.vert"), GET_SHADER_PATH("/19/l2/ObjectFragment.frag"));
 
         // set up vertex data (and buffer(s)) and configure vertex attributes
         // ------------------------------------------------------------------
@@ -641,8 +641,8 @@ namespace glx0192
 
         // load textures
         // -------------
-        unsigned int cubeTexture = loadTexture("imgs/woodPicture.jpeg");
-        unsigned int floorTexture = loadTexture("imgs/metal.png");
+        unsigned int cubeTexture = loadTexture(GET_RESOURCE_PATH("imgs/woodPicture.jpeg"));
+        unsigned int floorTexture = loadTexture(GET_RESOURCE_PATH("imgs/metal.png"));
 
         // shader configuration
         // --------------------
@@ -962,7 +962,7 @@ namespace glx0193
         (void)io;
         io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard; // Enable Keyboard Controls
         //io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;      // Enable Gamepad Controls
-        ImFont *font = io.Fonts->AddFontFromFileTTF("./fonts/楷体_GB2312.ttf", 15.0f, NULL, io.Fonts->GetGlyphRangesChineseFull());
+        ImFont *font = io.Fonts->AddFontFromFileTTF(GET_RESOURCE_PATH("/fonts/楷体_GB2312.ttf"), 15.0f, NULL, io.Fonts->GetGlyphRangesChineseFull());
         io.Fonts->GetGlyphRangesChineseSimplifiedCommon();
         // io.Fonts->GetGlyphRangesChineseFull();
 
@@ -981,8 +981,8 @@ namespace glx0193
 
         // build and compile shaders
         // -------------------------
-        Shader shader("./15/l1/ObjectVertex.vert", "./15/l1/ObjectFragment.frag");
-        Shader screenShader("./19/l3/ObjectVertex.vert", "./19/l3/ObjectFragment.frag");
+        Shader shader(GET_SHADER_PATH("/15/l1/ObjectVertex.vert"), GET_SHADER_PATH("/15/l1/ObjectFragment.frag"));
+        Shader screenShader(GET_SHADER_PATH("/19/l3/ObjectVertex.vert"), GET_SHADER_PATH("/19/l3/ObjectFragment.frag"));
 
         // set up vertex data (and buffer(s)) and configure vertex attributes
         // ------------------------------------------------------------------
@@ -1087,8 +1087,8 @@ namespace glx0193
 
         // load textures
         // -------------
-        unsigned int cubeTexture = loadTexture("imgs/woodPicture.jpeg");
-        unsigned int floorTexture = loadTexture("imgs/metal.png");
+        unsigned int cubeTexture = loadTexture(GET_RESOURCE_PATH("imgs/woodPicture.jpeg"));
+        unsigned int floorTexture = loadTexture(GET_RESOURCE_PATH("imgs/metal.png"));
 
         // shader configuration
         // --------------------
@@ -1409,7 +1409,7 @@ namespace glx0194
         (void)io;
         io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard; // Enable Keyboard Controls
         //io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;      // Enable Gamepad Controls
-        ImFont *font = io.Fonts->AddFontFromFileTTF("./fonts/楷体_GB2312.ttf", 15.0f, NULL, io.Fonts->GetGlyphRangesChineseFull());
+        ImFont *font = io.Fonts->AddFontFromFileTTF(GET_RESOURCE_PATH("/fonts/楷体_GB2312.ttf"), 15.0f, NULL, io.Fonts->GetGlyphRangesChineseFull());
         io.Fonts->GetGlyphRangesChineseSimplifiedCommon();
         // io.Fonts->GetGlyphRangesChineseFull();
 
@@ -1428,8 +1428,8 @@ namespace glx0194
 
         // build and compile shaders
         // -------------------------
-        Shader shader("./15/l1/ObjectVertex.vert", "./15/l1/ObjectFragment.frag");
-        Shader screenShader("./19/l4/ObjectVertex.vert", "./19/l4/ObjectFragment.frag");
+        Shader shader(GET_SHADER_PATH("/15/l1/ObjectVertex.vert"), GET_SHADER_PATH("/15/l1/ObjectFragment.frag"));
+        Shader screenShader(GET_SHADER_PATH("/19/l4/ObjectVertex.vert"),GET_SHADER_PATH("/19/l4/ObjectFragment.frag"));
 
         // set up vertex data (and buffer(s)) and configure vertex attributes
         // ------------------------------------------------------------------
@@ -1534,8 +1534,8 @@ namespace glx0194
 
         // load textures
         // -------------
-        unsigned int cubeTexture = loadTexture("imgs/woodPicture.jpeg");
-        unsigned int floorTexture = loadTexture("imgs/metal.png");
+        unsigned int cubeTexture = loadTexture(GET_RESOURCE_PATH("imgs/woodPicture.jpeg"));
+        unsigned int floorTexture = loadTexture(GET_RESOURCE_PATH("imgs/metal.png"));
 
         // shader configuration
         // --------------------
