@@ -5,7 +5,7 @@
 
 #pragma once
 #include "Engine.h"
-
+#include "rw_config.h"
 enum VertexLayout
 {
     Vertexlayout,
@@ -37,8 +37,8 @@ public:
         return Instance;
     }
 
-    Shader *exshader = new Shader("./22/l3/ObjectVertex.vert", "./22/l3/ObjectFragment.frag", "./22/l3/ObjectGeometry.gs");
-    Shader *normalshader = new Shader("./22/l4/ObjectVertex.vert", "./22/l4/ObjectFragment.frag", "./22/l4/ObjectGeometry.gs");
+    Shader *exshader = new Shader(GET_SHADER_PATH("/22/l3/ObjectVertex.vert"), GET_SHADER_PATH("/22/l3/ObjectFragment.frag"), GET_SHADER_PATH("/22/l3/ObjectGeometry.gs"));
+    Shader *normalshader = new Shader(GET_SHADER_PATH("/22/l4/ObjectVertex.vert"), GET_SHADER_PATH("/22/l4/ObjectFragment.frag"), GET_SHADER_PATH("/22/l4/ObjectGeometry.gs"));
 
 private:
     SpecialShaders()
@@ -532,8 +532,8 @@ public:
             -0.5f, 0.5f, 0.5f, 0.0f, 0.0f,
             -0.5f, 0.5f, -0.5f, 0.0f, 1.0f};
         SetVertex(&cubeVertices, VertexTexcoordlayout, sizeof(cubeVertices));
-        SetShader("./EngineShaders/VertexTexcoord/ObjectVertex.vert", "./EngineShaders/VertexTexcoord/ObjectFragment.frag");
-        SetTextureId("imgs/woodPicture.jpeg");
+        SetShader(GET_SHADER_PATH("/EngineShaders/VertexTexcoord/ObjectVertex.vert"), GET_SHADER_PATH("/EngineShaders/VertexTexcoord/ObjectFragment.frag"));
+        SetTextureId(GET_RESOURCE_PATH("imgs/woodPicture.jpeg"));
         shader->use();
         glm::mat4 model = glm::mat4(1.0f);
         shader->setMat4("model", model);
@@ -566,8 +566,8 @@ public:
             -5.0f, -0.5f, -5.0f, 0.0f, 2.0f,
             5.0f, -0.5f, -5.0f, 2.0f, 2.0f};
         SetVertex(&planeVertices, VertexTexcoordlayout, sizeof(planeVertices));
-        SetShader("./EngineShaders/VertexTexcoord/ObjectVertex.vert", "./EngineShaders/VertexTexcoord/ObjectFragment.frag");
-        SetTextureId("imgs/metal.png");
+        SetShader(GET_SHADER_PATH("/EngineShaders/VertexTexcoord/ObjectVertex.vert"), GET_SHADER_PATH("/EngineShaders/VertexTexcoord/ObjectFragment.frag"));
+        SetTextureId(GET_RESOURCE_PATH("imgs/metal.png"));
         shader->use();
         glm::mat4 model = glm::mat4(1.0f);
         shader->setMat4("model", model);
@@ -631,15 +631,15 @@ public:
             1.0f, -1.0f, 1.0f};
         SetVertex(&skyboxVertices, Vertexlayout, sizeof(skyboxVertices));
         vector<std::string> faces{
-            "imgs/skybox/right.jpg",
-            "imgs/skybox/left.jpg",
-            "imgs/skybox/top.jpg",
-            "imgs/skybox/bottom.jpg",
-            "imgs/skybox/front.jpg",
-            "imgs/skybox/back.jpg"};
+            GET_RESOURCE_PATH("imgs/skybox/right.jpg"),
+            GET_RESOURCE_PATH("imgs/skybox/left.jpg"),
+            GET_RESOURCE_PATH("imgs/skybox/top.jpg"),
+            GET_RESOURCE_PATH("imgs/skybox/bottom.jpg"),
+            GET_RESOURCE_PATH("imgs/skybox/front.jpg"),
+            GET_RESOURCE_PATH("imgs/skybox/back.jpg")};
         SetSkyTextureId(faces);
 
-        SetShader("./20/l2/ObjectVertex.vert", "./20/l2/ObjectFragment.frag");
+        SetShader(GET_SHADER_PATH("/20/l2/ObjectVertex.vert"), GET_SHADER_PATH("/20/l2/ObjectFragment.frag"));
     }
 
     void UpdateCamera() override
@@ -705,7 +705,7 @@ public:
                                 1.0f, -1.0f, 1.0f, 0.0f,
                                 1.0f, 1.0f, 1.0f, 1.0f};
         SetVertex(&quadVertices, D2VertexTexcoordlayout, sizeof(quadVertices));
-        SetShader("./19/l1/ObjectVertex.vert", "./19/l1/ObjectFragment.frag");
+        SetShader(GET_SHADER_PATH("/19/l1/ObjectVertex.vert"), GET_SHADER_PATH("/19/l1/ObjectFragment.frag"));
     }
     void Draw(Shader *specialShader = nullptr) override
     {
@@ -737,7 +737,7 @@ public:
     mModel()
     {
         Init();
-        _model = new Model("./models/nanosuit/nanosuit.obj");
+        _model = new Model(GET_RESOURCE_PATH("/models/nanosuit/nanosuit.obj"));
     }
 
     ~mModel()
@@ -746,7 +746,7 @@ public:
     }
     void Init() override
     {
-        SetShader("./14/l1/ObjectVertex.vert", "./14/l1/ObjectFragment.frag");
+        SetShader(GET_SHADER_PATH("/14/l1/ObjectVertex.vert"), GET_SHADER_PATH("/14/l1/ObjectFragment.frag"));
         shader->use();
         glm::mat4 model = glm::mat4(1.0f);
         model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f)); // translate it down so it's at the center of the scene
