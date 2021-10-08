@@ -23,6 +23,7 @@
 #include "learnopengl/22-geometry-shader.h"
 #include "learnopengl/23-Instancing.h"
 #include "learnopengl/24_anti_aiasing.h"
+#include "learnopengl/test.h"
 
 CameraInstance *CameraInstance::Instance = NULL;
 SpecialShaders *SpecialShaders::Instance = NULL;
@@ -116,8 +117,7 @@ int main()
                      "2305、实例化实验5（使用实例化渲染行星）\n"
                      "2401、抗锯齿实验1（MSAA）\n"
                      "2401、抗锯齿实验1（帧缓冲MSAA）\n"
-                     "-1、测试window和camera单例封装\n"
-                     "-2、测试shape类\n";
+                     "-1、绘制物体网格\n";
         std::cout << "请输入编号（输入0退出程序）：";
         std::cin >> no;
         switch (no)
@@ -369,6 +369,9 @@ int main()
             break;
         case 2402:
             glx0242::main();
+            break;
+        case -1:
+            test::main();
             break;
         default:
             break;
