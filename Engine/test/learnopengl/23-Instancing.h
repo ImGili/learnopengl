@@ -17,7 +17,7 @@ namespace glx0231
                                  ->SetVertexLayout(VertexNormallayout)
                                  ->SetVertexFromData(GET_RESOURCE_PATH("/data/23/l1/"))
                                  ->SetShader(GET_SHADER_PATH("/23/l1/ObjectVertex.vert"), GET_SHADER_PATH("/23/l1/ObjectFragment.frag"))
-                                 ->SetModle(glm::mat4(1));
+                                 ->SetModel(glm::mat4(1));
         glm::vec3 translations[100];
         int index = 0;
         float offset = 0.1f;
@@ -88,7 +88,7 @@ namespace glx0232
                                  ->SetVertexLayout(VertexNormallayout)
                                  ->SetVertexFromData(GET_RESOURCE_PATH("/data/23/l1/"))
                                  ->SetShader(GET_SHADER_PATH("/23/l2/ObjectVertex.vert"), GET_SHADER_PATH("/23/l2/ObjectFragment.frag"))
-                                 ->SetModle(glm::mat4(1));
+                                 ->SetModel(glm::mat4(1));
         glm::vec3 translations[100];
         int index = 0;
         float offset = 0.1f;
@@ -167,7 +167,7 @@ namespace glx0233
                                  ->SetVertexLayout(VertexNormallayout)
                                  ->SetVertexFromData(GET_RESOURCE_PATH("/data/23/l3/"), 2)
                                  ->SetShader(GET_SHADER_PATH("/23/l3/ObjectVertex.vert"), GET_SHADER_PATH("/23/l3/ObjectFragment.frag"))
-                                 ->SetModle(glm::mat4(1));
+                                 ->SetModel(glm::mat4(1));
 
         mGUI::Init();
         // render loop
@@ -221,11 +221,11 @@ namespace glx0234
         Drawable *planet = (new mModel())
                                ->Setmodel(GET_RESOURCE_PATH("/models/planet/planet.obj"))
                                ->SetShader(GET_SHADER_PATH("/23/l4/PlanetVertex.vert"), GET_SHADER_PATH("/23/l4/PlanetFragment.frag"))
-                               ->SetModle(glm::mat4(1));
+                               ->SetModel(glm::mat4(1));
         Drawable *rock = (new mModel())
                              ->Setmodel(GET_RESOURCE_PATH("/models/rock/rock.obj"))
                              ->SetShader(GET_SHADER_PATH("/23/l4/RockVertex.vert"), GET_SHADER_PATH("/23/l4/RockFragment.frag"))
-                             ->SetModle(glm::mat4(1));
+                             ->SetModel(glm::mat4(1));
 
         unsigned int amount = 20000;
         glm::mat4 *modelMatrices;
@@ -261,7 +261,7 @@ namespace glx0234
         glm::mat4 model;
         model = glm::translate(model, glm::vec3(0.0f, -3.0f, 0.0f));
         model = glm::scale(model, glm::vec3(4.0f, 4.0f, 4.0f));
-        planet->SetModle(model);
+        planet->SetModel(model);
 
         mGUI::Init();
         // render loop
@@ -290,7 +290,7 @@ namespace glx0234
             // 绘制小行星
             for (unsigned int i = 0; i < amount; i++)
             {
-                rock->SetModle(modelMatrices[i]);
+                rock->SetModel(modelMatrices[i]);
                 rock->Draw();
             }
 
@@ -322,12 +322,12 @@ namespace glx0235
         Drawable *planet = (new mModel())
                                ->Setmodel(GET_RESOURCE_PATH("/models/planet/planet.obj"))
                                ->SetShader(GET_SHADER_PATH("/23/l5/PlanetVertex.vert"), GET_SHADER_PATH("/23/l5/PlanetFragment.frag"))
-                               ->SetModle(glm::mat4(1));
+                               ->SetModel(glm::mat4(1));
         Drawable *rock = (new mModel())\
                             ->Setmodel(GET_RESOURCE_PATH("/models/rock/rock.obj"))\
                              ->SetDrawInstance(20000)\
                              ->SetShader(GET_SHADER_PATH("/23/l5/RockVertex.vert"), GET_SHADER_PATH("/23/l5/RockFragment.frag"))\
-                             ->SetModle(glm::mat4(1));
+                             ->SetModel(glm::mat4(1));
 
         unsigned int amount = 1000000;
         glm::mat4 *modelMatrices;
@@ -392,7 +392,7 @@ namespace glx0235
         glm::mat4 model;
         model = glm::translate(model, glm::vec3(0.0f, -3.0f, 0.0f));
         model = glm::scale(model, glm::vec3(4.0f, 4.0f, 4.0f));
-        planet->SetModle(model);
+        planet->SetModel(model);
 
         mGUI::Init();
         // render loop

@@ -153,7 +153,7 @@ public:
         return this;
     }
 
-    Drawable *SetModle(glm::mat4 model)
+    Drawable *SetModel(glm::mat4 model)
     {
         shader->use();
         shader->setMat4("model", model);

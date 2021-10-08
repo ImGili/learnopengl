@@ -18,7 +18,7 @@ namespace glx0221
                                 ->SetVertexNum(4)\
                                 ->SetVertexFromData(GET_RESOURCE_PATH("/data/22/l1/"))\
                                 ->SetShader(GET_SHADER_PATH("/22/l1/ObjectVertex.vert"), GET_SHADER_PATH("/22/l1/ObjectFragment.frag"), GET_SHADER_PATH("/22/l1/ObjectGeometry.gs"))\
-                                ->SetModle(glm::mat4(1));
+                                ->SetModel(glm::mat4(1));
 
         glPointSize(200);
         
@@ -78,7 +78,7 @@ namespace glx0222
                                 ->SetVertexNum(4)\
                                 ->SetVertexFromData(GET_RESOURCE_PATH("/data/22/l2/"))\
                                 ->SetShader(GET_SHADER_PATH("/22/l2/ObjectVertex.vert"), GET_SHADER_PATH("/22/l2/ObjectFragment.frag"), GET_SHADER_PATH("/22/l2/ObjectGeometry.gs"))\
-                                ->SetModle(glm::mat4(1));
+                                ->SetModel(glm::mat4(1));
 
         // glPointSize(200);
         

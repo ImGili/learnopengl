@@ -19,7 +19,7 @@ namespace glx0211
         Drawable *cube = new Cube();
         Drawable *mmodel = new mModel();
         
-        Drawable *drawable = (new Drawable())->SetDrawTypes(GL_POINTS)->SetVertexLayout(VertexNormallayout)->SetVertexNum(4)->SetVertexFromData(GET_RESOURCE_PATH("/data/21/l1/"))->SetShader(GET_SHADER_PATH("/21/l1/ObjectVertex.vert"), GET_SHADER_PATH("/21/l1/ObjectFragment.frag"))->SetModle(glm::mat4(1));
+        Drawable *drawable = (new Drawable())->SetDrawTypes(GL_POINTS)->SetVertexLayout(VertexNormallayout)->SetVertexNum(4)->SetVertexFromData(GET_RESOURCE_PATH("/data/21/l1/"))->SetShader(GET_SHADER_PATH("/21/l1/ObjectVertex.vert"), GET_SHADER_PATH("/21/l1/ObjectFragment.frag"))->SetModel(glm::mat4(1));
 
         Plane plane;
         SkyBox skybox;
@@ -97,7 +97,7 @@ namespace glx0212
                                 ->SetVertexNum(36)\
                                 ->SetVertexFromData(GET_RESOURCE_PATH("/data/21/l2/"))\
                                 ->SetShader(GET_SHADER_PATH("/EngineShaders/VertexTexcoord/ObjectVertex.vert"), GET_SHADER_PATH("/EngineShaders/VertexTexcoord/ObjectFragment.frag"))\
-                                ->SetModle(glm::mat4(1))\
+                                ->SetModel(glm::mat4(1))\
                                 ->SetTextureId(GET_RESOURCE_PATH("imgs/woodPicture.jpeg"));
         Drawable *cube = new Cube();
         Drawable *mmodel = new mModel();
@@ -178,7 +178,7 @@ namespace glx0213
                                 ->SetVertexNum(36)\
                                 ->SetVertexFromData(GET_RESOURCE_PATH("/data/21/l2/"))\
                                 ->SetShader(GET_SHADER_PATH("/21/l2/ObjectVertex.vert"), GET_SHADER_PATH("/21/l2/ObjectFragment.frag"))\
-                                ->SetModle(glm::mat4(1));
+                                ->SetModel(glm::mat4(1));
         
         Drawable *cube = new Cube();
         Drawable *mmodel = new mModel();
@@ -259,7 +259,7 @@ namespace glx0214
                                 ->SetVertexNum(36)\
                                 ->SetVertexFromData(GET_RESOURCE_PATH("/data/21/l3/"))\
                                 ->SetShader(GET_SHADER_PATH("/21/l3/ObjectVertex.vert"), GET_SHADER_PATH("/21/l3/ObjectFragment.frag"))\
-                                ->SetModle(glm::mat4(1))\
+                                ->SetModel(glm::mat4(1))\
                                 ->SetTextureId(GET_RESOURCE_PATH("imgs/woodPicture.jpeg"), "frontTexture")\
                                 ->SetTextureId(GET_RESOURCE_PATH("imgs/container2.png"), "backTexture");
         Drawable *cube = new Cube();
@@ -341,7 +341,7 @@ namespace glx0215
                                 ->SetVertexNum(36)\
                                 ->SetVertexFromData(GET_RESOURCE_PATH("/data/21/l3/"))\
                                 ->SetShader(GET_SHADER_PATH("/21/l4/ObjectVertex.vert"), GET_SHADER_PATH("/21/l4/ObjectFragment.frag"))\
-                                ->SetModle(glm::mat4(1))\
+                                ->SetModel(glm::mat4(1))\
                                 ->SetTextureId(GET_RESOURCE_PATH("imgs/woodPicture.jpeg"), "texture1");
         Drawable *cube = new Cube();
         Drawable *mmodel = new mModel();
@@ -423,7 +423,7 @@ namespace glx0216
                                 ->SetVertexNum(36)\
                                 ->SetVertexFromData(GET_RESOURCE_PATH("/data/21/l3/"))\
                                 ->SetShader(GET_SHADER_PATH("/21/l5/ObjectVertex.vert"), GET_SHADER_PATH("/21/l5/ObjectFragment.frag"))\
-                                ->SetModle(glm::mat4(1))\
+                                ->SetModel(glm::mat4(1))\
                                 ->SetTextureId(GET_RESOURCE_PATH("imgs/woodPicture.jpeg"), "texture1");
         Drawable *cube = new Cube();
         Drawable *mmodel = new mModel();

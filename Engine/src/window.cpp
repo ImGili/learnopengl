@@ -24,7 +24,7 @@ Window::Window()
 #ifdef __APPLE__
     glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
 #endif
-
+    glfwWindowHint(GLFW_SAMPLES, 4);
     // glfw window creation
     // --------------------
     _window = glfwCreateWindow(SCR_WIDTH, SCR_HEIGHT, "LearnOpenGL", NULL, NULL);
